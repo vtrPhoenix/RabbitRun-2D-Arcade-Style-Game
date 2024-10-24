@@ -30,10 +30,15 @@ public class Player extends Entity {
 
     public void getPlayerImage(){
         try{
+
             up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up1.png")));
             left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left1.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down1.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up2.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left2.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down2.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right2.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,18 +46,30 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if(keyHandler.upPressed){
-            direction = "up";
-            posY -= speed;
-        } else if (keyHandler.downPressed) {
-            direction = "down";
-            posY += speed;
-        }else if (keyHandler.leftPressed){
-            direction = "left";
-            posX -= speed;
-        } else if (keyHandler.rightPressed) {
-            direction = "right";
-            posX += speed;
+        if(keyHandler.upPressed || keyHandler.leftPressed || keyHandler.downPressed || keyHandler.rightPressed){
+            if(keyHandler.upPressed){
+                direction = "up";
+                posY -= speed;
+            } else if (keyHandler.downPressed) {
+                direction = "down";
+                posY += speed;
+            }else if (keyHandler.leftPressed){
+                direction = "left";
+                posX -= speed;
+            } else {
+                direction = "right";
+                posX += speed;
+            }
+
+            sprintCounter++;
+            if(sprintCounter > 13){
+                if(spriteNumber == 1){
+                    spriteNumber = 2;
+                }else if(spriteNumber == 2){
+                    spriteNumber = 1;
+                }
+                sprintCounter = 0;
+            }
         }
     }
 
@@ -63,16 +80,28 @@ public class Player extends Entity {
 
         switch (direction){
             case "left":
-                image = left1;
+                if(spriteNumber == 1)
+                    image = left1;
+                else if(spriteNumber == 2)
+                    image = left2;
                 break;
             case "right":
-                image = right1;
+                if(spriteNumber == 1)
+                    image = right1;
+                else if(spriteNumber == 2)
+                    image = right2;
                 break;
             case "up":
-                image = up1;
+                if(spriteNumber == 1)
+                    image = up1;
+                else if(spriteNumber == 2)
+                    image = up2;
                 break;
             case "down":
-                image = down1;
+                if(spriteNumber == 1)
+                    image = down1;
+                else if(spriteNumber == 2)
+                    image = down2;
                 break;
             default:
                 break;
