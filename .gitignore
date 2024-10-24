@@ -88,3 +88,4 @@ replay_pid*
 *.iml
 *.ipr
 
+/.idea/
