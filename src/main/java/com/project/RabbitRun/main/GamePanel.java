@@ -1,6 +1,7 @@
 package com.project.RabbitRun.main;
 
 import com.project.RabbitRun.Entity.Player;
+import com.project.RabbitRun.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,12 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenHeight = maxScreenRow * tileSize;
 
     int FPS = 60;
+
+
+
+    TileManager tileM = new TileManager(this);
+
+
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
@@ -71,6 +78,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        tileM.draw(g2);
 
         player.draw(g2);
 
