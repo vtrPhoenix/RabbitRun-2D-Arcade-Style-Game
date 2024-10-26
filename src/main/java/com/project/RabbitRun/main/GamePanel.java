@@ -17,9 +17,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = maxScreenCol * tileSize;
     public final int screenHeight = maxScreenRow * tileSize;
 
-    //world settings
-    public final int maxWorldCol = 20;
-    public final int maxWorldRow = 20;
+    //world settings/ change maxWorldCol and maxWorldRow to change the size of the map. also remember to change the map.txt
+    //to fit the same dimensions
+    public final int maxWorldCol = 30;
+    public final int maxWorldRow = 30;
     public final int worldWidth = maxWorldCol * tileSize;
     public final int worldHeight = maxWorldRow * tileSize;
 

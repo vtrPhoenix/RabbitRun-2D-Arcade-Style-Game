@@ -35,9 +35,11 @@ public class Player extends Entity {
         getPlayerImage();
     }
 
+
     public void setDefaultValues() {
-        worldX = gamePanel.tileSize * 12;
-        worldY = gamePanel.tileSize * 12;
+        //change the starting location of the rabbit by changing the integer values. ex 1, 1 puts it the rabbit in the first box
+        worldX = gamePanel.tileSize * 2;
+        worldY = gamePanel.tileSize * 2;
         speed = 4;
         direction = "left";
     }
