@@ -1,6 +1,7 @@
 package com.project.RabbitRun.main;
 
 import com.project.RabbitRun.Entity.Player;
+import com.project.RabbitRun.Object.SuperObject;
 import com.project.RabbitRun.tile.TileManager;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileM = new TileManager(this);
 
+    public AssetSetter aSetter = new AssetSetter(this);
+    public SuperObject object[] = new SuperObject[10];
 
 
     KeyHandler keyHandler = new KeyHandler();
@@ -40,6 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
         setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        aSetter.setObject();
+
     }
 
     public void startGameThread(){
@@ -80,6 +88,12 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileM.draw(g2);
+
+        for (int i = 0; i < object.length; i++) {
+            if (object[i] != null) {
+                object[i].draw(g2, this);
+            }
+        }
 
         player.draw(g2);
 
