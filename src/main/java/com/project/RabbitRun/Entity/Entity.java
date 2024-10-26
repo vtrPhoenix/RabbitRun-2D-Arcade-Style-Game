@@ -1,5 +1,6 @@
 package com.project.RabbitRun.Entity;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
@@ -11,4 +12,8 @@ public class Entity {
 
     public int sprintCounter = 0;
     public int spriteNumber = 1;
+
+    public Rectangle solidArea;
+    public boolean collisionOn = false;
+
 }

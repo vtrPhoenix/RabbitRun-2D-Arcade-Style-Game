@@ -14,8 +14,8 @@ import java.util.Objects;
 public class TileManager {
 
     GamePanel gamePanel;
-    Tile[] tile;
-    int maptilenum[][];
+    public Tile[] tile;
+    public int maptilenum[][];
 
 
     public TileManager(GamePanel gamePanel) {
@@ -34,7 +34,7 @@ public class TileManager {
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/block.png")));
-
+            tile[1].collision = true;
 
         }
         catch(IOException e)
