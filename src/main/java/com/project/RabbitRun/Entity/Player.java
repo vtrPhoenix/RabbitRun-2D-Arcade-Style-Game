@@ -14,16 +14,32 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    public final int screenX;
+    public final int screenY;
+
+
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+
+        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize/2);
+        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize/2);
+
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
+
         setDefaultValues();
         getPlayerImage();
     }
 
+
     public void setDefaultValues() {
-        posX = 100;
-        posY = 100;
+        //change the starting location of the rabbit by changing the integer values. ex 1, 1 puts it the rabbit in the first box
+        worldX = gamePanel.tileSize * 2;
+        worldY = gamePanel.tileSize * 2;
         speed = 4;
         direction = "left";
     }
@@ -49,17 +65,40 @@ public class Player extends Entity {
         if(keyHandler.upPressed || keyHandler.leftPressed || keyHandler.downPressed || keyHandler.rightPressed){
             if(keyHandler.upPressed){
                 direction = "up";
-                posY -= speed;
+
             } else if (keyHandler.downPressed) {
                 direction = "down";
-                posY += speed;
+
             }else if (keyHandler.leftPressed){
                 direction = "left";
-                posX -= speed;
+
             } else {
                 direction = "right";
-                posX += speed;
             }
+
+            collisionOn = false;
+            gamePanel.collisionChecker.checkTile(this);
+
+            //if collision is false, player can move
+            if(collisionOn == false)
+            {
+                switch (direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+
 
             sprintCounter++;
             if(sprintCounter > 13){
@@ -105,7 +144,7 @@ public class Player extends Entity {
             default:
                 break;
         }
-        g2.drawImage(image, posX, posY, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 
 }

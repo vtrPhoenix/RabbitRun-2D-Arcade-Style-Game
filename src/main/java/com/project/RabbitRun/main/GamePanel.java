@@ -18,6 +18,14 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenWidth = maxScreenCol * tileSize;
     public final int screenHeight = maxScreenRow * tileSize;
 
+    //world settings/ change maxWorldCol and maxWorldRow to change the size of the map. also remember to change the map.txt
+    //to fit the same dimensions
+    public final int maxWorldCol = 30;
+    public final int maxWorldRow = 30;
+    public final int worldWidth = maxWorldCol * tileSize;
+    public final int worldHeight = maxWorldRow * tileSize;
+
+
     int FPS = 60;
 
 
@@ -30,7 +38,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this,keyHandler);
+
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
+
+    public Player player = new Player(this,keyHandler);
 
     //Player Default position
     int playerX = 100;
