@@ -3,7 +3,6 @@ package com.project.RabbitRun.tile;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,15 +14,15 @@ public class TileManager {
 
     GamePanel gamePanel;
     public Tile[] tile;
-    public int maptilenum[][];
+    public int mapTileNum[][];
 
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tile = new Tile[10];
-        maptilenum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+        mapTileNum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
         getTileImage();
-        loadmap("/maps/map02.txt");
+        loadMap("/maps/map02.txt");
     }
 
     public void getTileImage()
@@ -43,7 +42,7 @@ public class TileManager {
         }
     }
 
-    public void loadmap(String path)
+    public void loadMap(String path)
     {
         try{
             InputStream is = getClass().getResourceAsStream(path);
@@ -59,7 +58,7 @@ public class TileManager {
                 {
                     String numbers[] = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
-                    maptilenum[col][row] = num;
+                    mapTileNum[col][row] = num;
                     col++;
                 }
                 if (col == gamePanel.maxWorldCol)
@@ -89,7 +88,7 @@ public class TileManager {
 
         while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow)
         {
-            int tilenum = maptilenum[worldCol][worldRow];
+            int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldCol * gamePanel.tileSize;
             int worldY = worldRow * gamePanel.tileSize;
@@ -97,7 +96,7 @@ public class TileManager {
             int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
 
-            g2.drawImage(tile[tilenum].image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
+            g2.drawImage(tile[tileNum].image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
             worldCol++;
 
 
@@ -109,10 +108,5 @@ public class TileManager {
 
             }
         }
-
-
     }
-
-
-
 }
