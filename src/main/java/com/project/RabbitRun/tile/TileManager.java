@@ -80,8 +80,8 @@ public class TileManager {
 
     public void draw(Graphics2D g2)
     {
-        g2.drawImage(tile[0].image, 0,0, gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawImage(tile[0].image, 48,0, gamePanel.tileSize, gamePanel.tileSize, null);
+        //g2.drawImage(tile[0].image, 0,0, gamePanel.tileSize, gamePanel.tileSize, null);
+        //g2.drawImage(tile[0].image, 48,0, gamePanel.tileSize, gamePanel.tileSize, null);
 
         int worldCol = 0;
         int worldRow = 0;
