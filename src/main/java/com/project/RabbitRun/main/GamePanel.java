@@ -1,6 +1,7 @@
 package com.project.RabbitRun.main;
 
 import com.project.RabbitRun.Entity.Player;
+import com.project.RabbitRun.Entity.Enemy;
 import com.project.RabbitRun.Object.SuperObject;
 import com.project.RabbitRun.tile.TileManager;
 
@@ -42,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker collisionChecker = new CollisionChecker(this);
 
     public Player player = new Player(this,keyHandler);
+
+    public Enemy enemy = new Enemy(this);
 
     //Player Default position
     int playerX = 100;
@@ -90,7 +93,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+
         player.update();
+        enemy.updateEnemy(player);
     }
 
     public void paintComponent(Graphics g) {
@@ -107,6 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         player.draw(g2);
+        enemy.draw(g2);
 
         g2.dispose();
     }
