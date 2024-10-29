@@ -16,6 +16,9 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+    int hasClover = 0;
+    int hasCarrot = 0;
+    int points = 0;
 
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
@@ -28,6 +31,8 @@ public class Player extends Entity {
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 32;
 
@@ -79,6 +84,9 @@ public class Player extends Entity {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
+            int objIndex = gamePanel.collisionChecker.checkObject(this, true);
+            pickObject(objIndex);
+
             //if collision is false, player can move
             if(collisionOn == false)
             {
@@ -112,6 +120,32 @@ public class Player extends Entity {
         }
     }
 
+    public void pickObject (int index) {
+        if (index != 999) {
+            //gamePanel.object[index] = null;
+            String objName = gamePanel.object[index].name;
+
+            switch (objName) {
+                case "Clover" :
+                    hasClover++;
+                    gamePanel.object[index] = null;
+                    points += 50;
+                    System.out.println("Points: " + points);
+                    break;
+                case "Carrot" :
+                    hasCarrot++;
+                    gamePanel.object[index] = null;
+                    points += 100;
+                    System.out.println("Points: " + points);
+                    break;
+                case "Mushroom" :
+                    gamePanel.object[index] = null;
+                    points -= 100;
+                    System.out.println("Points: " + points);
+                    break;
+            }
+        }
+    }
     public void draw(Graphics2D g2) {
 
         BufferedImage image = null;

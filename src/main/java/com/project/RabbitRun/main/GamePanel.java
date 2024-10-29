@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
 
     public AssetSetter aSetter = new AssetSetter(this);
-    public SuperObject object[] = new SuperObject[10];
+    public SuperObject object[] = new SuperObject[15];
 
 
     KeyHandler keyHandler = new KeyHandler();
