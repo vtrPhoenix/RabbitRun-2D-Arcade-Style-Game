@@ -143,6 +143,11 @@ public class Player extends Entity {
                     points -= 100;
                     System.out.println("Points: " + points);
                     break;
+                case "ExitDoor" :
+                    if(points >= 500){
+                        gamePanel.gameState = gamePanel.gameOverState;
+                    }
+                    break;
             }
         }
     }
