@@ -1,6 +1,8 @@
 package com.project.RabbitRun.Entity;
 
+import com.project.RabbitRun.main.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
+import org.w3c.dom.css.Rect;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
@@ -13,8 +15,17 @@ public class Enemy extends Entity{
 
     GamePanel gamePanel;
 
-    public Enemy(GamePanel gamePanel) {
+    public final int screenX;
+    public final int screenY;
+
+    CollisionChecker collisionChecker;
+
+    public Enemy(GamePanel gamePanel, CollisionChecker collisionChecker) {
         this.gamePanel = gamePanel;
+        this.collisionChecker = collisionChecker;
+
+        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize/2);
+        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize/2);
 
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -27,9 +38,9 @@ public class Enemy extends Entity{
     }
 
     public void setDefaultValues() {
-        worldX = 0; // will change
-        worldY = 0; // will change
-        speed = 4;
+        worldX = gamePanel.tileSize * 20;; // will change
+        worldY = gamePanel.tileSize * 20;; // will change
+        speed = 3;
         direction = "down";
     }
 
@@ -49,49 +60,50 @@ public class Enemy extends Entity{
         }
     }
 
-    public void updateEnemy(int playerX, int playerY) {
+    public void updateEnemy(Player player) {
 
-        int deltaX = this.worldX;
-        int deltaY = this.worldY;
-        int moveX;
-        int moveY;
+        int deltaX = player.worldX - this.worldX;
+        int deltaY = player.worldY - this.worldY;
+        int moveX = 0;
+        int moveY = 0;
 
         double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
 
-        if (distance != 0) {
+        collisionOn = false;
+        collisionChecker.checkTile(this);
+        // Check for collision in the new position
+        if (!collisionOn) {
+            // Update position if no collision detected
             moveX = (int) (speed * (deltaX / distance));
             moveY = (int) (speed * (deltaY / distance));
-
             this.worldX += moveX;
             this.worldY += moveY;
-
-            // move horizontally
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                if (deltaX > 0) {
-                    this.direction = "right";
-                }
-                else {
-                    this.direction = "left";
-                }
-            }
-            // move vertically
-            else {
-                if (deltaY > 0) {
-                    this.direction = "down";
-                }
-                else {
-                    this.direction = "up";
-                }
-            }
         }
 
-    }
+        if (collisionWithPlayer(player)){
+            handleCollision();
+        }
 
-    public void draw(Graphics g) {
-        BufferedImage image = null;
-
+        // move horizontally
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 0) {
+                this.direction = "right";
+            }
+            else {
+                this.direction = "left";
+            }
+        }
+        // move vertically
+        else {
+            if (deltaY > 0) {
+                this.direction = "down";
+            }
+            else {
+                this.direction = "up";
+            }
+        }
         sprintCounter++;
-        if (sprintCounter > 13) {
+        if (sprintCounter > 10) {
             if (spriteNumber == 1) {
                 spriteNumber = 2;
             }
@@ -100,6 +112,22 @@ public class Enemy extends Entity{
             }
             sprintCounter = 0;
         }
+
+    }
+
+    public boolean collisionWithPlayer(Player player) {
+        Rectangle enemyBounds = new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
+        Rectangle playerBounds = new Rectangle(player.worldX + player.solidArea.x, player.worldY + player.solidArea.y, player.solidArea.width, player.solidArea.height);
+
+        return enemyBounds.intersects(playerBounds);
+    }
+
+    public void handleCollision() {
+
+    }
+
+    public void draw(Graphics g) {
+        BufferedImage image = null;
 
         switch(direction) {
             case "up":
@@ -123,7 +151,7 @@ public class Enemy extends Entity{
                     image = left1;
                 }
                 else {
-                    image = down2;
+                    image = left2;
                 }
                 break;
             case "right":
@@ -135,5 +163,6 @@ public class Enemy extends Entity{
                 }
                 break;
         }
+        g.drawImage(image, worldX, worldY ,gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }
