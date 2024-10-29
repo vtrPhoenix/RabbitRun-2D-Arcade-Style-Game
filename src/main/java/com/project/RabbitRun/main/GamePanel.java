@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Player player = new Player(this,keyHandler);
 
-    public Enemy enemy = new Enemy(this, collisionChecker);
+    public Enemy enemy = new Enemy(this);
 
     //Player Default position
     int playerX = 100;
