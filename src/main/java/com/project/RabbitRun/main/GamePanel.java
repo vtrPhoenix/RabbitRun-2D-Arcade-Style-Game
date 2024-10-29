@@ -26,6 +26,13 @@ public class GamePanel extends JPanel implements Runnable {
     public final int worldWidth = maxWorldCol * tileSize;
     public final int worldHeight = maxWorldRow * tileSize;
 
+    //GAME STATE
+    public int gameState;
+    public final int menuState = 0;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int gameOverState = 6;
+
 
     int FPS = 60;
 
@@ -34,10 +41,10 @@ public class GamePanel extends JPanel implements Runnable {
     TileManager tileM = new TileManager(this);
 
     public AssetSetter aSetter = new AssetSetter(this);
-    public SuperObject object[] = new SuperObject[15];
+    public SuperObject[] object = new SuperObject[15];
 
 
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     Thread gameThread;
 
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -45,11 +52,6 @@ public class GamePanel extends JPanel implements Runnable {
     public Player player = new Player(this,keyHandler);
 
     public Enemy enemy = new Enemy(this);
-
-    //Player Default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     public GamePanel() {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -61,7 +63,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         aSetter.setObject();
-
+        //settting up as playstate for now
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -94,8 +97,14 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        player.update();
-        enemy.updateEnemy(player);
+        if(gameState == playState) {
+            player.update();
+            enemy.updateEnemy(player);
+        }
+        if(gameState == pauseState) {
+        //nothing
+        }
+
     }
 
     public void paintComponent(Graphics g) {
