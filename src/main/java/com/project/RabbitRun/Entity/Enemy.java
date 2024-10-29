@@ -15,17 +15,17 @@ public class Enemy extends Entity{
 
     GamePanel gamePanel;
 
-    public final int screenX;
-    public final int screenY;
+    //public final int screenX;
+    //public final int screenY;
 
-    CollisionChecker collisionChecker;
+    //CollisionChecker collisionChecker;
 
-    public Enemy(GamePanel gamePanel, CollisionChecker collisionChecker) {
+    public Enemy(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.collisionChecker = collisionChecker;
+        //this.collisionChecker = collisionChecker;
 
-        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize/2);
-        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize/2);
+        //screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize/2);
+        //screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize/2);
 
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -40,8 +40,8 @@ public class Enemy extends Entity{
     public void setDefaultValues() {
         worldX = gamePanel.tileSize * 20;; // will change
         worldY = gamePanel.tileSize * 20;; // will change
-        speed = 3;
-        direction = "down";
+        speed = 4;
+        direction = "left";
     }
 
     public void getEnemyImage() {
@@ -70,9 +70,9 @@ public class Enemy extends Entity{
         double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
 
         collisionOn = false;
-        collisionChecker.checkTile(this);
+        gamePanel.collisionChecker.checkTile(this);
         // Check for collision in the new position
-        if (!collisionOn) {
+        if (!collisionOn && distance != 0) {
             // Update position if no collision detected
             moveX = (int) (speed * (deltaX / distance));
             moveY = (int) (speed * (deltaY / distance));
@@ -103,11 +103,11 @@ public class Enemy extends Entity{
             }
         }
         sprintCounter++;
-        if (sprintCounter > 10) {
+        if (sprintCounter > 13) {
             if (spriteNumber == 1) {
                 spriteNumber = 2;
             }
-            else {
+            else if (spriteNumber == 2){
                 spriteNumber = 1;
             }
             sprintCounter = 0;
