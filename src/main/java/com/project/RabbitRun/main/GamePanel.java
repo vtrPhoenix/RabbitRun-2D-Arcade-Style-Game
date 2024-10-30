@@ -130,9 +130,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void initializeEnemies() {
         int[][] enemyPositions = {
-                {tileSize * 16, tileSize * 6},
-                {tileSize * 8, tileSize * 10},
-                {tileSize * 24, tileSize * 15},
+                {tileSize * 22, tileSize * 16},
+                {tileSize * 8, tileSize * 18},
+                {tileSize * 22, tileSize * 30},
                 {tileSize * 20, tileSize * 12}
         };
 
