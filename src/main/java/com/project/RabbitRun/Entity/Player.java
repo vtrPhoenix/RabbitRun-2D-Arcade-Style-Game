@@ -132,7 +132,7 @@ public class Player extends Entity {
             if(points >=winningPoints){
                 gamePanel.object[5] = openDoor;
                 gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
-                gamePanel.object[5].worldY = 38 * gamePanel.tileSize;
+                gamePanel.object[5].worldY = 32 * gamePanel.tileSize;
             }
         }
     }
