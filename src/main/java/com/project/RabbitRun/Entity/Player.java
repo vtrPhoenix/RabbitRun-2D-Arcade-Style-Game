@@ -22,6 +22,7 @@ public class Player extends Entity {
     public int points = 0;
     private final int winningPoints = 100;
     private ObjExitDoor openDoor;
+    private ObjExitDoor closeDoor;
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -37,6 +38,7 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 25;
+        closeDoor =  new ObjExitDoor(false);
         openDoor = new ObjExitDoor(true);
         setDefaultValues();
         getPlayerImage();
@@ -131,6 +133,10 @@ public class Player extends Entity {
             }
             if(points >=winningPoints){
                 gamePanel.object[5] = openDoor;
+                gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
+                gamePanel.object[5].worldY = 32 * gamePanel.tileSize;
+            }else {
+                gamePanel.object[5] = closeDoor;
                 gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
                 gamePanel.object[5].worldY = 32 * gamePanel.tileSize;
             }
