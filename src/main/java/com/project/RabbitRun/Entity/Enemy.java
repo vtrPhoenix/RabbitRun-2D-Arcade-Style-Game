@@ -8,13 +8,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Random;
 
 public class Enemy extends Entity{
 
     GamePanel gamePanel;
 
-    CollisionChecker collisionChecker;
     private int directionCooldown = 0;
+    private int stuckCounter = 0;
+    private Random random = new Random();
+
 
     public Enemy(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -58,12 +61,11 @@ public class Enemy extends Entity{
             directionCooldown--;
         }
 
-        if (directionCooldown == 0) {
-            // Calculate direction based on the player's position
-            int deltaX = player.worldX - this.worldX;
-            int deltaY = player.worldY - this.worldY;
+        int deltaX = player.worldX - this.worldX;
+        int deltaY = player.worldY - this.worldY;
 
-            // Set direction toward the player
+        if (directionCooldown == 0) {
+
             if (Math.abs(deltaX) > Math.abs(deltaY)) {
                 if (deltaX > 0) {
                     direction = "right";
@@ -79,23 +81,28 @@ public class Enemy extends Entity{
             }
         }
 
-        // Reset collision flag at the start of each update
         collisionOn = false;
-        // Check for collision using checkTile
         gamePanel.collisionChecker.checkTile(this);
 
-        if (collisionOn || collisionWithEnemy()){
-            changeDirection();
+        if (collisionOn || collisionWithEnemy()) {
+            alternateDirection(deltaX, deltaY);
             directionCooldown = 60;
-
+            stuckCounter++;
+        } else {
+            stuckCounter = 0; // reset stuck counter if moving successfully
         }
 
-        // Move the enemy in the current direction if there's no collision
+
+        // move enemy in the current direction if no collision
         if (!collisionOn && !collisionWithEnemy()) {
-            moveInCurrentDirection();
+            currentDirection();
         }
 
-        // Toggle sprites for animation
+        if (stuckCounter > 5) {
+            applyOffset();
+            stuckCounter = 0; // reset stuck counter after offset is applied
+        }
+
         sprintCounter++;
         if (sprintCounter > 13) {
             if (spriteNumber == 1) {
@@ -134,7 +141,7 @@ public class Enemy extends Entity{
         return false;
     }
 
-    private void moveInCurrentDirection() {
+    private void currentDirection() {
         switch (direction) {
             case "up":
                 worldY -= speed;
@@ -151,8 +158,34 @@ public class Enemy extends Entity{
         }
     }
 
+    private void alternateDirection(int deltaX, int deltaY) {
+        // check if primary direction was horizontal and change to vertical if blocked
+        if (direction.equals("left") || direction.equals("right")) {
+            if (deltaY > 0) {
+                direction = "down";
+            } else {
+                direction = "up";
+            }
+        } else if (direction.equals("up") || direction.equals("down")) {
+            if (deltaX > 0) {
+                direction = "right";
+            } else {
+                direction = "left";
+            }
+        }
+
+        // check collision on the new direction and adjust if still blocked
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+        if (collisionOn) {
+            // if still blocked, reverse the direction
+            changeDirection();
+        }
+
+    }
+
     public void changeDirection() {
-        // Reverse current direction when a collision occurs
+        // reverse current direction when a collision occurs
         switch (direction) {
             case "up":
                 direction = "down";
@@ -167,31 +200,14 @@ public class Enemy extends Entity{
                 direction = "left";
                 break;
         }
+    }
 
-        // Apply a repulsion offset to push enemies apart
-        for (int i = 0; i < gamePanel.enemies.size(); i++) {
-            Enemy otherEnemy = gamePanel.enemies.get(i);
+    private void applyOffset() {
+        int offsetX = random.nextInt(31) - 15;
+        int offsetY = random.nextInt(31) - 15;
 
-            if (otherEnemy != this) {
-                int dx = this.worldX - otherEnemy.worldX;
-                int dy = this.worldY - otherEnemy.worldY;
-
-                // Adjust position based on relative x and y
-                if (Math.abs(dx) < gamePanel.tileSize && Math.abs(dy) < gamePanel.tileSize) {
-                    if (dx > 0) {
-                        this.worldX += 10;  // Move right by 10 pixels
-                    } else {
-                        this.worldX -= 10;  // Move left by 10 pixels
-                    }
-
-                    if (dy > 0) {
-                        this.worldY += 10;  // Move down by 10 pixels
-                    } else {
-                        this.worldY -= 10;  // Move up by 10 pixels
-                    }
-                }
-            }
-        }
+        worldX += offsetX;
+        worldY += offsetY;
     }
 
     public boolean collisionWithPlayer(Player player) {
