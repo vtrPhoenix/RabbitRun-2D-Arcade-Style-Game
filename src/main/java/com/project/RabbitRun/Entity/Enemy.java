@@ -4,6 +4,8 @@ import com.project.RabbitRun.main.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
+import java.util.List;
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,10 +19,14 @@ public class Enemy extends Entity{
     private int directionCooldown = 0;
     private int stuckCounter = 0;
     private Random random = new Random();
+    private final int initialX, initialY;
 
-
-    public Enemy(GamePanel gamePanel) {
+    public Enemy(GamePanel gamePanel, int startX, int startY) {
         this.gamePanel = gamePanel;
+        this.initialX = startX; // Store initial positions for restart
+        this.initialY = startY;
+        this.worldX = startX;
+        this.worldY = startY;
 
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -37,6 +43,28 @@ public class Enemy extends Entity{
     public void setDefaultValues() {
         speed = 2;
         direction = "left";
+    }
+
+    public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
+        int[][] enemyPositions = {
+                {gamePanel.tileSize * 22, gamePanel.tileSize * 16},
+                {gamePanel.tileSize * 8, gamePanel.tileSize * 18},
+                {gamePanel.tileSize * 22, gamePanel.tileSize * 30},
+                {gamePanel.tileSize * 20, gamePanel.tileSize * 12}
+        };
+
+        List<Enemy> enemies = new ArrayList<>();
+        for (int[] pos : enemyPositions) {
+            enemies.add(new Enemy(gamePanel, pos[0], pos[1]));
+        }
+        return enemies;
+    }
+
+    public void restart() {
+        // Reset position and attributes to default values
+        this.worldX = initialX;
+        this.worldY = initialY;
+        setDefaultValues();
     }
 
     public void getEnemyImage() {

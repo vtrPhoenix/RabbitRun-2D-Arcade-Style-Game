@@ -59,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
         setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        initializeEnemies();
+        enemies = Enemy.initializeEnemies(this);
         this.addMouseListener(mouseListener);
     }
 
@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.restart();
         aSetter.setObject();
         ui.restart();
+        enemies.forEach(Enemy::restart);
         gameState = playState;
     }
     public void startGameThread(){
@@ -150,20 +151,4 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    private void initializeEnemies() {
-        int[][] enemyPositions = {
-                {tileSize * 22, tileSize * 16},
-                {tileSize * 8, tileSize * 18},
-                {tileSize * 22, tileSize * 30},
-                {tileSize * 20, tileSize * 12}
-        };
-
-        for (int i = 0; i < enemyPositions.length; i++) {
-            int[] pos = enemyPositions[i];
-            Enemy enemy = new Enemy(this);
-            enemy.worldX = pos[0];
-            enemy.worldY = pos[1];
-            enemies.add(enemy);
-        }
-    }
 }
