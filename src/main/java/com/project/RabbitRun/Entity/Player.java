@@ -20,7 +20,7 @@ public class Player extends Entity {
     int hasClover = 0;
     int hasCarrot = 0;
     public int points = 0;
-    private final int winningPoints = 100;
+    private final int winningPoints = 400;
     private ObjExitDoor openDoor;
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
@@ -35,7 +35,7 @@ public class Player extends Entity {
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        solidArea.width = 32;
+        solidArea.width = 25;
         solidArea.height = 25;
         openDoor = new ObjExitDoor(true);
         setDefaultValues();
@@ -114,8 +114,6 @@ public class Player extends Entity {
                         break;
                 }
             }
-
-
 
             sprintCounter++;
             if(sprintCounter > 13){
