@@ -18,7 +18,7 @@ public class Player extends Entity {
     public final int screenY;
     int hasClover = 0;
     int hasCarrot = 0;
-    int points = 0;
+    public int points = 0;
 
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
@@ -130,18 +130,18 @@ public class Player extends Entity {
                     hasClover++;
                     gamePanel.object[index] = null;
                     points += 50;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU GOT A REWARD!",Color.green);
                     break;
                 case "Carrot" :
                     hasCarrot++;
                     gamePanel.object[index] = null;
                     points += 100;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!",Color.green);
                     break;
                 case "Mushroom" :
                     gamePanel.object[index] = null;
                     points -= 100;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!",Color.red);
                     break;
                 case "ExitDoor" :
                     if(points >= 500){

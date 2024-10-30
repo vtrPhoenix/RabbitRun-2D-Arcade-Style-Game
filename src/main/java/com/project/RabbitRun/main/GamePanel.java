@@ -37,21 +37,16 @@ public class GamePanel extends JPanel implements Runnable {
     int FPS = 60;
 
 
-
+    //System
     TileManager tileM = new TileManager(this);
-
     public AssetSetter aSetter = new AssetSetter(this);
     public SuperObject[] object = new SuperObject[15];
-
-
     KeyHandler keyHandler = new KeyHandler(this);
-    Thread gameThread;
-
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-
     public Player player = new Player(this,keyHandler);
-
     public Enemy enemy = new Enemy(this);
+    public UI ui = new UI(this);
+    Thread gameThread;
 
     public GamePanel() {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -122,6 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         player.draw(g2);
         enemy.draw(g2);
+        ui.draw(g2);
 
         g2.dispose();
     }
