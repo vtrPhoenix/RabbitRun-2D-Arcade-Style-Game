@@ -1,6 +1,7 @@
 package com.project.RabbitRun.main;
 
 import com.project.RabbitRun.Object.ObjBonusReward;
+import com.project.RabbitRun.Object.ObjExitDoor;
 import com.project.RabbitRun.Object.ObjPunishment;
 import com.project.RabbitRun.Object.ObjReward;
 
@@ -30,7 +31,13 @@ public class AssetSetter {
         gamePanel.object[3].worldY = 21 * gamePanel.tileSize;
 
         gamePanel.object[4] = new ObjPunishment();
+
         gamePanel.object[4].worldX = 19 * gamePanel.tileSize;
         gamePanel.object[4].worldY = 16 * gamePanel.tileSize;
+
+        gamePanel.object[5] = new ObjExitDoor(false);
+        gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
+        gamePanel.object[5].worldY = 38 * gamePanel.tileSize;
+
     }
 }

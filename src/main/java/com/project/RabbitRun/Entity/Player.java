@@ -1,5 +1,6 @@
 package com.project.RabbitRun.Entity;
 
+import com.project.RabbitRun.Object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.main.KeyHandler;
 
@@ -18,8 +19,9 @@ public class Player extends Entity {
     public final int screenY;
     int hasClover = 0;
     int hasCarrot = 0;
-    int points = 0;
-
+    public int points = 0;
+    private final int winningPoints = 100;
+    private ObjExitDoor openDoor;
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -35,11 +37,17 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 25;
-
+        openDoor = new ObjExitDoor(true);
         setDefaultValues();
         getPlayerImage();
     }
 
+    public void restart(){
+        setDefaultValues();
+        points = 0;
+        hasClover = 0;
+        hasCarrot = 0;
+    }
 
     public void setDefaultValues() {
         //change the starting location of the rabbit by changing the integer values. ex 1, 1 puts it the rabbit in the first box
@@ -47,6 +55,7 @@ public class Player extends Entity {
         worldY = gamePanel.tileSize * 6;
         speed = 4;
         direction = "left";
+
     }
 
     public void getPlayerImage(){
@@ -117,6 +126,14 @@ public class Player extends Entity {
                 }
                 sprintCounter = 0;
             }
+            if(points < 0){
+                gamePanel.gameState = gamePanel.youLostState;
+            }
+            if(points >=winningPoints){
+                gamePanel.object[5] = openDoor;
+                gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
+                gamePanel.object[5].worldY = 38 * gamePanel.tileSize;
+            }
         }
     }
 
@@ -130,18 +147,23 @@ public class Player extends Entity {
                     hasClover++;
                     gamePanel.object[index] = null;
                     points += 50;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU GOT A REWARD!",Color.green);
                     break;
                 case "Carrot" :
                     hasCarrot++;
                     gamePanel.object[index] = null;
                     points += 100;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!",Color.green);
                     break;
                 case "Mushroom" :
                     gamePanel.object[index] = null;
                     points -= 100;
-                    System.out.println("Points: " + points);
+                    gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!",Color.red);
+                    break;
+                case "ExitDoor" :
+                    if(points >= winningPoints){
+                        gamePanel.gameState = gamePanel.youWonState;
+                    }
                     break;
             }
         }
