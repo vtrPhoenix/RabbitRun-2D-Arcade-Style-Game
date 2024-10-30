@@ -47,6 +47,10 @@ public class Player extends Entity {
         worldY = gamePanel.tileSize * 2;
         speed = 4;
         direction = "left";
+
+        points = 0;
+        hasClover = 0;
+        hasCarrot = 0;
     }
 
     public void getPlayerImage(){

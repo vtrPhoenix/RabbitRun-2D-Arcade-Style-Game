@@ -5,7 +5,19 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
+    GamePanel gamePanel;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
+
+    /*
+    public KeyHandler(GamePanel gamePanel, KeyEvent e ) {
+        this.gamePanel = gamePanel;
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_C) {
+            gamePanel.gameState = gamePanel.characterState;
+        }
+    }
+*/
     @Override
     public void keyTyped(KeyEvent e) {
 
