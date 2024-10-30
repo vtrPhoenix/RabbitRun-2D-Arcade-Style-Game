@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public SuperObject[] object = new SuperObject[15];
     KeyHandler keyHandler = new KeyHandler(this);
+    menuMouseListener mouseListener = new menuMouseListener(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this,keyHandler);
     public Enemy enemy = new Enemy(this);
@@ -54,12 +55,13 @@ public class GamePanel extends JPanel implements Runnable {
         setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        this.addMouseListener(mouseListener);
     }
 
     public void setupGame() {
         aSetter.setObject();
-        //settting up as playstate for now
-        gameState = playState;
+
+        gameState = menuState;
     }
 
     public void startGameThread(){
@@ -96,9 +98,6 @@ public class GamePanel extends JPanel implements Runnable {
             player.update();
             enemy.updateEnemy(player);
         }
-        if(gameState == pauseState) {
-        //nothing
-        }
 
     }
 
@@ -106,18 +105,22 @@ public class GamePanel extends JPanel implements Runnable {
 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
-        tileM.draw(g2);
-
-        for (int i = 0; i < object.length; i++) {
-            if (object[i] != null) {
-                object[i].draw(g2, this);
-            }
+        if(gameState == menuState) {
+            ui.draw(g2);
         }
+        if(gameState == playState){
+            tileM.draw(g2);
 
-        player.draw(g2);
-        enemy.draw(g2);
-        ui.draw(g2);
+            for (int i = 0; i < object.length; i++) {
+                if (object[i] != null) {
+                    object[i].draw(g2, this);
+                }
+            }
+
+            player.draw(g2);
+            enemy.draw(g2);
+            ui.draw(g2);
+        }
 
         g2.dispose();
     }

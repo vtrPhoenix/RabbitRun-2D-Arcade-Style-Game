@@ -8,13 +8,18 @@ import java.util.Objects;
 
 public class UI {
     GamePanel gamePanel;
+
     Font openSans;
     Font ariel;
+
     BufferedImage points;
+    BufferedImage menuPage;
     Color messageColor = Color.WHITE;
+
     boolean dispMessage = false;
     String message = "";
     int messageTimer = 0;
+    public int commandNumber = 0;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -22,6 +27,7 @@ public class UI {
         ariel = new Font("Ariel", Font.BOLD, 15);
         try {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
+            menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Menu/MenuPage.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +43,9 @@ public class UI {
 
         g2.setFont(openSans);
         g2.setColor(Color.white);
-
+        if(gamePanel.gameState == gamePanel.menuState){
+            drawMenuState(g2);
+        }
         if(gamePanel.gameState == gamePanel.playState) {
             drawPlayState(g2);
         }
@@ -45,6 +53,10 @@ public class UI {
             drawPauseState(g2);
         }
 
+    }
+
+    public void drawMenuState(Graphics g2) {
+        g2.drawImage(menuPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
 
     public void drawPlayState(Graphics g2) {
