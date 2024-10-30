@@ -7,6 +7,8 @@ import com.project.RabbitRun.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
     //Screen Settings
@@ -21,37 +23,35 @@ public class GamePanel extends JPanel implements Runnable {
 
     //world settings/ change maxWorldCol and maxWorldRow to change the size of the map. also remember to change the map.txt
     //to fit the same dimensions
-    public final int maxWorldCol = 30;
-    public final int maxWorldRow = 30;
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 40;
     public final int worldWidth = maxWorldCol * tileSize;
     public final int worldHeight = maxWorldRow * tileSize;
+
+    //GAME STATE
+    public int gameState;
+    public final int menuState = 0;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int youWonState = 3;
+    public final int youLostState = 4;
 
 
     int FPS = 60;
 
 
-
+    //System
     TileManager tileM = new TileManager(this);
-
     public AssetSetter aSetter = new AssetSetter(this);
-    public SuperObject object[] = new SuperObject[15];
-
-
-    KeyHandler keyHandler = new KeyHandler();
-    Thread gameThread;
-
+    public SuperObject[] object = new SuperObject[15];
+    KeyHandler keyHandler = new KeyHandler(this);
+    com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-
     public Player player = new Player(this,keyHandler);
 
-    public Enemy enemy = new Enemy(this);
-
-    //Player Default position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
-
-    public int gameState;
+    public List<Enemy> enemies = new ArrayList<>();
+    public UI ui = new UI(this);
+    Thread gameThread;
 
     public final int characterState = 4;
 
@@ -61,13 +61,23 @@ public class GamePanel extends JPanel implements Runnable {
         setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        enemies = Enemy.initializeEnemies(this);
+        this.addMouseListener(mouseListener);
     }
 
     public void setupGame() {
         aSetter.setObject();
 
+        gameState = menuState;
     }
 
+    public void restartGame() {
+        player.restart();
+        aSetter.setObject();
+        ui.restart();
+        enemies.forEach(Enemy::restart);
+        gameState = playState;
+    }
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
@@ -98,26 +108,49 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        player.update();
-        enemy.updateEnemy(player);
+
+        if(gameState == playState) {
+            player.update();
+            // Update each enemy
+            for (int i = 0; i < enemies.size(); i++) {
+                enemies.get(i).updateEnemy(player);
+            }
+        }
+
     }
 
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        if(gameState == menuState) {
+            ui.draw(g2);
+        }
+        if(gameState == youLostState) {
+            ui.draw(g2);
+        }
+        if(gameState == youWonState) {
+            ui.draw(g2);
+        }
+        if(gameState == playState){
+            tileM.draw(g2);
 
-        tileM.draw(g2);
 
-        for (int i = 0; i < object.length; i++) {
-            if (object[i] != null) {
-                object[i].draw(g2, this);
-            }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(g2);
         }
 
-        player.draw(g2);
-        enemy.draw(g2);
+            for (int i = 0; i < object.length; i++) {
+                if (object[i] != null) {
+                    object[i].draw(g2, this);
+                }
+            }
+
+            player.draw(g2);
+            ui.draw(g2);
+        }
 
         g2.dispose();
     }
+
 }

@@ -2,46 +2,69 @@ package com.project.RabbitRun.Entity;
 
 import com.project.RabbitRun.main.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
-import org.w3c.dom.css.Rect;
 
-import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import java.util.List;
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Random;
 
 public class Enemy extends Entity{
 
     GamePanel gamePanel;
 
-    //public final int screenX;
-    //public final int screenY;
+    private int directionCooldown = 0;
+    private int stuckCounter = 0;
+    private Random random = new Random();
+    private final int initialX, initialY;
 
-    //CollisionChecker collisionChecker;
-
-    public Enemy(GamePanel gamePanel) {
+    public Enemy(GamePanel gamePanel, int startX, int startY) {
         this.gamePanel = gamePanel;
-        //this.collisionChecker = collisionChecker;
-
-        //screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize/2);
-        //screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize/2);
+        this.initialX = startX; // Store initial positions for restart
+        this.initialY = startY;
+        this.worldX = startX;
+        this.worldY = startY;
 
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
-        solidArea.height = 32;
+        solidArea.height = 25;
 
         setDefaultValues();
         getEnemyImage();
     }
 
     public void setDefaultValues() {
-        worldX = gamePanel.tileSize * 20;; // will change
-        worldY = gamePanel.tileSize * 20;; // will change
-        speed = 4;
+        speed = 2;
         direction = "left";
+    }
+
+    public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
+        int[][] enemyPositions = {
+                {gamePanel.tileSize * 22, gamePanel.tileSize * 16},
+                {gamePanel.tileSize * 8, gamePanel.tileSize * 18},
+                {gamePanel.tileSize * 22, gamePanel.tileSize * 30},
+                {gamePanel.tileSize * 20, gamePanel.tileSize * 12}
+        };
+
+        List<Enemy> enemies = new ArrayList<>();
+        for (int[] pos : enemyPositions) {
+            enemies.add(new Enemy(gamePanel, pos[0], pos[1]));
+        }
+        return enemies;
+    }
+
+    public void restart() {
+        // Reset position and attributes to default values
+        this.worldX = initialX;
+        this.worldY = initialY;
+        setDefaultValues();
     }
 
     public void getEnemyImage() {
@@ -62,57 +85,157 @@ public class Enemy extends Entity{
 
     public void updateEnemy(Player player) {
 
+        if (directionCooldown > 0) {
+            directionCooldown--;
+        }
+
         int deltaX = player.worldX - this.worldX;
         int deltaY = player.worldY - this.worldY;
-        int moveX = 0;
-        int moveY = 0;
 
-        double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+        if (directionCooldown == 0) {
+
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0) {
+                    direction = "right";
+                } else {
+                    direction = "left";
+                }
+            } else {
+                if (deltaY > 0) {
+                    direction = "down";
+                } else {
+                    direction = "up";
+                }
+            }
+        }
 
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
-        // Check for collision in the new position
-        if (!collisionOn && distance != 0) {
-            // Update position if no collision detected
-            moveX = (int) (speed * (deltaX / distance));
-            moveY = (int) (speed * (deltaY / distance));
-            this.worldX += moveX;
-            this.worldY += moveY;
+
+        if (collisionOn || collisionWithEnemy()) {
+            alternateDirection(deltaX, deltaY);
+            directionCooldown = 60;
+            stuckCounter++;
+        } else {
+            stuckCounter = 0; // reset stuck counter if moving successfully
         }
 
-        if (collisionWithPlayer(player)){
-            handleCollision();
+
+        // move enemy in the current direction if no collision
+        if (!collisionOn && !collisionWithEnemy()) {
+            currentDirection();
         }
 
-        // move horizontally
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            if (deltaX > 0) {
-                this.direction = "right";
-            }
-            else {
-                this.direction = "left";
-            }
+        if (stuckCounter > 5) {
+            applyOffset();
+            stuckCounter = 0; // reset stuck counter after offset is applied
         }
-        // move vertically
-        else {
-            if (deltaY > 0) {
-                this.direction = "down";
-            }
-            else {
-                this.direction = "up";
-            }
-        }
+
         sprintCounter++;
         if (sprintCounter > 13) {
             if (spriteNumber == 1) {
                 spriteNumber = 2;
-            }
-            else if (spriteNumber == 2){
+            } else {
                 spriteNumber = 1;
             }
             sprintCounter = 0;
         }
+    }
 
+    public boolean collisionWithEnemy() {
+        for (int i = 0; i < gamePanel.enemies.size(); i++) {
+            Enemy otherEnemy = gamePanel.enemies.get(i);
+
+            if (otherEnemy != this) {
+                Rectangle otherBounds = new Rectangle(
+                        otherEnemy.worldX + otherEnemy.solidArea.x,
+                        otherEnemy.worldY + otherEnemy.solidArea.y,
+                        otherEnemy.solidArea.width,
+                        otherEnemy.solidArea.height
+                );
+
+                Rectangle thisBounds = new Rectangle(
+                        this.worldX + this.solidArea.x,
+                        this.worldY + this.solidArea.y,
+                        this.solidArea.width,
+                        this.solidArea.height
+                );
+
+                if (thisBounds.intersects(otherBounds)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void currentDirection() {
+        switch (direction) {
+            case "up":
+                worldY -= speed;
+                break;
+            case "down":
+                worldY += speed;
+                break;
+            case "left":
+                worldX -= speed;
+                break;
+            case "right":
+                worldX += speed;
+                break;
+        }
+    }
+
+    private void alternateDirection(int deltaX, int deltaY) {
+        // check if primary direction was horizontal and change to vertical if blocked
+        if (direction.equals("left") || direction.equals("right")) {
+            if (deltaY > 0) {
+                direction = "down";
+            } else {
+                direction = "up";
+            }
+        } else if (direction.equals("up") || direction.equals("down")) {
+            if (deltaX > 0) {
+                direction = "right";
+            } else {
+                direction = "left";
+            }
+        }
+
+        // check collision on the new direction and adjust if still blocked
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+        if (collisionOn) {
+            // if still blocked, reverse the direction
+            changeDirection();
+        }
+
+    }
+
+    public void changeDirection() {
+        // reverse current direction when a collision occurs
+        switch (direction) {
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
+        }
+    }
+
+    private void applyOffset() {
+        int offsetX = random.nextInt(31) - 15;
+        int offsetY = random.nextInt(31) - 15;
+
+        worldX += offsetX;
+        worldY += offsetY;
     }
 
     public boolean collisionWithPlayer(Player player) {
@@ -162,7 +285,14 @@ public class Enemy extends Entity{
                     image = right2;
                 }
                 break;
+            default:
+                break;
         }
-        g.drawImage(image, worldX, worldY ,gamePanel.tileSize, gamePanel.tileSize, null);
+
+        // calculate screen position based on the player position
+        int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.screenX;
+        int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+
+        g.drawImage(image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }

@@ -22,7 +22,7 @@ public class TileManager {
         tile = new Tile[10];
         mapTileNum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
         getTileImage();
-        loadMap("/maps/map02.txt");
+        loadMap("/maps/map03.txt");
     }
 
     public void getTileImage()
@@ -32,7 +32,7 @@ public class TileManager {
             tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/grass.png")));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/block.png")));
+            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/tree2.png")));
             tile[1].collision = true;
 
         }
