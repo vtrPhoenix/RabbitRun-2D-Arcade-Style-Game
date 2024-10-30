@@ -14,12 +14,14 @@ public class UI {
 
     BufferedImage points;
     BufferedImage menuPage;
+    BufferedImage youWonPage;
+    BufferedImage youLostPage;
+
     Color messageColor = Color.WHITE;
 
     boolean dispMessage = false;
     String message = "";
     int messageTimer = 0;
-    public int commandNumber = 0;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -27,7 +29,10 @@ public class UI {
         ariel = new Font("Ariel", Font.BOLD, 15);
         try {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
-            menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Menu/MenuPage.png")));
+            menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
+            youLostPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOULOST.png")));
+            youWonPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOUWON.png")));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,6 +58,12 @@ public class UI {
             drawPauseState(g2);
         }
 
+        if(gamePanel.gameState == gamePanel.youWonState){
+            drawYouWonState(g2);
+        }
+        if(gamePanel.gameState == gamePanel.youLostState){
+            drawYouLostState(g2);
+        }
     }
 
     public void drawMenuState(Graphics g2) {
@@ -89,6 +100,13 @@ public class UI {
 
         g2.setFont(ariel);
         g2.drawString(toUnPause, x+5, y+25);
+    }
+    public void drawYouWonState(Graphics g2) {
+        g2.drawImage(youWonPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+    }
+
+    public void drawYouLostState(Graphics g2) {
+        g2.drawImage(youLostPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
 
     public int getScreenCentreX(String s ,Graphics g2 ){

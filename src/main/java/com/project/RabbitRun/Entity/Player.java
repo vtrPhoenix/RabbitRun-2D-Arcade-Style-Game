@@ -120,7 +120,7 @@ public class Player extends Entity {
                 sprintCounter = 0;
             }
             if(points < 0){
-                gamePanel.gameState = gamePanel.gameOverState;
+                gamePanel.gameState = gamePanel.youLostState;
             }
             if(points >=winningPoints){
                 gamePanel.object[5] = openDoor;
@@ -155,7 +155,7 @@ public class Player extends Entity {
                     break;
                 case "ExitDoor" :
                     if(points >= winningPoints){
-                        gamePanel.gameState = gamePanel.gameOverState;
+                        gamePanel.gameState = gamePanel.youWonState;
                     }
                     break;
             }
