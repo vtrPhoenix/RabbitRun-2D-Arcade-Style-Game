@@ -1,5 +1,6 @@
 package com.project.RabbitRun.Entity;
 
+import com.project.RabbitRun.Object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.main.KeyHandler;
 
@@ -19,7 +20,8 @@ public class Player extends Entity {
     int hasClover = 0;
     int hasCarrot = 0;
     public int points = 0;
-
+    private final int winningPoints = 100;
+    private ObjExitDoor openDoor;
 
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
@@ -35,7 +37,7 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         solidArea.width = 32;
         solidArea.height = 25;
-
+        openDoor = new ObjExitDoor(true);
         setDefaultValues();
         getPlayerImage();
     }
@@ -117,6 +119,14 @@ public class Player extends Entity {
                 }
                 sprintCounter = 0;
             }
+            if(points < 0){
+                gamePanel.gameState = gamePanel.gameOverState;
+            }
+            if(points >=winningPoints){
+                gamePanel.object[5] = openDoor;
+                gamePanel.object[5].worldX = 25 * gamePanel.tileSize;
+                gamePanel.object[5].worldY = 25 * gamePanel.tileSize;
+            }
         }
     }
 
@@ -144,7 +154,7 @@ public class Player extends Entity {
                     gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!",Color.red);
                     break;
                 case "ExitDoor" :
-                    if(points >= 500){
+                    if(points >= winningPoints){
                         gamePanel.gameState = gamePanel.gameOverState;
                     }
                     break;
