@@ -113,4 +113,10 @@ public class UI {
         int length = (int)g2.getFontMetrics().getStringBounds(s, g2).getWidth();
         return gamePanel.screenWidth / 2 - length;
     }
+
+    public void restart(){
+        dispMessage = false;
+        message = "";
+        messageTimer = 0;
+    }
 }

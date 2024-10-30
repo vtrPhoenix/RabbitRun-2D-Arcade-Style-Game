@@ -65,6 +65,12 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = menuState;
     }
 
+    public void restartGame() {
+        player.restart();
+        aSetter.setObject();
+        ui.restart();
+        gameState = playState;
+    }
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();

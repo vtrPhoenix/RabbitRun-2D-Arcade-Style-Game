@@ -34,7 +34,7 @@ public class mouseListener extends MouseAdapter {
         }
         if(gamePanel.gameState == gamePanel.youWonState || gamePanel.gameState == gamePanel.youLostState) {
             if(playAgainButtonBounds.contains(clickPoint)) {
-                gamePanel.gameState = gamePanel.playState;
+                gamePanel.restartGame();
             } else if (quitOverButtonBounds.contains(clickPoint)) {
                 System.exit(0);
             }
