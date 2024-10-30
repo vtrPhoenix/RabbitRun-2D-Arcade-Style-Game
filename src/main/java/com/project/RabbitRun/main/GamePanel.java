@@ -7,6 +7,8 @@ import com.project.RabbitRun.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
     //Screen Settings
@@ -44,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Player player = new Player(this,keyHandler);
 
-    public Enemy enemy = new Enemy(this);
+    public List<Enemy> enemies = new ArrayList<>();
 
     //Player Default position
     int playerX = 100;
@@ -57,6 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
         setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+
+        initializeEnemies();
     }
 
     public void setupGame() {
@@ -95,7 +99,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
 
         player.update();
-        enemy.updateEnemy(player);
+
+        // Update each enemy
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).updateEnemy(player);
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -111,9 +119,29 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(g2);
+        }
+
         player.draw(g2);
-        enemy.draw(g2);
 
         g2.dispose();
+    }
+
+    private void initializeEnemies() {
+        int[][] enemyPositions = {
+                {tileSize * 16, tileSize * 6},
+                {tileSize * 8, tileSize * 10},
+                {tileSize * 24, tileSize * 15},
+                {tileSize * 20, tileSize * 12}
+        };
+
+        for (int i = 0; i < enemyPositions.length; i++) {
+            int[] pos = enemyPositions[i];
+            Enemy enemy = new Enemy(this);
+            enemy.worldX = pos[0];
+            enemy.worldY = pos[1];
+            enemies.add(enemy);
+        }
     }
 }
