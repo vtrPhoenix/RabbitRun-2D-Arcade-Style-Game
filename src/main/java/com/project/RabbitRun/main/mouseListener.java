@@ -4,14 +4,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class menuMouseListener extends MouseAdapter {
+public class mouseListener extends MouseAdapter {
     GamePanel gamePanel;
 
     private final Rectangle guideButtonBounds = new Rectangle(50, 254, 185, 35);
     private final Rectangle startButtonBounds = new Rectangle(300, 254, 185, 35);
     private final Rectangle quitButtonBounds = new Rectangle(550, 254, 185, 35);
 
-    public menuMouseListener(GamePanel gamePanel) {
+    public mouseListener(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 

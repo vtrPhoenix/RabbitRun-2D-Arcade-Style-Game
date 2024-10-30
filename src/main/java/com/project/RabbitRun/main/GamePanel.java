@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public SuperObject[] object = new SuperObject[15];
     KeyHandler keyHandler = new KeyHandler(this);
-    menuMouseListener mouseListener = new menuMouseListener(this);
+    com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this,keyHandler);
     public Enemy enemy = new Enemy(this);
