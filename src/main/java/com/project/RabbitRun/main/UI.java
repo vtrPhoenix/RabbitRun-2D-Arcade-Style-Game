@@ -9,6 +9,7 @@ import java.util.Objects;
 public class UI {
     GamePanel gamePanel;
     Font openSans;
+    Font ariel;
     BufferedImage points;
     Color messageColor = Color.WHITE;
     boolean dispMessage = false;
@@ -18,6 +19,7 @@ public class UI {
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         openSans = new Font("Open Sans", Font.BOLD, 20);
+        ariel = new Font("Ariel", Font.BOLD, 15);
         try {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
         } catch (IOException e) {
@@ -33,16 +35,26 @@ public class UI {
     }
     public void draw(Graphics g2) {
 
-
-        g2.drawImage(points,gamePanel.tileSize/2,gamePanel.tileSize/2,gamePanel.tileSize,gamePanel.tileSize,null);
         g2.setFont(openSans);
         g2.setColor(Color.white);
-        g2.drawString("x "+ gamePanel.player.points, 74, 60);
+
+        if(gamePanel.gameState == gamePanel.playState) {
+            drawPlayState(g2);
+        }
+        if(gamePanel.gameState == gamePanel.pauseState) {
+            drawPauseState(g2);
+        }
+
+    }
+
+    public void drawPlayState(Graphics g2) {
+        g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawString("x " + gamePanel.player.points, 74, 60);
 
         if (dispMessage) {
             g2.setFont(g2.getFont().deriveFont(15f));
             g2.setColor(messageColor);
-            g2.drawString(message, gamePanel.tileSize/2, gamePanel.tileSize *6 );
+            g2.drawString(message, gamePanel.tileSize / 2, gamePanel.tileSize * 6);
 
             messageTimer++;
 
@@ -51,5 +63,24 @@ public class UI {
                 dispMessage = false;
             }
         }
+    }
+
+    public void drawPauseState(Graphics g2) {
+        g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawString("x " + gamePanel.player.points, 74, 60);
+        String message = "PAUSED";
+        String toUnPause = "Press 'P' to unpause";
+        int x = getScreenCentreX(message,g2);
+        int y = gamePanel.screenHeight / 2;
+        g2.setFont(g2.getFont().deriveFont(40f));
+        g2.drawString(message, x, y);
+
+        g2.setFont(ariel);
+        g2.drawString(toUnPause, x+5, y+25);
+    }
+
+    public int getScreenCentreX(String s ,Graphics g2 ){
+        int length = (int)g2.getFontMetrics().getStringBounds(s, g2).getWidth();
+        return gamePanel.screenWidth / 2 - length;
     }
 }
