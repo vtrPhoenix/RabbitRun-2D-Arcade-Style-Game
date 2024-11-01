@@ -53,7 +53,6 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     Thread gameThread;
 
-    public final int characterState = 4;
 
     public GamePanel() {
         setPreferredSize(new Dimension(screenWidth, screenHeight));
