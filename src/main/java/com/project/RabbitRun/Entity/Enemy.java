@@ -47,10 +47,9 @@ public class Enemy extends Entity{
 
     public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
         int[][] enemyPositions = {
-                {gamePanel.tileSize * 22, gamePanel.tileSize * 16},
-                {gamePanel.tileSize * 8, gamePanel.tileSize * 18},
-                {gamePanel.tileSize * 22, gamePanel.tileSize * 30},
-                {gamePanel.tileSize * 20, gamePanel.tileSize * 12}
+                {gamePanel.tileSize * 15, gamePanel.tileSize * 20},
+                {gamePanel.tileSize * 20, gamePanel.tileSize * 30},
+                {gamePanel.tileSize * 25, gamePanel.tileSize * 15}
         };
 
         List<Enemy> enemies = new ArrayList<>();
@@ -111,6 +110,10 @@ public class Enemy extends Entity{
 
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
+
+        if (collisionWithPlayer(player)) {
+            gamePanel.gameState = gamePanel.youLostState;
+        }
 
         if (collisionOn || collisionWithEnemy()) {
             alternateDirection(deltaX, deltaY);
@@ -243,10 +246,6 @@ public class Enemy extends Entity{
         Rectangle playerBounds = new Rectangle(player.worldX + player.solidArea.x, player.worldY + player.solidArea.y, player.solidArea.width, player.solidArea.height);
 
         return enemyBounds.intersects(playerBounds);
-    }
-
-    public void handleCollision() {
-
     }
 
     public void draw(Graphics g) {
