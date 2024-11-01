@@ -10,8 +10,8 @@ public class mouseListener extends MouseAdapter {
     private final Rectangle guideButtonBounds = new Rectangle(50, 254, 185, 35);
     private final Rectangle startButtonBounds = new Rectangle(300, 254, 185, 35);
     private final Rectangle quitButtonBounds = new Rectangle(550, 254, 185, 35);
-    private final Rectangle playAgainButtonBounds = new Rectangle(91, 229, 270, 50);
-    private final Rectangle quitOverButtonBounds = new Rectangle(417, 229, 270, 50);
+    private final Rectangle playAgainButtonBounds = new Rectangle(101, 512, 230, 44);
+    private final Rectangle quitOverButtonBounds = new Rectangle(459, 512, 230, 44);
 
 
     public mouseListener(GamePanel gamePanel) {
@@ -28,6 +28,7 @@ public class mouseListener extends MouseAdapter {
                 System.out.println("Guide clicked");
             } else if (startButtonBounds.contains(clickPoint)) {
                 gamePanel.gameState = gamePanel.playState;
+                gamePanel.ui.startTime =  System.currentTimeMillis();
             } else if (quitButtonBounds.contains(clickPoint)) {
                 System.exit(0);
             }

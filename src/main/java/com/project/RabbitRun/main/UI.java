@@ -22,7 +22,8 @@ public class UI {
     boolean dispMessage = false;
     String message = "";
     int messageTimer = 0;
-
+    public long startTime;
+    private long endTime;
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         openSans = new Font("Open Sans", Font.BOLD, 20);
@@ -74,6 +75,9 @@ public class UI {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
 
+        long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;  // Convert to seconds
+        g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
+        endTime = elapsedTime;
         if (dispMessage) {
             g2.setFont(g2.getFont().deriveFont(15f));
             g2.setColor(messageColor);
@@ -103,10 +107,24 @@ public class UI {
     }
     public void drawYouWonState(Graphics g2) {
         g2.drawImage(youWonPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        int x = getScreenCentreX("h",g2);
+        g2.drawImage(points, x - 48,221 , gamePanel.tileSize, gamePanel.tileSize, null);
+
+        g2.setFont(g2.getFont().deriveFont(25f));
+        g2.drawString("x "+ gamePanel.player.points, x - 48+gamePanel.tileSize,221+38);
+        g2.drawString("Time Elapsed: "+ endTime+ "s", getScreenCentreX("Time Elapsed: "+ endTime+ "s",g2) +90,221+38+gamePanel.tileSize);
     }
 
     public void drawYouLostState(Graphics g2) {
         g2.drawImage(youLostPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        int x = getScreenCentreX("h",g2);
+        g2.drawImage(points, x - 48,221 , gamePanel.tileSize, gamePanel.tileSize, null);
+
+        g2.setFont(g2.getFont().deriveFont(25f));
+        g2.drawString("x "+ gamePanel.player.points, x - 48+gamePanel.tileSize,221+38);
+        g2.drawString("Time Elapsed: "+ endTime+ "s", getScreenCentreX("Time Elapsed: "+ endTime+ "s",g2) +90,221+38+gamePanel.tileSize);
+
+
     }
 
     public int getScreenCentreX(String s ,Graphics g2 ){
