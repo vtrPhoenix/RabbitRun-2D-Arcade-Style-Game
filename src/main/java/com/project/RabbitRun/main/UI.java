@@ -133,6 +133,7 @@ public class UI {
     }
 
     public void restart(){
+        startTime = System.currentTimeMillis();
         dispMessage = false;
         message = "";
         messageTimer = 0;
