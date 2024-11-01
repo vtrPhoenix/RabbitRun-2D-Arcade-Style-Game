@@ -6,24 +6,33 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The UI class is responsible for rendering all the user interface components in the RabbitRun game.
+ * It includes the main menu, play state, pause state, win, and lose screens, as well as the points and messages display.
+ */
 public class UI {
-    GamePanel gamePanel;
+    private final GamePanel gamePanel;
 
-    Font openSans;
-    Font ariel;
+    private Font openSans;
+    private Font ariel;
 
-    BufferedImage points;
-    BufferedImage menuPage;
-    BufferedImage youWonPage;
-    BufferedImage youLostPage;
+    private BufferedImage points;
+    private BufferedImage menuPage;
+    private BufferedImage youWonPage;
+    private BufferedImage youLostPage;
 
-    Color messageColor = Color.WHITE;
-
-    boolean dispMessage = false;
-    String message = "";
-    int messageTimer = 0;
+    private Color messageColor = Color.WHITE;
+    private boolean dispMessage = false;
+    private String message = "";
+    private int messageTimer = 0;
     public long startTime;
     private long endTime;
+
+    /**
+     * Constructs the UI, initializing fonts and loading images for the menu, win, and lose screens.
+     *
+     * @param gamePanel The GamePanel instance that this UI is part of.
+     */
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         openSans = new Font("Open Sans", Font.BOLD, 20);
@@ -33,44 +42,63 @@ public class UI {
             menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
             youLostPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOULOST.png")));
             youWonPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOUWON.png")));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void showMessage(String message,Color color) {
+    /**
+     * Displays a temporary message on the screen in the specified color.
+     *
+     * @param message The message to display.
+     * @param color The color of the message text.
+     */
+    public void showMessage(String message, Color color) {
         this.message = message;
         dispMessage = true;
         this.messageColor = color;
         messageTimer = 0;
     }
-    public void draw(Graphics g2) {
 
+    /**
+     * Draws the UI components based on the current game state.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
+    public void draw(Graphics g2) {
         g2.setFont(openSans);
         g2.setColor(Color.white);
-        if(gamePanel.gameState == gamePanel.menuState){
+        if (gamePanel.gameState == gamePanel.menuState) {
             drawMenuState(g2);
         }
-        if(gamePanel.gameState == gamePanel.playState) {
+        if (gamePanel.gameState == gamePanel.playState) {
             drawPlayState(g2);
         }
-        if(gamePanel.gameState == gamePanel.pauseState) {
+        if (gamePanel.gameState == gamePanel.pauseState) {
             drawPauseState(g2);
         }
-
-        if(gamePanel.gameState == gamePanel.youWonState){
+        if (gamePanel.gameState == gamePanel.youWonState) {
             drawYouWonState(g2);
         }
-        if(gamePanel.gameState == gamePanel.youLostState){
+        if (gamePanel.gameState == gamePanel.youLostState) {
             drawYouLostState(g2);
         }
     }
 
+    /**
+     * Draws the menu screen.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawMenuState(Graphics g2) {
         g2.drawImage(menuPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
 
+    /**
+     * Draws the play screen, including the player's points and elapsed time.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawPlayState(Graphics g2) {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
@@ -78,6 +106,7 @@ public class UI {
         long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;  // Convert to seconds
         g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
         endTime = elapsedTime;
+
         if (dispMessage) {
             g2.setFont(g2.getFont().deriveFont(15f));
             g2.setColor(messageColor);
@@ -92,47 +121,71 @@ public class UI {
         }
     }
 
+    /**
+     * Draws the pause screen, displaying "PAUSED" and instructions to resume the game.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawPauseState(Graphics g2) {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
         String message = "PAUSED";
         String toUnPause = "Press 'P' to unpause";
-        int x = getScreenCentreX(message,g2);
+        int x = getScreenCentreX(message, g2);
         int y = gamePanel.screenHeight / 2;
         g2.setFont(g2.getFont().deriveFont(40f));
         g2.drawString(message, x, y);
 
         g2.setFont(ariel);
-        g2.drawString(toUnPause, x+5, y+25);
+        g2.drawString(toUnPause, x + 5, y + 25);
     }
+
+    /**
+     * Draws the "You Won" screen, displaying the player's points and the total elapsed time.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawYouWonState(Graphics g2) {
         g2.drawImage(youWonPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
-        int x = getScreenCentreX("h",g2);
-        g2.drawImage(points, x - 48,221 , gamePanel.tileSize, gamePanel.tileSize, null);
+        int x = getScreenCentreX("h", g2);
+        g2.drawImage(points, x - 48, 221, gamePanel.tileSize, gamePanel.tileSize, null);
 
         g2.setFont(g2.getFont().deriveFont(25f));
-        g2.drawString("x "+ gamePanel.player.points, x - 48+gamePanel.tileSize,221+38);
-        g2.drawString("Time Elapsed: "+ endTime+ "s", getScreenCentreX("Time Elapsed: "+ endTime+ "s",g2) +90,221+38+gamePanel.tileSize);
+        g2.drawString("x " + gamePanel.player.points, x - 48 + gamePanel.tileSize, 221 + 38);
+        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.tileSize);
     }
 
+    /**
+     * Draws the "You Lost" screen, displaying the player's points and the total elapsed time.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawYouLostState(Graphics g2) {
         g2.drawImage(youLostPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
-        int x = getScreenCentreX("h",g2);
-        g2.drawImage(points, x - 48,221 , gamePanel.tileSize, gamePanel.tileSize, null);
+        int x = getScreenCentreX("h", g2);
+        g2.drawImage(points, x - 48, 221, gamePanel.tileSize, gamePanel.tileSize, null);
 
         g2.setFont(g2.getFont().deriveFont(25f));
-        g2.drawString("x "+ gamePanel.player.points, x - 48+gamePanel.tileSize,221+38);
-        g2.drawString("Time Elapsed: "+ endTime+ "s", getScreenCentreX("Time Elapsed: "+ endTime+ "s",g2) +90,221+38+gamePanel.tileSize);
-
-
+        g2.drawString("x " + gamePanel.player.points, x - 48 + gamePanel.tileSize, 221 + 38);
+        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.tileSize);
     }
 
-    public int getScreenCentreX(String s ,Graphics g2 ){
-        int length = (int)g2.getFontMetrics().getStringBounds(s, g2).getWidth();
+    /**
+     * Calculates the x-coordinate to center a given string horizontally on the screen.
+     *
+     * @param s The string to center.
+     * @param g2 The Graphics object used for calculating string width.
+     * @return The x-coordinate to center the string.
+     */
+    public int getScreenCentreX(String s, Graphics g2) {
+        int length = (int) g2.getFontMetrics().getStringBounds(s, g2).getWidth();
         return gamePanel.screenWidth / 2 - length;
     }
 
-    public void restart(){
+    /**
+     * Resets the UI for a new game, resetting the start time and clearing messages.
+     */
+    public void restart() {
         startTime = System.currentTimeMillis();
         dispMessage = false;
         message = "";
