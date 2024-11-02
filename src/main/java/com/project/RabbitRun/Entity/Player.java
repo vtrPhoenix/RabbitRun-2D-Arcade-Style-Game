@@ -29,7 +29,7 @@ public class Player extends Entity {
     public final int screenY;
 
     /** Counter for tracking the number of clovers collected by the player. */
-    int hasClover = 0;
+    public int hasClover = 0;
 
     /** Counter for tracking the number of carrots collected by the player. */
     int hasCarrot = 0;
@@ -147,7 +147,7 @@ public class Player extends Entity {
             }
 
             // Checks if points threshold is met to open the exit door
-            if (points >= winningPoints) {
+            if (points >= winningPoints && hasClover == 8) {
                 gamePanel.object[5] = openDoor;
                 gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
                 gamePanel.object[5].worldY = 32 * gamePanel.tileSize;

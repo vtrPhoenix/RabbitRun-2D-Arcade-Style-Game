@@ -19,6 +19,7 @@ public class UI {
     private Font ariel;
 
     private BufferedImage points;
+    private BufferedImage clover;
     private BufferedImage menuPage;
     private BufferedImage youWonPage;
     private BufferedImage youLostPage;
@@ -41,6 +42,7 @@ public class UI {
         ariel = new Font("Ariel", Font.BOLD, 15);
         try {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
+            clover = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Reward/clover.png")));
             menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
             youLostPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOULOST.png")));
             youWonPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOUWON.png")));
@@ -104,7 +106,8 @@ public class UI {
     public void drawPlayState(Graphics g2) {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
-
+        g2.drawImage(clover,gamePanel.screenWidth / 2 - 60, gamePanel.tileSize / 2 , gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawString("x "+ gamePanel.player.hasClover, gamePanel.screenWidth / 2 , 60 );
         long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;  // Convert to seconds
         g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
         endTime = elapsedTime;
