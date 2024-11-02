@@ -66,6 +66,11 @@ public class KeyHandler implements KeyListener {
                 gamePanel.gameState = gamePanel.playState;
             }
         }
+        if(gamePanel.gameState == gamePanel.guideState) {
+            if(key == KeyEvent.VK_B) {
+                gamePanel.gameState = gamePanel.menuState;
+            }
+        }
     }
 
     /**

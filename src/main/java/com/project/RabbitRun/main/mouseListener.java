@@ -57,7 +57,7 @@ public class mouseListener extends MouseAdapter {
     private void handleMenuClick(Point clickPoint) {
         if (guideButtonBounds.contains(clickPoint)) {
             // Display the guide information
-            System.out.println("Guide clicked");
+            gamePanel.gameState = gamePanel.guideState;
         } else if (startButtonBounds.contains(clickPoint)) {
             // Start the game and initialize the timer
             gamePanel.gameState = gamePanel.playState;

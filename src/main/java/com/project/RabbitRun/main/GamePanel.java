@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int youWonState = 3;
     public final int youLostState = 4;
+    public final int guideState = 5;
 
 
     int FPS = 60;
@@ -130,6 +131,9 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2);
         }
         if(gameState == pauseState){
+            ui.draw(g2);
+        }
+        if(gameState == guideState){
             ui.draw(g2);
         }
         if(gameState == playState){

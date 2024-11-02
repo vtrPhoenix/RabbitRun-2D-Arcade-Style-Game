@@ -21,6 +21,7 @@ public class UI {
     private BufferedImage points;
     private BufferedImage clover;
     private BufferedImage menuPage;
+    private BufferedImage guidePage;
     private BufferedImage youWonPage;
     private BufferedImage youLostPage;
 
@@ -44,6 +45,7 @@ public class UI {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
             clover = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Reward/clover.png")));
             menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
+            guidePage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/Guide.png")));
             youLostPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOULOST.png")));
             youWonPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOUWON.png")));
         } catch (IOException e) {
@@ -87,6 +89,9 @@ public class UI {
         if (gamePanel.gameState == gamePanel.youLostState) {
             drawYouLostState(g2);
         }
+        if(gamePanel.gameState == gamePanel.guideState) {
+            drawGuideState(g2);
+        }
     }
 
     /**
@@ -98,6 +103,9 @@ public class UI {
         g2.drawImage(menuPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
 
+    public void drawGuideState(Graphics g2) {
+        g2.drawImage(guidePage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+    }
     /**
      * Draws the play screen, including the player's points and elapsed time.
      *
