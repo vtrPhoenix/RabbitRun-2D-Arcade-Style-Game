@@ -107,15 +107,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-
-        if(gameState == playState) {
+        if (gameState == playState) {
             player.update();
             // Update each enemy
             for (int i = 0; i < enemies.size(); i++) {
                 enemies.get(i).updateEnemy(player);
             }
         }
-
     }
 
     public void paintComponent(Graphics g) {
