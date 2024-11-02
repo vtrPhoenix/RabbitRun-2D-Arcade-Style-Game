@@ -188,8 +188,15 @@ public class Player extends Entity {
                     gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
                 }
                 case "ExitDoor" -> {
-                    if (points >= winningPoints) {
+                    if (points >= winningPoints && hasClover == 8) {
                         gamePanel.gameState = gamePanel.youWonState;
+                    }
+                    else if (points < winningPoints) {
+                        gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
+                    }
+                    else if (hasClover < 8) {
+                        int remainingClover = 8 - hasClover;
+                        gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
                     }
                 }
             }
