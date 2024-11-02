@@ -123,7 +123,7 @@ public class UI {
         }
 
         if (elapsedTime == 5) {
-            gamePanel.object[2] = new ObjBonusReward();
+            //gamePanel.object[2] = new ObjBonusReward();
             gamePanel.object[2].worldX = 24 * gamePanel.tileSize;
             gamePanel.object[2].worldY = 6 * gamePanel.tileSize;
         }
@@ -131,7 +131,7 @@ public class UI {
             gamePanel.object[2] = null;
         }
         if (elapsedTime == 15) {
-            gamePanel.object[7] = new ObjBonusReward();
+            //gamePanel.object[7] = new ObjBonusReward();
             gamePanel.object[7].worldX = 11 * gamePanel.tileSize;
             gamePanel.object[7].worldY = 33 * gamePanel.tileSize;
         }
@@ -139,12 +139,20 @@ public class UI {
             gamePanel.object[7] = null;
         }
         if (elapsedTime == 25) {
-            gamePanel.object[11] = new ObjBonusReward();
+            //gamePanel.object[11] = new ObjBonusReward();
             gamePanel.object[11].worldX = 38 * gamePanel.tileSize;
             gamePanel.object[11].worldY = 8 * gamePanel.tileSize;
         }
         if (elapsedTime == 40) {
             gamePanel.object[11] = null;
+        }
+        if (elapsedTime == 35) {
+            //gamePanel.object[11] = new ObjBonusReward();
+            gamePanel.object[15].worldX = 25 * gamePanel.tileSize;
+            gamePanel.object[15].worldY = 12 * gamePanel.tileSize;
+        }
+        if (elapsedTime == 50) {
+            gamePanel.object[15] = null;
         }
 
     }
