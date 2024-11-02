@@ -1,5 +1,7 @@
 package com.project.RabbitRun.main;
 
+import com.project.RabbitRun.Object.ObjBonusReward;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -119,6 +121,32 @@ public class UI {
                 dispMessage = false;
             }
         }
+
+        if (elapsedTime == 5) {
+            gamePanel.object[2] = new ObjBonusReward();
+            gamePanel.object[2].worldX = 24 * gamePanel.tileSize;
+            gamePanel.object[2].worldY = 6 * gamePanel.tileSize;
+        }
+        if (elapsedTime == 20) {
+            gamePanel.object[2] = null;
+        }
+        if (elapsedTime == 15) {
+            gamePanel.object[7] = new ObjBonusReward();
+            gamePanel.object[7].worldX = 11 * gamePanel.tileSize;
+            gamePanel.object[7].worldY = 33 * gamePanel.tileSize;
+        }
+        if (elapsedTime == 30) {
+            gamePanel.object[7] = null;
+        }
+        if (elapsedTime == 25) {
+            gamePanel.object[11] = new ObjBonusReward();
+            gamePanel.object[11].worldX = 38 * gamePanel.tileSize;
+            gamePanel.object[11].worldY = 8 * gamePanel.tileSize;
+        }
+        if (elapsedTime == 40) {
+            gamePanel.object[11] = null;
+        }
+
     }
 
     /**
