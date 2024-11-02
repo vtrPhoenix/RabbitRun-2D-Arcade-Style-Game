@@ -22,7 +22,7 @@ public class AssetSetter {
         gamePanel.object[1].worldX = 22 * gamePanel.tileSize;
         gamePanel.object[1].worldY = 16 * gamePanel.tileSize;
 
-//        gamePanel.object[2] = new ObjBonusReward();
+        gamePanel.object[2] = new ObjBonusReward();
 //        gamePanel.object[2].worldX = 24 * gamePanel.tileSize;
 //        gamePanel.object[2].worldY = 6 * gamePanel.tileSize;
 
@@ -38,7 +38,7 @@ public class AssetSetter {
         gamePanel.object[6].worldX = 23 * gamePanel.tileSize;
         gamePanel.object[6].worldY = 22 * gamePanel.tileSize;
 
-//        gamePanel.object[7] = new ObjBonusReward();
+        gamePanel.object[7] = new ObjBonusReward();
 //        gamePanel.object[7].worldX = 11 * gamePanel.tileSize;
 //        gamePanel.object[7].worldY = 33 * gamePanel.tileSize;
 
@@ -54,7 +54,7 @@ public class AssetSetter {
         gamePanel.object[10].worldX = 35 * gamePanel.tileSize;
         gamePanel.object[10].worldY = 20 * gamePanel.tileSize;
 
-//        gamePanel.object[11] = new ObjBonusReward();
+        gamePanel.object[11] = new ObjBonusReward();
 //        gamePanel.object[11].worldX = 38 * gamePanel.tileSize;
 //        gamePanel.object[11].worldY = 8 * gamePanel.tileSize;
 
@@ -69,6 +69,8 @@ public class AssetSetter {
         gamePanel.object[14] = new ObjReward();
         gamePanel.object[14].worldX = 29 * gamePanel.tileSize;
         gamePanel.object[14].worldY = 8 * gamePanel.tileSize;
+
+        gamePanel.object[15] = new ObjBonusReward();
 
     }
 }
