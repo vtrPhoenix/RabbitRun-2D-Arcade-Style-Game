@@ -176,6 +176,9 @@ public class UI {
     public void drawPauseState(Graphics g2) {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
+        g2.drawImage(clover,gamePanel.screenWidth / 2 - 60, gamePanel.tileSize / 2 , gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawString("x "+ gamePanel.player.hasClover, gamePanel.screenWidth / 2 , 60 );
+        g2.drawString("Time Elapsed: " + endTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
         String message = "PAUSED";
         String toUnPause = "Press 'P' to unpause";
         int x = getScreenCentreX(message, g2);
