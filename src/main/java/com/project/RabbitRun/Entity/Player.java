@@ -146,7 +146,7 @@ public class Player extends Entity {
                 gamePanel.gameState = gamePanel.youLostState;
             }
 
-            // Checks if points threshold is met to open the exit door
+            /* Checks if points threshold is met to open the exit door. */
             if (points >= winningPoints && hasClover == 8) {
                 gamePanel.object[5] = openDoor;
                 gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
@@ -196,7 +196,6 @@ public class Player extends Entity {
                 }
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
-                        //gamePanel.playSoundEffect(4);
                         gamePanel.gameState = gamePanel.youWonState;
                     }
                     else if (points < winningPoints) {
