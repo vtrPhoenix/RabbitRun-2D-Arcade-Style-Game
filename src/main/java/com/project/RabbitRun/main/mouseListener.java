@@ -57,13 +57,16 @@ public class mouseListener extends MouseAdapter {
     private void handleMenuClick(Point clickPoint) {
         if (guideButtonBounds.contains(clickPoint)) {
             // Display the guide information
+            gamePanel.playSoundEffect(5);
             gamePanel.gameState = gamePanel.guideState;
         } else if (startButtonBounds.contains(clickPoint)) {
             // Start the game and initialize the timer
+            gamePanel.playSoundEffect(5);
             gamePanel.gameState = gamePanel.playState;
             gamePanel.ui.startTime = System.currentTimeMillis();
         } else if (quitButtonBounds.contains(clickPoint)) {
             // Exit the application
+            gamePanel.playSoundEffect(5);
             System.exit(0);
         }
     }

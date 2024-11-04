@@ -73,6 +73,11 @@ public class GamePanel extends JPanel implements Runnable {
     com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
     /** Checks for collisions between player, enemies, and objects. */
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public Player player = new Player(this,keyHandler);
+
+    Sound gameMusic = new Sound();
+    Sound soundEffect = new Sound();
+
     /** Player character for the game. */
     public Player player = new Player(this, keyHandler);
     /** List of enemies in the game. */
@@ -100,6 +105,7 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void setupGame() {
         aSetter.setObject();
+        playMusic(0);
         gameState = menuState;
     }
 
@@ -188,4 +194,20 @@ public class GamePanel extends JPanel implements Runnable {
         }
         g2.dispose();
     }
+
+    public void playMusic (int index) {
+        gameMusic.setFile(index);
+        gameMusic.play();
+        gameMusic.loop();
+    }
+
+    public void stopMusic() {
+        gameMusic.stop();
+    }
+
+    public void playSoundEffect (int index) {
+        soundEffect.setFile(index);
+        soundEffect.play();
+    }
+
 }
