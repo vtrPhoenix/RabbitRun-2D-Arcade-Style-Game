@@ -2,17 +2,28 @@ package com.project.RabbitRun.main;
 
 import com.project.RabbitRun.Entity.Entity;
 
+/**
+ * Handles collision detection in the "Rabbit Run" game, checking if entities
+ * collide with tiles or objects on the game board.
+ */
 public class CollisionChecker {
 
+    /** Reference to the main game panel, which contains game state and settings. */
     GamePanel gamePanel;
 
+    /**
+     * Constructs a CollisionChecker with a reference to the game panel.
+     *
+     * @param gamePanel the game panel containing game settings and state
+     */
     public CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
     /**
-     * checks whether the rectangle area of an entity intersects with specific tile
-     * @param entity player character
+     * Checks if the specified entity collides with any tiles based on its direction and position.
+     *
+     * @param entity the entity (e.g., player or enemy) to check for tile collision
      */
     public void checkTile(Entity entity)
     {
@@ -80,6 +91,13 @@ public class CollisionChecker {
         }
     }
 
+    /**
+     * Checks if the specified entity collides with any objects in the game.
+     *
+     * @param entity the entity to check for object collision
+     * @param player specifies if the entity is the player character
+     * @return the index of the object that the entity collides with, or 999 if no collision occurs
+     */
     public int checkObject (Entity entity, boolean player) {
 
         int index = 999;
@@ -141,6 +159,7 @@ public class CollisionChecker {
                         }
                         break;
                 }
+                // Reset solid area positions to defaults
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 gamePanel.object[i].solidArea.x = gamePanel.object[i].solidAreaDefaultX;
@@ -149,5 +168,4 @@ public class CollisionChecker {
         }
         return index;
     }
-
 }
