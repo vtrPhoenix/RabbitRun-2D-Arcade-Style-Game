@@ -12,6 +12,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Represents an enemy entity in the Rabbit Run game.
+ * The enemy can move in four directions and detects collisions with tiles, players, and other enemies.
+ *
+ * @author Vivien Li
+ * @version 1.0
+ */
 public class Enemy extends Entity{
 
     GamePanel gamePanel;
@@ -21,9 +28,16 @@ public class Enemy extends Entity{
     private Random random = new Random();
     private final int initialX, initialY;
 
+    /**
+     * Constructor to initialize the enemy with its starting position.
+     *
+     * @param gamePanel The game panel in which the enemy exists.
+     * @param startX The initial X-coordinate of the enemy.
+     * @param startY The initial Y-coordinate of the enemy.
+     */
     public Enemy(GamePanel gamePanel, int startX, int startY) {
         this.gamePanel = gamePanel;
-        this.initialX = startX; // Store initial positions for restart
+        this.initialX = startX;
         this.initialY = startY;
         this.worldX = startX;
         this.worldY = startY;
@@ -40,11 +54,20 @@ public class Enemy extends Entity{
         getEnemyImage();
     }
 
+    /**
+     * Sets the default values for the enemy's speed and direction.
+     */
     public void setDefaultValues() {
         speed = 2;
         direction = "left";
     }
 
+    /**
+     * Initializes a list of enemies at predetermined positions.
+     *
+     * @param gamePanel The game panel in which the enemies exist.
+     * @return A list of enemies.
+     */
     public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
         int[][] enemyPositions = {
                 {gamePanel.tileSize * 15, gamePanel.tileSize * 20},
@@ -59,13 +82,18 @@ public class Enemy extends Entity{
         return enemies;
     }
 
+    /**
+     * Resets the enemy's position and attributes to their default values.
+     */
     public void restart() {
-        // Reset position and attributes to default values
         this.worldX = initialX;
         this.worldY = initialY;
         setDefaultValues();
     }
 
+    /**
+     * Loads the images for the enemy's movement in different directions.
+     */
     public void getEnemyImage() {
         try {
             up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up1.png")));
@@ -82,6 +110,11 @@ public class Enemy extends Entity{
         }
     }
 
+    /**
+     * Updates the enemy's movement and collision checks based on the player's position.
+     *
+     * @param player The player to track and interact with.
+     */
     public void updateEnemy(Player player) {
 
         if (directionCooldown > 0) {
@@ -120,18 +153,16 @@ public class Enemy extends Entity{
             directionCooldown = 60;
             stuckCounter++;
         } else {
-            stuckCounter = 0; // reset stuck counter if moving successfully
+            stuckCounter = 0;
         }
 
-
-        // move enemy in the current direction if no collision
         if (!collisionOn && !collisionWithEnemy()) {
             currentDirection();
         }
 
         if (stuckCounter > 5) {
             applyOffset();
-            stuckCounter = 0; // reset stuck counter after offset is applied
+            stuckCounter = 0;
         }
 
         sprintCounter++;
@@ -145,6 +176,11 @@ public class Enemy extends Entity{
         }
     }
 
+    /**
+     * Checks if this enemy is colliding with another enemy.
+     *
+     * @return True if there is a collision, false otherwise.
+     */
     public boolean collisionWithEnemy() {
         for (int i = 0; i < gamePanel.enemies.size(); i++) {
             Enemy otherEnemy = gamePanel.enemies.get(i);
@@ -172,6 +208,9 @@ public class Enemy extends Entity{
         return false;
     }
 
+    /**
+     * Moves the enemy in the current direction.
+     */
     private void currentDirection() {
         switch (direction) {
             case "up":
@@ -189,8 +228,13 @@ public class Enemy extends Entity{
         }
     }
 
+    /**
+     * Changes the direction if the enemy encounters an obstacle.
+     *
+     * @param deltaX Difference between the player's X position and enemy's X position.
+     * @param deltaY Difference between the player's Y position and enemy's Y position.
+     */
     private void alternateDirection(int deltaX, int deltaY) {
-        // check if primary direction was horizontal and change to vertical if blocked
         if (direction.equals("left") || direction.equals("right")) {
             if (deltaY > 0) {
                 direction = "down";
@@ -205,18 +249,17 @@ public class Enemy extends Entity{
             }
         }
 
-        // check collision on the new direction and adjust if still blocked
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
         if (collisionOn) {
-            // if still blocked, reverse the direction
             changeDirection();
         }
-
     }
 
+    /**
+     * Reverses the current direction of the enemy.
+     */
     public void changeDirection() {
-        // reverse current direction when a collision occurs
         switch (direction) {
             case "up":
                 direction = "down";
@@ -233,6 +276,9 @@ public class Enemy extends Entity{
         }
     }
 
+    /**
+     * Applies a small random offset to the enemy's position when it is stuck.
+     */
     private void applyOffset() {
         int offsetX = random.nextInt(31) - 15;
         int offsetY = random.nextInt(31) - 15;
@@ -241,6 +287,12 @@ public class Enemy extends Entity{
         worldY += offsetY;
     }
 
+    /**
+     * Checks if this enemy is colliding with the player.
+     *
+     * @param player The player to check collision against.
+     * @return True if there is a collision, false otherwise.
+     */
     public boolean collisionWithPlayer(Player player) {
         Rectangle enemyBounds = new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
         Rectangle playerBounds = new Rectangle(player.worldX + player.solidArea.x, player.worldY + player.solidArea.y, player.solidArea.width, player.solidArea.height);
@@ -248,6 +300,11 @@ public class Enemy extends Entity{
         return enemyBounds.intersects(playerBounds);
     }
 
+    /**
+     * Draws the enemy on the screen.
+     *
+     * @param g The graphics object used to draw the enemy.
+     */
     public void draw(Graphics g) {
         BufferedImage image = null;
 
@@ -288,7 +345,6 @@ public class Enemy extends Entity{
                 break;
         }
 
-        // calculate screen position based on the player position
         int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.screenX;
         int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
