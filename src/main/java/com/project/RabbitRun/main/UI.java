@@ -103,6 +103,11 @@ public class UI {
         g2.drawImage(menuPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
 
+    /**
+     * Draws the Guide screen.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
     public void drawGuideState(Graphics g2) {
         g2.drawImage(guidePage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
     }
