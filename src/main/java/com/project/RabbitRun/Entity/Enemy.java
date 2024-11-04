@@ -21,12 +21,23 @@ import java.util.Random;
  */
 public class Enemy extends Entity{
 
+    /** The game panel in which the enemy exists. */
     GamePanel gamePanel;
 
+    /** Cooldown timer to prevent changing directions too frequently. */
     private int directionCooldown = 0;
+
+    /** Counter to track how long the enemy has been stuck. */
     private int stuckCounter = 0;
+
+    /** Random number generator for applying offsets when the enemy is stuck. */
     private Random random = new Random();
-    private final int initialX, initialY;
+
+    /** The initial X-coordinate of the enemy. */
+    private final int initialX;
+
+    /** The initial Y-coordinate of the enemy. */
+    private final int initialY;
 
     /**
      * Constructor to initialize the enemy with its starting position.
