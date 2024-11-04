@@ -115,7 +115,7 @@ public class UI {
         g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
         g2.drawString("x " + gamePanel.player.points, 74, 60);
         g2.drawImage(clover,gamePanel.screenWidth / 2 - 60, gamePanel.tileSize / 2 , gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawString("x "+ gamePanel.player.hasClover + "/ 8", gamePanel.screenWidth / 2 , 60 );
+        g2.drawString("x "+ gamePanel.player.hasClover + " / 8", gamePanel.screenWidth / 2 , 60 );
         long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;  // Convert to seconds
         g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
         endTime = elapsedTime;
