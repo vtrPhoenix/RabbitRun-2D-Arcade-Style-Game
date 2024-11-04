@@ -171,24 +171,32 @@ public class Player extends Entity {
 
             switch (objName) {
                 case "Clover" -> {
+                    gamePanel.playSoundEffect(1);
                     hasClover++;
                     gamePanel.object[index] = null;
                     points += 50;
                     gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
+
+                    if (hasClover == 8) {
+                        gamePanel.playSoundEffect(4);
+                    }
                 }
                 case "Carrot" -> {
+                    gamePanel.playSoundEffect(2);
                     hasCarrot++;
                     gamePanel.object[index] = null;
                     points += 100;
                     gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
                 }
                 case "Mushroom" -> {
+                    gamePanel.playSoundEffect(3);
                     gamePanel.object[index] = null;
                     points -= 100;
                     gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
                 }
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
+                        //gamePanel.playSoundEffect(4);
                         gamePanel.gameState = gamePanel.youWonState;
                     }
                     else if (points < winningPoints) {
