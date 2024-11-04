@@ -58,7 +58,9 @@ public class Player extends Entity {
 
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
-
+        /**
+         * sets solid area rectangle which defines the bounds of the player character for collision with other blocks
+         * **/
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;

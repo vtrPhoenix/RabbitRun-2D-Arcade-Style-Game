@@ -16,7 +16,7 @@ public class TileManager {
     public Tile[] tile;
     public int mapTileNum[][];
 
-    /*
+    /**
     Main constructor for tile manager, takes a maximum of 10 possible tiles, and sets the values of the mapTileNum 2d array to maxworldCol and maxWorldRow
     */
     public TileManager(GamePanel gamePanel) {
@@ -27,7 +27,7 @@ public class TileManager {
         loadMap("/maps/map03.txt");
     }
 
-    /*
+    /**
     Opens a png image and places it in the tile array
      */
     public void getTileImage()
@@ -47,7 +47,7 @@ public class TileManager {
         }
     }
 
-    /*
+    /**
     Reads the .txt file containing the map data and places the appropriate values into the mapTileNum 2d array
      */
     public void loadMap(String path)
@@ -85,7 +85,7 @@ public class TileManager {
         }
     }
 
-    /*
+    /**
     Uses mapTileNum 2d array to draw only the area that is within the bounds of the player camera
      */
     public void draw(Graphics2D g2)

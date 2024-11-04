@@ -10,11 +10,25 @@ public class CollisionChecker {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * checks whether the rectangle area of an entity intersects with specific tile
+     * @param entity player character
+     */
     public void checkTile(Entity entity)
     {
+        /** the left coordinate of an entity solid area */
         int entityLeftWorldX = entity.worldX +entity.solidArea.x;
+        /**
+         * the right coordinate of an entity solid area
+         */
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
+        /**
+         * the top coordinate of an entity solid area
+         */
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
+        /**
+         * the bottom coordinate of an entity solid area
+         */
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
         int entityLeftCol = entityLeftWorldX/gamePanel.tileSize;
