@@ -10,15 +10,25 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+/**
+ * Manages tiles in the "Rabbit Run" game, including loading tile images,
+ * reading map data, and drawing tiles within the visible area of the game.
+ */
 public class TileManager {
 
+    /** The main game panel that contains the game state and settings. */
     GamePanel gamePanel;
+    /** Array to hold different types of tiles. */
     public Tile[] tile;
-    public int mapTileNum[][];
+    /** 2D array representing the tile map, where each element refers to a tile index. */
+    public int[][] mapTileNum;
 
     /**
-    Main constructor for tile manager, takes a maximum of 10 possible tiles, and sets the values of the mapTileNum 2d array to maxworldCol and maxWorldRow
-    */
+     * Main constructor for the tile manager. Initializes the tile array with a maximum of 10 tiles
+     * and sets the dimensions of the {@code mapTileNum} array based on the game's world size.
+     *
+     * @param gamePanel the main game panel containing game settings and state
+     */
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tile = new Tile[10];
@@ -28,7 +38,8 @@ public class TileManager {
     }
 
     /**
-    Opens a png image and places it in the tile array
+     * Loads tile images and sets their collision properties. Adds images to the tile array.
+     * Currently loads a grass tile and a tree tile.
      */
     public void getTileImage()
     {
@@ -48,7 +59,10 @@ public class TileManager {
     }
 
     /**
-    Reads the .txt file containing the map data and places the appropriate values into the mapTileNum 2d array
+     * Reads a map file and populates the {@code mapTileNum} array with tile indices.
+     * Each value in the file corresponds to a specific tile type.
+     *
+     * @param path the path to the map file containing tile indices
      */
     public void loadMap(String path)
     {
@@ -76,17 +90,17 @@ public class TileManager {
                 }
             }
             br.close();
-
-
         }
-        catch(Exception e)
-        {
-
+        catch(Exception e) {
+            // Exception handling
         }
     }
 
     /**
-    Uses mapTileNum 2d array to draw only the area that is within the bounds of the player camera
+     * Draws tiles on the screen within the bounds of the player's visible area.
+     * Uses the {@code mapTileNum} array to determine which tiles to draw.
+     *
+     * @param g2 the {@code Graphics2D} context used for drawing
      */
     public void draw(Graphics2D g2)
     {
