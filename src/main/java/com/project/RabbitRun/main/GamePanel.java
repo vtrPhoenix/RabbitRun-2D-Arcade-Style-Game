@@ -50,6 +50,9 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this,keyHandler);
 
+    Sound gameMusic = new Sound();
+    Sound soundEffect = new Sound();
+
     public List<Enemy> enemies = new ArrayList<>();
     public UI ui = new UI(this);
     Thread gameThread;
@@ -67,7 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         aSetter.setObject();
-
+        playMusic(0);
         gameState = menuState;
     }
 
@@ -155,6 +158,21 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g2.dispose();
+    }
+
+    public void playMusic (int index) {
+        gameMusic.setFile(index);
+        gameMusic.play();
+        gameMusic.loop();
+    }
+
+    public void stopMusic() {
+        gameMusic.stop();
+    }
+
+    public void playSoundEffect (int index) {
+        soundEffect.setFile(index);
+        soundEffect.play();
     }
 
 }
