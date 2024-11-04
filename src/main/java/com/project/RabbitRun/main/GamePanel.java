@@ -193,20 +193,34 @@ public class GamePanel extends JPanel implements Runnable {
         }
         g2.dispose();
     }
-
-    public void playMusic (int index) {
+    /**
+     * Plays the background music specified by the given index.
+     * The music will loop continuously.
+     *
+     * @param index the index of the music file to play
+     */
+    public void playMusic(int index) {
         gameMusic.setFile(index);
         gameMusic.play();
         gameMusic.loop();
     }
 
+    /**
+     * Stops the currently playing background music.
+     */
     public void stopMusic() {
         gameMusic.stop();
     }
 
-    public void playSoundEffect (int index) {
+    /**
+     * Plays a sound effect specified by the given index.
+     *
+     * @param index the index of the sound effect file to play
+     */
+    public void playSoundEffect(int index) {
         soundEffect.setFile(index);
         soundEffect.play();
     }
+
 
 }
