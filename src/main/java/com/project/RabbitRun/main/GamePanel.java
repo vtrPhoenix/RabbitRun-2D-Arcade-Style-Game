@@ -73,13 +73,12 @@ public class GamePanel extends JPanel implements Runnable {
     com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
     /** Checks for collisions between player, enemies, and objects. */
     public CollisionChecker collisionChecker = new CollisionChecker(this);
-    public Player player = new Player(this,keyHandler);
-
-    Sound gameMusic = new Sound();
-    Sound soundEffect = new Sound();
-
     /** Player character for the game. */
-    public Player player = new Player(this, keyHandler);
+    public Player player = new Player(this,keyHandler);
+    /** Handles the game music and calls the sound class. */
+    Sound gameMusic = new Sound();
+    /** Handles the object sound effects. */
+    Sound soundEffect = new Sound();
     /** List of enemies in the game. */
     public List<Enemy> enemies = new ArrayList<>();
     /** User interface manager for game status and messages. */
