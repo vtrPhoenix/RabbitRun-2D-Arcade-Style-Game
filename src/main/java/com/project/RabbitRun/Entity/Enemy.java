@@ -4,29 +4,31 @@ import com.project.RabbitRun.main.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
-import java.util.List;
-import java.util.ArrayList;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
-public class Enemy extends Entity{
+public class Enemy extends Entity {
 
     GamePanel gamePanel;
-
-    private int directionCooldown = 0;
-    private int stuckCounter = 0;
-    private Random random = new Random();
     private final int initialX, initialY;
+    private int pathUpdateCounter = 0;
+    private int spriteCounter = 0;
+    private int spriteNumber = 1;
+    private List<Point> currentPath = new ArrayList<>();
+    private int targetWorldX;
+    private int targetWorldY;
 
     public Enemy(GamePanel gamePanel, int startX, int startY) {
         this.gamePanel = gamePanel;
-        this.initialX = startX; // Store initial positions for restart
+        this.initialX = startX;
         this.initialY = startY;
         this.worldX = startX;
         this.worldY = startY;
+        this.targetWorldX = startX;
+        this.targetWorldY = startY;
 
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -47,9 +49,9 @@ public class Enemy extends Entity{
 
     public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
         int[][] enemyPositions = {
-                {gamePanel.tileSize * 15, gamePanel.tileSize * 20},
-                {gamePanel.tileSize * 20, gamePanel.tileSize * 30},
-                {gamePanel.tileSize * 25, gamePanel.tileSize * 15}
+                {gamePanel.tileSize * 38, gamePanel.tileSize * 8},
+                {gamePanel.tileSize * 29, gamePanel.tileSize * 32},
+                {gamePanel.tileSize * 11, gamePanel.tileSize * 33}
         };
 
         List<Enemy> enemies = new ArrayList<>();
@@ -60,7 +62,6 @@ public class Enemy extends Entity{
     }
 
     public void restart() {
-        // Reset position and attributes to default values
         this.worldX = initialX;
         this.worldY = initialY;
         setDefaultValues();
@@ -76,169 +77,83 @@ public class Enemy extends Entity{
             right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right2.png")));
             down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down1.png")));
             down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down2.png")));
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void updateEnemy(Player player) {
+        // Update path less frequently for performance
+        pathUpdateCounter++;
+        if (pathUpdateCounter > 20) {
+            pathUpdateCounter = 0;
 
-        if (directionCooldown > 0) {
-            directionCooldown--;
-        }
+            int targetX = player.worldX / gamePanel.tileSize;
+            int targetY = player.worldY / gamePanel.tileSize;
+            int currentX = this.worldX / gamePanel.tileSize;
+            int currentY = this.worldY / gamePanel.tileSize;
 
-        int deltaX = player.worldX - this.worldX;
-        int deltaY = player.worldY - this.worldY;
-
-        if (directionCooldown == 0) {
-
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                if (deltaX > 0) {
-                    direction = "right";
-                } else {
-                    direction = "left";
-                }
-            } else {
-                if (deltaY > 0) {
-                    direction = "down";
-                } else {
-                    direction = "up";
-                }
+            currentPath = findPath(currentX, currentY, targetX, targetY);
+            if (!currentPath.isEmpty()) {
+                Point nextStep = currentPath.get(0);
+                targetWorldX = nextStep.x * gamePanel.tileSize;
+                targetWorldY = nextStep.y * gamePanel.tileSize;
             }
         }
 
-        collisionOn = false;
-        gamePanel.collisionChecker.checkTile(this);
-
-        if (collisionWithPlayer(player)) {
-            gamePanel.gameState = gamePanel.youLostState;
+        if (worldX != targetWorldX || worldY != targetWorldY) {
+            updateDirection();
+            moveTowardsTarget();
         }
 
-        if (collisionOn || collisionWithEnemy()) {
-            alternateDirection(deltaX, deltaY);
-            directionCooldown = 60;
-            stuckCounter++;
-        } else {
-            stuckCounter = 0; // reset stuck counter if moving successfully
-        }
-
-
-        // move enemy in the current direction if no collision
-        if (!collisionOn && !collisionWithEnemy()) {
-            currentDirection();
-        }
-
-        if (stuckCounter > 5) {
-            applyOffset();
-            stuckCounter = 0; // reset stuck counter after offset is applied
-        }
-
-        sprintCounter++;
-        if (sprintCounter > 13) {
+        spriteCounter++;
+        if (spriteCounter > 13) {
             if (spriteNumber == 1) {
                 spriteNumber = 2;
             } else {
                 spriteNumber = 1;
             }
-            sprintCounter = 0;
+            spriteCounter = 0;
+        }
+
+        if (collisionWithPlayer(player)) {
+            gamePanel.gameState = gamePanel.youLostState;
         }
     }
 
-    public boolean collisionWithEnemy() {
-        for (int i = 0; i < gamePanel.enemies.size(); i++) {
-            Enemy otherEnemy = gamePanel.enemies.get(i);
+    private void updateDirection() {
+        int deltaX = targetWorldX - worldX;
+        int deltaY = targetWorldY - worldY;
 
-            if (otherEnemy != this) {
-                Rectangle otherBounds = new Rectangle(
-                        otherEnemy.worldX + otherEnemy.solidArea.x,
-                        otherEnemy.worldY + otherEnemy.solidArea.y,
-                        otherEnemy.solidArea.width,
-                        otherEnemy.solidArea.height
-                );
-
-                Rectangle thisBounds = new Rectangle(
-                        this.worldX + this.solidArea.x,
-                        this.worldY + this.solidArea.y,
-                        this.solidArea.width,
-                        this.solidArea.height
-                );
-
-                if (thisBounds.intersects(otherBounds)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private void currentDirection() {
-        switch (direction) {
-            case "up":
-                worldY -= speed;
-                break;
-            case "down":
-                worldY += speed;
-                break;
-            case "left":
-                worldX -= speed;
-                break;
-            case "right":
-                worldX += speed;
-                break;
-        }
-    }
-
-    private void alternateDirection(int deltaX, int deltaY) {
-        // check if primary direction was horizontal and change to vertical if blocked
-        if (direction.equals("left") || direction.equals("right")) {
-            if (deltaY > 0) {
-                direction = "down";
-            } else {
-                direction = "up";
-            }
-        } else if (direction.equals("up") || direction.equals("down")) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
             if (deltaX > 0) {
                 direction = "right";
-            } else {
+            } else if (deltaX < 0) {
                 direction = "left";
             }
-        }
-
-        // check collision on the new direction and adjust if still blocked
-        collisionOn = false;
-        gamePanel.collisionChecker.checkTile(this);
-        if (collisionOn) {
-            // if still blocked, reverse the direction
-            changeDirection();
-        }
-
-    }
-
-    public void changeDirection() {
-        // reverse current direction when a collision occurs
-        switch (direction) {
-            case "up":
+        } else {
+            if (deltaY > 0) {
                 direction = "down";
-                break;
-            case "down":
+            } else if (deltaY < 0) {
                 direction = "up";
-                break;
-            case "left":
-                direction = "right";
-                break;
-            case "right":
-                direction = "left";
-                break;
+            }
         }
     }
 
-    private void applyOffset() {
-        int offsetX = random.nextInt(31) - 15;
-        int offsetY = random.nextInt(31) - 15;
+    private void moveTowardsTarget() {
+        // cap speed to prevent enemy pouncing on player
+        int deltaX = targetWorldX - worldX;
+        int deltaY = targetWorldY - worldY;
 
-        worldX += offsetX;
-        worldY += offsetY;
+        if (Math.abs(deltaX) > 0) {
+            int stepX = (int) Math.signum(deltaX) * Math.min(speed, Math.abs(deltaX));
+            worldX += stepX;
+        }
+
+        if (Math.abs(deltaY) > 0) {
+            int stepY = (int) Math.signum(deltaY) * Math.min(speed, Math.abs(deltaY));
+            worldY += stepY;
+        }
     }
 
     public boolean collisionWithPlayer(Player player) {
@@ -248,50 +163,130 @@ public class Enemy extends Entity{
         return enemyBounds.intersects(playerBounds);
     }
 
+    private List<Point> findPath(int startX, int startY, int goalX, int goalY) {
+        PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(node -> node.fCost));
+        Map<Point, Point> cameFrom = new HashMap<>();
+        Map<Point, Integer> gCostMap = new HashMap<>();
+        Point start = new Point(startX, startY);
+        Point goal = new Point(goalX, goalY);
+
+        openSet.add(new Node(start, 0, heuristic(start, goal)));
+        gCostMap.put(start, 0);
+
+        while (!openSet.isEmpty()) {
+            Node currentNode = openSet.poll();
+            Point current = currentNode.position;
+
+            if (current.equals(goal)) {
+                return reconstructPath(cameFrom, current);
+            }
+
+            for (Point neighbor : getNeighbors(current)) {
+                if (!isWalkable(neighbor)) continue;
+
+                int tentativeGCost = gCostMap.getOrDefault(current, Integer.MAX_VALUE) + 1;
+
+                if (tentativeGCost < gCostMap.getOrDefault(neighbor, Integer.MAX_VALUE)) {
+                    cameFrom.put(neighbor, current);
+                    gCostMap.put(neighbor, tentativeGCost);
+                    int fCost = tentativeGCost + heuristic(neighbor, goal);
+                    openSet.add(new Node(neighbor, tentativeGCost, fCost));
+                }
+            }
+        }
+        return new ArrayList<>(); // Return an empty path if no path is found
+    }
+
+    private List<Point> reconstructPath(Map<Point, Point> cameFrom, Point current) {
+        List<Point> path = new ArrayList<>();
+        while (cameFrom.containsKey(current)) {
+            path.add(0, current);
+            current = cameFrom.get(current);
+        }
+        return path;
+    }
+
+    private List<Point> getNeighbors(Point p) {
+        return List.of(
+                new Point(p.x + 1, p.y),
+                new Point(p.x - 1, p.y),
+                new Point(p.x, p.y + 1),
+                new Point(p.x, p.y - 1)
+        );
+    }
+
+    private int heuristic(Point a, Point b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y); // Manhattan distance
+    }
+
+    private boolean isWalkable(Point p) {
+        int tileX = p.x;
+        int tileY = p.y;
+
+        if (tileX < 0 || tileY < 0 || tileX >= gamePanel.maxWorldCol || tileY >= gamePanel.maxWorldRow) {
+            return false;
+        }
+
+        int prevWorldX = this.worldX;
+        int prevWorldY = this.worldY;
+
+        this.worldX = tileX * gamePanel.tileSize;
+        this.worldY = tileY * gamePanel.tileSize;
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+
+        // reset to previous position to avoid interference
+        this.worldX = prevWorldX;
+        this.worldY = prevWorldY;
+
+        return !collisionOn;
+    }
+
     public void draw(Graphics g) {
         BufferedImage image = null;
 
-        switch(direction) {
-            case "up":
-                if (spriteNumber == 1) {
-                    image = up1;
-                }
-                else {
-                    image = up2;
-                }
-                break;
-            case "down":
-                if (spriteNumber == 1) {
-                    image = down1;
-                }
-                else {
-                    image = down2;
-                }
-                break;
-            case "left":
-                if (spriteNumber == 1) {
-                    image = left1;
-                }
-                else {
-                    image = left2;
-                }
-                break;
-            case "right":
-                if (spriteNumber == 1) {
-                    image = right1;
-                }
-                else {
-                    image = right2;
-                }
-                break;
-            default:
-                break;
+        if ("up".equals(direction)) {
+            if (spriteNumber == 1) {
+                image = up1;
+            } else {
+                image = up2;
+            }
+        } else if ("down".equals(direction)) {
+            if (spriteNumber == 1) {
+                image = down1;
+            } else {
+                image = down2;
+            }
+        } else if ("left".equals(direction)) {
+            if (spriteNumber == 1) {
+                image = left1;
+            } else {
+                image = left2;
+            }
+        } else if ("right".equals(direction)) {
+            if (spriteNumber == 1) {
+                image = right1;
+            } else {
+                image = right2;
+            }
         }
 
-        // calculate screen position based on the player position
+        // Calculate screen position based on the player position
         int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.screenX;
         int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.screenY;
 
-        g.drawImage(image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
+        g.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+    }
+
+    private static class Node {
+        Point position;
+        int gCost;
+        int fCost;
+
+        Node(Point position, int gCost, int fCost) {
+            this.position = position;
+            this.gCost = gCost;
+            this.fCost = fCost;
+        }
     }
 }
