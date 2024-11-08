@@ -221,29 +221,68 @@ public class GamePanel extends JPanel implements Runnable {
         soundEffect.play();
     }
 
+    /**
+     * Returns the width of the screen.
+     *
+     * @return the screen width.
+     */
     public int getScreenWidth() {
         return screenWidth;
     }
+
+    /**
+     * Returns the size of a tile.
+     *
+     * @return the tile size.
+     */
     public int getTileSize() {
         return tileSize;
     }
+
+    /**
+     * Returns the height of the screen.
+     *
+     * @return the screen height.
+     */
     public int getScreenHeight() {
         return screenHeight;
     }
+
+    /**
+     * Returns the maximum number of columns in the world.
+     *
+     * @return the maximum number of columns.
+     */
     public int getMaxWorldCol() {
         return maxWorldCol;
     }
 
+    /**
+     * Returns the maximum number of rows in the world.
+     *
+     * @return the maximum number of rows.
+     */
     public int getMaxWorldRow() {
         return maxWorldRow;
     }
 
+    /**
+     * Returns the current game state.
+     *
+     * @return the current game state.
+     */
     public int getGameState() {
         return gameState;
     }
 
+    /**
+     * Sets the game state to a new value.
+     *
+     * @param gameState the new game state value to set.
+     */
     public void setGameState(int gameState) {
         this.gameState = gameState;
     }
+
 
 }
