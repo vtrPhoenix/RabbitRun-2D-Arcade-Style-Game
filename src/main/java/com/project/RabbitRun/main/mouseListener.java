@@ -39,12 +39,12 @@ public class mouseListener extends MouseAdapter {
         Point clickPoint = e.getPoint();
 
         // Check actions in the main menu state
-        if (gamePanel.gameState == gamePanel.menuState) {
+        if (gamePanel.getGameState() == gamePanel.menuState) {
             handleMenuClick(clickPoint);
         }
 
         // Check actions in the end game states
-        if (gamePanel.gameState == gamePanel.youWonState || gamePanel.gameState == gamePanel.youLostState) {
+        if (gamePanel.getGameState() == gamePanel.youWonState || gamePanel.getGameState() == gamePanel.youLostState) {
             handleEndScreenClick(clickPoint);
         }
     }
@@ -58,12 +58,12 @@ public class mouseListener extends MouseAdapter {
         if (guideButtonBounds.contains(clickPoint)) {
             // Display the guide information
             gamePanel.playSoundEffect(5);
-            gamePanel.gameState = gamePanel.guideState;
+            gamePanel.setGameState(gamePanel.guideState);
         } else if (startButtonBounds.contains(clickPoint)) {
             // Start the game and initialize the timer
             gamePanel.playSoundEffect(5);
-            gamePanel.gameState = gamePanel.playState;
-            gamePanel.ui.startTime = System.currentTimeMillis();
+            gamePanel.setGameState(gamePanel.playState);
+            gamePanel.ui.setStartTime(System.currentTimeMillis());
         } else if (quitButtonBounds.contains(clickPoint)) {
             // Exit the application
             gamePanel.playSoundEffect(5);

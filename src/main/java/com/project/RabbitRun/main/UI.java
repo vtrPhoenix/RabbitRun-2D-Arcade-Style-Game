@@ -29,7 +29,8 @@ public class UI {
     private boolean dispMessage = false;
     private String message = "";
     private int messageTimer = 0;
-    public long startTime;
+
+    private long startTime;
     private long endTime;
 
     /**
@@ -53,6 +54,14 @@ public class UI {
         }
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
     /**
      * Displays a temporary message on the screen in the specified color.
      *
@@ -74,22 +83,22 @@ public class UI {
     public void draw(Graphics g2) {
         g2.setFont(openSans);
         g2.setColor(Color.white);
-        if (gamePanel.gameState == gamePanel.menuState) {
+        if (gamePanel.getGameState() == gamePanel.menuState) {
             drawMenuState(g2);
         }
-        if (gamePanel.gameState == gamePanel.playState) {
+        if (gamePanel.getGameState() == gamePanel.playState) {
             drawPlayState(g2);
         }
-        if (gamePanel.gameState == gamePanel.pauseState) {
+        if (gamePanel.getGameState() == gamePanel.pauseState) {
             drawPauseState(g2);
         }
-        if (gamePanel.gameState == gamePanel.youWonState) {
+        if (gamePanel.getGameState() == gamePanel.youWonState) {
             drawYouWonState(g2);
         }
-        if (gamePanel.gameState == gamePanel.youLostState) {
+        if (gamePanel.getGameState() == gamePanel.youLostState) {
             drawYouLostState(g2);
         }
-        if(gamePanel.gameState == gamePanel.guideState) {
+        if(gamePanel.getGameState() == gamePanel.guideState) {
             drawGuideState(g2);
         }
     }
@@ -100,7 +109,7 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawMenuState(Graphics g2) {
-        g2.drawImage(menuPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        g2.drawImage(menuPage, 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
     }
 
     /**
@@ -109,7 +118,7 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawGuideState(Graphics g2) {
-        g2.drawImage(guidePage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        g2.drawImage(guidePage, 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
     }
     /**
      * Draws the play screen, including the player's points and elapsed time.
@@ -117,18 +126,18 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawPlayState(Graphics g2) {
-        g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawString("x " + gamePanel.player.points, 74, 60);
-        g2.drawImage(clover,gamePanel.screenWidth / 2 - 60, gamePanel.tileSize / 2 , gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawString("x "+ gamePanel.player.hasClover + " / 8", gamePanel.screenWidth / 2 , 60 );
+        g2.drawImage(points, gamePanel.getTileSize() / 2, gamePanel.getTileSize() / 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawString("x " + gamePanel.player.getPoints(), 74, 60);
+        g2.drawImage(clover,gamePanel.getScreenWidth() / 2 - 60, gamePanel.getTileSize() / 2 , gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawString("x "+ gamePanel.player.getHasClover() + " / 8", gamePanel.getScreenWidth() / 2 , 60 );
         long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;  // Convert to seconds
-        g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
+        g2.drawString("Time Elapsed: " + elapsedTime + "s", gamePanel.getTileSize() * 12, 60);  // Adjust position as needed
         endTime = elapsedTime;
 
         if (dispMessage) {
             g2.setFont(g2.getFont().deriveFont(15f));
             g2.setColor(messageColor);
-            g2.drawString(message, gamePanel.tileSize / 2, gamePanel.tileSize * 6);
+            g2.drawString(message, gamePanel.getTileSize() / 2, gamePanel.getTileSize() * 6);
 
             messageTimer++;
 
@@ -140,32 +149,32 @@ public class UI {
 
         if (elapsedTime == 5) {
             //gamePanel.object[2] = new ObjBonusReward();
-            gamePanel.object[2].worldX = 24 * gamePanel.tileSize;
-            gamePanel.object[2].worldY = 6 * gamePanel.tileSize;
+            gamePanel.object[2].worldX = 24 * gamePanel.getTileSize();
+            gamePanel.object[2].worldY = 6 * gamePanel.getTileSize();
         }
         if (elapsedTime == 20) {
             gamePanel.object[2] = null;
         }
         if (elapsedTime == 15) {
             //gamePanel.object[7] = new ObjBonusReward();
-            gamePanel.object[7].worldX = 11 * gamePanel.tileSize;
-            gamePanel.object[7].worldY = 33 * gamePanel.tileSize;
+            gamePanel.object[7].worldX = 11 * gamePanel.getTileSize();
+            gamePanel.object[7].worldY = 33 * gamePanel.getTileSize();
         }
         if (elapsedTime == 30) {
             gamePanel.object[7] = null;
         }
         if (elapsedTime == 25) {
             //gamePanel.object[11] = new ObjBonusReward();
-            gamePanel.object[11].worldX = 38 * gamePanel.tileSize;
-            gamePanel.object[11].worldY = 8 * gamePanel.tileSize;
+            gamePanel.object[11].worldX = 38 * gamePanel.getTileSize();
+            gamePanel.object[11].worldY = 8 * gamePanel.getTileSize();
         }
         if (elapsedTime == 40) {
             gamePanel.object[11] = null;
         }
         if (elapsedTime == 35) {
             //gamePanel.object[11] = new ObjBonusReward();
-            gamePanel.object[15].worldX = 25 * gamePanel.tileSize;
-            gamePanel.object[15].worldY = 12 * gamePanel.tileSize;
+            gamePanel.object[15].worldX = 25 * gamePanel.getTileSize();
+            gamePanel.object[15].worldY = 12 * gamePanel.getTileSize();
         }
         if (elapsedTime == 50) {
             gamePanel.object[15] = null;
@@ -179,15 +188,15 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawPauseState(Graphics g2) {
-        g2.drawImage(points, gamePanel.tileSize / 2, gamePanel.tileSize / 2, gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawString("x " + gamePanel.player.points, 74, 60);
-        g2.drawImage(clover,gamePanel.screenWidth / 2 - 60, gamePanel.tileSize / 2 , gamePanel.tileSize, gamePanel.tileSize, null);
-        g2.drawString("x "+ gamePanel.player.hasClover, gamePanel.screenWidth / 2 , 60 );
-        g2.drawString("Time Elapsed: " + endTime + "s", gamePanel.tileSize * 12, 60);  // Adjust position as needed
+        g2.drawImage(points, gamePanel.getTileSize() / 2, gamePanel.getTileSize() / 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawString("x " + gamePanel.player.getPoints(), 74, 60);
+        g2.drawImage(clover,gamePanel.getScreenWidth() / 2 - 60, gamePanel.getTileSize() / 2 , gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawString("x "+ gamePanel.player.getHasClover(), gamePanel.getScreenWidth() / 2 , 60 );
+        g2.drawString("Time Elapsed: " + endTime + "s", gamePanel.getTileSize() * 12, 60);  // Adjust position as needed
         String message = "PAUSED";
         String toUnPause = "Press 'P' to unpause";
         int x = getScreenCentreX(message, g2);
-        int y = gamePanel.screenHeight / 2;
+        int y = gamePanel.getScreenHeight() / 2;
         g2.setFont(g2.getFont().deriveFont(40f));
         g2.drawString(message, x, y);
 
@@ -201,13 +210,13 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawYouWonState(Graphics g2) {
-        g2.drawImage(youWonPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        g2.drawImage(youWonPage, 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
         int x = getScreenCentreX("h", g2);
-        g2.drawImage(points, x - 48, 221, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(points, x - 48, 221, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
 
         g2.setFont(g2.getFont().deriveFont(25f));
-        g2.drawString("x " + gamePanel.player.points, x - 48 + gamePanel.tileSize, 221 + 38);
-        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.tileSize);
+        g2.drawString("x " + gamePanel.player.getPoints(), x - 48 + gamePanel.getTileSize(), 221 + 38);
+        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.getTileSize());
     }
 
     /**
@@ -216,13 +225,13 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawYouLostState(Graphics g2) {
-        g2.drawImage(youLostPage, 0, 0, gamePanel.screenWidth, gamePanel.screenHeight, null);
+        g2.drawImage(youLostPage, 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
         int x = getScreenCentreX("h", g2);
-        g2.drawImage(points, x - 48, 221, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(points, x - 48, 221, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
 
         g2.setFont(g2.getFont().deriveFont(25f));
-        g2.drawString("x " + gamePanel.player.points, x - 48 + gamePanel.tileSize, 221 + 38);
-        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.tileSize);
+        g2.drawString("x " + gamePanel.player.getPoints(), x - 48 + gamePanel.getTileSize(), 221 + 38);
+        g2.drawString("Time Elapsed: " + endTime + "s", getScreenCentreX("Time Elapsed: " + endTime + "s", g2) + 90, 221 + 38 + gamePanel.getTileSize());
     }
 
     /**
@@ -234,7 +243,7 @@ public class UI {
      */
     public int getScreenCentreX(String s, Graphics g2) {
         int length = (int) g2.getFontMetrics().getStringBounds(s, g2).getWidth();
-        return gamePanel.screenWidth / 2 - length;
+        return gamePanel.getScreenWidth() / 2 - length;
     }
 
     /**

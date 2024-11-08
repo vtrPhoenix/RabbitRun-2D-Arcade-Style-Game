@@ -81,9 +81,9 @@ public class Enemy extends Entity{
      */
     public static List<Enemy> initializeEnemies(GamePanel gamePanel) {
         int[][] enemyPositions = {
-                {gamePanel.tileSize * 15, gamePanel.tileSize * 20},
-                {gamePanel.tileSize * 20, gamePanel.tileSize * 30},
-                {gamePanel.tileSize * 25, gamePanel.tileSize * 15}
+                {gamePanel.getTileSize() * 15, gamePanel.getTileSize() * 20},
+                {gamePanel.getTileSize() * 20, gamePanel.getTileSize() * 30},
+                {gamePanel.getTileSize() * 25, gamePanel.getTileSize() * 15}
         };
 
         List<Enemy> enemies = new ArrayList<>();
@@ -156,7 +156,7 @@ public class Enemy extends Entity{
         gamePanel.collisionChecker.checkTile(this);
 
         if (collisionWithPlayer(player)) {
-            gamePanel.gameState = gamePanel.youLostState;
+            gamePanel.setGameState(gamePanel.youLostState);
         }
 
         if (collisionOn || collisionWithEnemy()) {
@@ -356,9 +356,9 @@ public class Enemy extends Entity{
                 break;
         }
 
-        int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.screenX;
-        int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+        int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.getScreenX();
+        int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.getScreenY();
 
-        g.drawImage(image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
+        g.drawImage(image, screenX, screenY ,gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }

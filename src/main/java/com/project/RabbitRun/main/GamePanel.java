@@ -21,29 +21,28 @@ public class GamePanel extends JPanel implements Runnable {
     /** Scaling factor for tile size. */
     final int scale = 3;
     /** Scaled tile size. */
-    public final int tileSize = originalTileSize * scale; // 64
+    private final int tileSize = originalTileSize * scale; // 64
     /** Maximum number of columns on screen. */
-    public final int maxScreenCol = 16;
+    private final int maxScreenCol = 16;
     /** Maximum number of rows on screen. */
-    public final int maxScreenRow = 12;
+    private final int maxScreenRow = 12;
+
     /** Width of the screen in pixels. */
-    public final int screenWidth = maxScreenCol * tileSize;
+    private final int screenWidth = maxScreenCol * tileSize;
+
     /** Height of the screen in pixels. */
-    public final int screenHeight = maxScreenRow * tileSize;
+    private final int screenHeight = maxScreenRow * tileSize;
 
     // World Settings
     /** Maximum columns in the world map. Adjust to change map size. */
-    public final int maxWorldCol = 50;
+    private final int maxWorldCol = 50;
     /** Maximum rows in the world map. Adjust to change map size. */
-    public final int maxWorldRow = 40;
-    /** Width of the world in pixels. */
-    public final int worldWidth = maxWorldCol * tileSize;
-    /** Height of the world in pixels. */
-    public final int worldHeight = maxWorldRow * tileSize;
+    private final int maxWorldRow = 40;
+
 
     // Game States
     /** Current state of the game. */
-    public int gameState;
+    private int gameState;
     /** Menu state identifier. */
     public final int menuState = 0;
     /** Play state identifier. */
@@ -58,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int guideState = 5;
 
     /** Frames per second target for game loop. */
-    int FPS = 60;
+    private final int FPS = 60;
 
     // System Components
     /** Manages game tiles for rendering and collision. */
@@ -156,8 +155,8 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == playState) {
             player.update();
             // Update each enemy
-            for (int i = 0; i < enemies.size(); i++) {
-                enemies.get(i).updateEnemy(player);
+            for (Enemy enemy : enemies) {
+                enemy.updateEnemy(player);
             }
         }
     }
@@ -180,12 +179,12 @@ public class GamePanel extends JPanel implements Runnable {
         // Draw game elements when in play state
         if (gameState == playState) {
             tileM.draw(g2);
-            for (int i = 0; i < enemies.size(); i++) {
-                enemies.get(i).draw(g2);
+            for (Enemy enemy : enemies) {
+                enemy.draw(g2);
             }
-            for (int i = 0; i < object.length; i++) {
-                if (object[i] != null) {
-                    object[i].draw(g2, this);
+            for (SuperObject superObject : object) {
+                if (superObject != null) {
+                    superObject.draw(g2, this);
                 }
             }
             player.draw(g2);
@@ -222,5 +221,29 @@ public class GamePanel extends JPanel implements Runnable {
         soundEffect.play();
     }
 
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+    public int getTileSize() {
+        return tileSize;
+    }
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+    public int getMaxWorldCol() {
+        return maxWorldCol;
+    }
+
+    public int getMaxWorldRow() {
+        return maxWorldRow;
+    }
+
+    public int getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(int gameState) {
+        this.gameState = gameState;
+    }
 
 }

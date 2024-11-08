@@ -23,16 +23,16 @@ public class Player extends Entity {
     KeyHandler keyHandler;
 
     /** X-coordinate of the player on the screen. */
-    public final int screenX;
+    private final int screenX;
 
     /** Y-coordinate of the player on the screen. */
-    public final int screenY;
+    private final int screenY;
 
     /** Counter for tracking the number of clovers collected by the player. */
-    public int hasClover = 0;
+    private int hasClover = 0;
 
     /** Counter for tracking the number of carrots collected by the player. */
-    int hasCarrot = 0;
+    private int hasCarrot = 0;
 
     /** Points scored by the player. */
     public int points = 0;
@@ -56,8 +56,8 @@ public class Player extends Entity {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
 
-        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
-        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
+        screenX = gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize() / 2);
+        screenY = gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize() / 2);
         /**
          * sets solid area rectangle which defines the bounds of the player character for collision with other blocks
          * **/
@@ -89,10 +89,82 @@ public class Player extends Entity {
      * Sets the default values for the player's starting position, speed, and direction.
      */
     public void setDefaultValues() {
-        worldX = gamePanel.tileSize * 10;
-        worldY = gamePanel.tileSize * 6;
+        worldX = gamePanel.getTileSize() * 10;
+        worldY = gamePanel.getTileSize() * 6;
         speed = 4;
         direction = "left";
+    }
+
+    /**
+     * Returns the screen's X position.
+     *
+     * @return the screen's X coordinate.
+     */
+    public int getScreenX() {
+        return screenX;
+    }
+
+    /**
+     * Returns the screen's Y position.
+     *
+     * @return the screen's Y coordinate.
+     */
+    public int getScreenY() {
+        return screenY;
+    }
+
+    /**
+     * Returns the number of clovers the character has.
+     *
+     * @return the number of clovers the character has.
+     */
+    public int getHasClover() {
+        return hasClover;
+    }
+
+    /**
+     * Sets the number of clovers the character has.
+     *
+     * @param hasClover the number of clovers the character should have.
+     */
+    public void setHasClover(int hasClover) {
+        this.hasClover = hasClover;
+    }
+
+    /**
+     * Returns the number of carrots the character has.
+     *
+     * @return the number of carrots the character has.
+     */
+    public int getHasCarrot() {
+        return hasCarrot;
+    }
+
+    /**
+     * Sets the number of carrots the character has.
+     *
+     * @param hasCarrot the number of carrots the character should have.
+     */
+    public void setHasCarrot(int hasCarrot) {
+        this.hasCarrot = hasCarrot;
+    }
+
+    /**
+     * Returns the points the character has earned.
+     *
+     * @return the points.
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Sets the points the character has earned.
+     *
+     * @param points the new points value.
+     */
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     /**
@@ -117,11 +189,11 @@ public class Player extends Entity {
      * Updates the player’s state, including movement, collision detection, and interaction with objects.
      */
     public void update() {
-        if (keyHandler.upPressed || keyHandler.leftPressed || keyHandler.downPressed || keyHandler.rightPressed) {
-            if (keyHandler.upPressed) direction = "up";
-            else if (keyHandler.downPressed) direction = "down";
-            else if (keyHandler.leftPressed) direction = "left";
-            else direction = "right";
+        if (keyHandler.isUpPressed() || keyHandler.isLeftPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed()) {
+            if (keyHandler.isUpPressed()) direction = "up";
+            else if (keyHandler.isDownPressed()) direction = "down";
+            else if (keyHandler.isLeftPressed()) direction = "left";
+            else if(keyHandler.isRightPressed()) direction = "right";
 
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
@@ -145,18 +217,18 @@ public class Player extends Entity {
             }
 
             if (points < 0) {
-                gamePanel.gameState = gamePanel.youLostState;
+                gamePanel.setGameState(gamePanel.youLostState);
             }
 
             /* Checks if points threshold is met to open the exit door. */
             if (points >= winningPoints && hasClover == 8) {
                 gamePanel.object[5] = openDoor;
-                gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
-                gamePanel.object[5].worldY = 32 * gamePanel.tileSize;
+                gamePanel.object[5].worldX = 38 * gamePanel.getTileSize();
+                gamePanel.object[5].worldY = 32 * gamePanel.getTileSize();
             } else {
                 gamePanel.object[5] = closeDoor;
-                gamePanel.object[5].worldX = 38 * gamePanel.tileSize;
-                gamePanel.object[5].worldY = 32 * gamePanel.tileSize;
+                gamePanel.object[5].worldX = 38 * gamePanel.getTileSize();
+                gamePanel.object[5].worldY = 32 * gamePanel.getTileSize();
             }
         }
     }
@@ -198,7 +270,7 @@ public class Player extends Entity {
                 }
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
-                        gamePanel.gameState = gamePanel.youWonState;
+                        gamePanel.setGameState(gamePanel.youWonState);
                     }
                     else if (points < winningPoints) {
                         gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
@@ -227,6 +299,6 @@ public class Player extends Entity {
             default -> null;
         };
 
-        g2.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
 }

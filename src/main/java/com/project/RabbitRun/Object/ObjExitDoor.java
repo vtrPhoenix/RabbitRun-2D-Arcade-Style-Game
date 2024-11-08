@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class ObjExitDoor extends SuperObject{
     /** Indicates whether the exit door is open. */
-    public boolean open;
+    private boolean open;
     /** Image for the closed state of the door. */
     private BufferedImage closedImage;
     /** Image for the open state of the door. */
