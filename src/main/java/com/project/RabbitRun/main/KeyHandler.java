@@ -129,4 +129,40 @@ public class KeyHandler implements KeyListener {
         return rightPressed;
     }
 
+    /**
+     * Sets the state of the "up" button.
+     *
+     * @param upPressed true if the "up" button is pressed, false otherwise
+     */
+    public void setUpPressed(boolean upPressed) {
+        this.upPressed = upPressed;
+    }
+
+    /**
+     * Sets the state of the "down" button.
+     *
+     * @param downPressed true if the "down" button is pressed, false otherwise
+     */
+    public void setDownPressed(boolean downPressed) {
+        this.downPressed = downPressed;
+    }
+
+    /**
+     * Sets the state of the "left" button.
+     *
+     * @param leftPressed true if the "left" button is pressed, false otherwise
+     */
+    public void setLeftPressed(boolean leftPressed) {
+        this.leftPressed = leftPressed;
+    }
+
+    /**
+     * Sets the state of the "right" button.
+     *
+     * @param rightPressed true if the "right" button is pressed, false otherwise
+     */
+    public void setRightPressed(boolean rightPressed) {
+        this.rightPressed = rightPressed;
+    }
+
 }

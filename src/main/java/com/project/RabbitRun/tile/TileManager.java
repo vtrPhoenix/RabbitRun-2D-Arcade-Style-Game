@@ -114,11 +114,11 @@ public class TileManager {
 
             int worldX = worldCol * gamePanel.getTileSize();
             int worldY = worldRow * gamePanel.getTileSize();
-            int screenX = worldX - gamePanel.player.worldX + gamePanel.player.getScreenX();
-            int screenY = worldY - gamePanel.player.worldY + gamePanel.player.getScreenY();
+            int screenX = worldX - gamePanel.player.getWorldX() + gamePanel.player.getScreenX();
+            int screenY = worldY - gamePanel.player.getWorldY() + gamePanel.player.getScreenY();
 
-            if(worldX + (2*gamePanel.getTileSize()) > gamePanel.player.worldX - gamePanel.player.getScreenX() && worldY+(2*gamePanel.getTileSize()) > gamePanel.player.worldY - gamePanel.player.getScreenY()
-            && worldX - (2*gamePanel.getTileSize()) < gamePanel.player.worldX + gamePanel.player.getScreenX() && worldY -(2*gamePanel.getTileSize()) < gamePanel.player.worldY + gamePanel.player.getScreenY())
+            if(worldX + (2*gamePanel.getTileSize()) > gamePanel.player.getWorldX() - gamePanel.player.getScreenX() && worldY+(2*gamePanel.getTileSize()) > gamePanel.player.getWorldY() - gamePanel.player.getScreenY()
+            && worldX - (2*gamePanel.getTileSize()) < gamePanel.player.getWorldX() + gamePanel.player.getScreenX() && worldY -(2*gamePanel.getTileSize()) < gamePanel.player.getWorldY() + gamePanel.player.getScreenY())
                 g2.drawImage(tile[tileNum].image, screenX, screenY ,gamePanel.getTileSize(), gamePanel.getTileSize(), null);
 
             worldCol++;

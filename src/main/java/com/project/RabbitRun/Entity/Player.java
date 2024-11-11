@@ -223,12 +223,12 @@ public class Player extends Entity {
             /* Checks if points threshold is met to open the exit door. */
             if (points >= winningPoints && hasClover == 8) {
                 gamePanel.object[5] = openDoor;
-                gamePanel.object[5].worldX = 38 * gamePanel.getTileSize();
-                gamePanel.object[5].worldY = 32 * gamePanel.getTileSize();
+                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
             } else {
                 gamePanel.object[5] = closeDoor;
-                gamePanel.object[5].worldX = 38 * gamePanel.getTileSize();
-                gamePanel.object[5].worldY = 32 * gamePanel.getTileSize();
+                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
             }
         }
     }

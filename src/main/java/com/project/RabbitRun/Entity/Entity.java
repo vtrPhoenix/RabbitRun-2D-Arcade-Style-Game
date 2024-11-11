@@ -10,13 +10,13 @@ import java.awt.image.BufferedImage;
 public class Entity {
 
     /** X-coordinate of the entity's position in the game world. */
-    public int worldX;
+    protected int worldX;
 
     /** Y-coordinate of the entity's position in the game world. */
-    public int worldY;
+    protected int worldY;
 
     /** Speed at which the entity moves. */
-    public int speed;
+    protected int speed;
 
     /** Image for moving up (first frame). */
     public BufferedImage up1;
@@ -25,41 +25,105 @@ public class Entity {
     public BufferedImage down1;
 
     /** Image for moving left (first frame). */
-    public BufferedImage left1;
+    protected BufferedImage left1;
 
     /** Image for moving right (first frame). */
-    public BufferedImage right1;
+    protected BufferedImage right1;
 
     /** Image for moving up (second frame). */
-    public BufferedImage up2;
+    protected BufferedImage up2;
 
     /** Image for moving down (second frame). */
-    public BufferedImage down2;
+    protected BufferedImage down2;
 
     /** Image for moving left (second frame). */
-    public BufferedImage left2;
+    protected BufferedImage left2;
 
     /** Image for moving right (second frame). */
-    public BufferedImage right2;
+    protected BufferedImage right2;
 
     /** Current direction the entity is facing, such as "up", "down", "left", or "right". */
-    public String direction;
+    protected String direction;
 
     /** Counter for managing sprint animations. */
-    public int sprintCounter = 0;
+    protected int sprintCounter = 0;
 
     /** Current frame of the sprite animation (either 1 or 2). */
-    public int spriteNumber = 1;
+    protected int spriteNumber = 1;
 
     /** Rectangle representing the solid area for collision detection. */
     public Rectangle solidArea;
 
     /** Default X-coordinate of the solid area's position. */
-    public int solidAreaDefaultX;
+    protected int solidAreaDefaultX;
 
     /** Default Y-coordinate of the solid area's position. */
-    public int solidAreaDefaultY;
+    protected int solidAreaDefaultY;
 
     /** Indicates whether a collision is currently occurring. */
-    public boolean collisionOn = false;
+    protected boolean collisionOn = false;
+
+    public int getWorldX() {
+        return worldX;
+    }
+
+    public void setWorldX(int worldX) {
+        this.worldX = worldX;
+    }
+
+    public int getWorldY() {
+        return worldY;
+    }
+
+    public void setWorldY(int worldY) {
+        this.worldY = worldY;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public Rectangle getSolidArea() {
+        return solidArea;
+    }
+
+    public void setSolidArea(Rectangle solidArea) {
+        this.solidArea = solidArea;
+    }
+
+    public int getSolidAreaDefaultX() {
+        return solidAreaDefaultX;
+    }
+
+    public void setSolidAreaDefaultX(int solidAreaDefaultX) {
+        this.solidAreaDefaultX = solidAreaDefaultX;
+    }
+
+    public int getSolidAreaDefaultY() {
+        return solidAreaDefaultY;
+    }
+
+    public void setSolidAreaDefaultY(int solidAreaDefaultY) {
+        this.solidAreaDefaultY = solidAreaDefaultY;
+    }
+
+    public boolean isCollisionOn() {
+        return collisionOn;
+    }
+
+    public void setCollisionOn(boolean collisionOn) {
+        this.collisionOn = collisionOn;
+    }
 }
