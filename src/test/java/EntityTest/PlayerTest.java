@@ -30,6 +30,8 @@ public class PlayerTest {
         assertNotNull(player, "Player should be initialized");
         assertEquals(gamePanel.getTileSize() * 10, player.getWorldX(), "Player's initial X position should be correct");
         assertEquals(gamePanel.getTileSize() * 6, player.getWorldY(), "Player's initial Y position should be correct");
+        assertEquals(4,player.getSpeed(), "Player's initial speed should be 4");
+
     }
 
     @Test
@@ -50,6 +52,19 @@ public class PlayerTest {
         initialX = player.getWorldX();
         player.update();
         assertTrue(player.getWorldX() < initialX, "Player should move to the left when the left key is pressed");
+
+        keyHandler.setLeftPressed(false);
+        keyHandler.setUpPressed(true);
+        int initialY = player.getWorldY();
+        player.update();
+        assertTrue(player.getWorldY() < initialY, "Player should move to the north when the up key is pressed");
+
+        keyHandler.setUpPressed(false);
+        keyHandler.setDownPressed(true);
+        initialY = player.getWorldY();
+        player.update();
+        assertTrue(player.getWorldY() > initialY, "Player should move to the south when the down key is pressed");
+
     }
 
     @Test
