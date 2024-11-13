@@ -10,21 +10,37 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+/**
+ * Manages tiles in the "Rabbit Run" game, including loading tile images,
+ * reading map data, and drawing tiles within the visible area of the game.
+ */
 public class TileManager {
 
+    /** The main game panel that contains the game state and settings. */
     GamePanel gamePanel;
+    /** Array to hold different types of tiles. */
     public Tile[] tile;
-    public int mapTileNum[][];
+    /** 2D array representing the tile map, where each element refers to a tile index. */
+    public int[][] mapTileNum;
 
-
+    /**
+     * Main constructor for the tile manager. Initializes the tile array with a maximum of 10 tiles
+     * and sets the dimensions of the {@code mapTileNum} array based on the game's world size.
+     *
+     * @param gamePanel the main game panel containing game settings and state
+     */
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         tile = new Tile[10];
-        mapTileNum = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+        mapTileNum = new int[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
         getTileImage();
         loadMap("/maps/map03.txt");
     }
 
+    /**
+     * Loads tile images and sets their collision properties. Adds images to the tile array.
+     * Currently loads a grass tile and a tree tile.
+     */
     public void getTileImage()
     {
         try{
@@ -42,6 +58,12 @@ public class TileManager {
         }
     }
 
+    /**
+     * Reads a map file and populates the {@code mapTileNum} array with tile indices.
+     * Each value in the file corresponds to a specific tile type.
+     *
+     * @param path the path to the map file containing tile indices
+     */
     public void loadMap(String path)
     {
         try{
@@ -50,57 +72,59 @@ public class TileManager {
 
             int col = 0;
             int row = 0;
-            while(col < gamePanel.maxWorldCol && row < gamePanel.maxWorldRow){
+            while(col < gamePanel.getMaxWorldCol() && row < gamePanel.getMaxWorldRow()){
 
                 String line = br.readLine();
 
-                while(col < gamePanel.maxWorldCol)
+                while(col < gamePanel.getMaxWorldCol())
                 {
                     String numbers[] = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
                     mapTileNum[col][row] = num;
                     col++;
                 }
-                if (col == gamePanel.maxWorldCol)
+                if (col == gamePanel.getMaxWorldCol())
                 {
                     col = 0;
                     row++;
                 }
             }
             br.close();
-
-
         }
-        catch(Exception e)
-        {
-
+        catch(Exception e) {
+            // Exception handling
         }
     }
 
-
+    /**
+     * Draws tiles on the screen within the bounds of the player's visible area.
+     * Uses the {@code mapTileNum} array to determine which tiles to draw.
+     *
+     * @param g2 the {@code Graphics2D} context used for drawing
+     */
     public void draw(Graphics2D g2)
     {
-        //g2.drawImage(tile[0].image, 0,0, gamePanel.tileSize, gamePanel.tileSize, null);
-        //g2.drawImage(tile[0].image, 48,0, gamePanel.tileSize, gamePanel.tileSize, null);
 
         int worldCol = 0;
         int worldRow = 0;
 
-        while (worldCol < gamePanel.maxWorldCol && worldRow < gamePanel.maxWorldRow)
+        while (worldCol < gamePanel.getMaxWorldCol() && worldRow < gamePanel.getMaxWorldRow())
         {
             int tileNum = mapTileNum[worldCol][worldRow];
 
-            int worldX = worldCol * gamePanel.tileSize;
-            int worldY = worldRow * gamePanel.tileSize;
-            int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
-            int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+            int worldX = worldCol * gamePanel.getTileSize();
+            int worldY = worldRow * gamePanel.getTileSize();
+            int screenX = worldX - gamePanel.player.getWorldX() + gamePanel.player.getScreenX();
+            int screenY = worldY - gamePanel.player.getWorldY() + gamePanel.player.getScreenY();
 
+            if(worldX + (2*gamePanel.getTileSize()) > gamePanel.player.getWorldX() - gamePanel.player.getScreenX() && worldY+(2*gamePanel.getTileSize()) > gamePanel.player.getWorldY() - gamePanel.player.getScreenY()
+            && worldX - (2*gamePanel.getTileSize()) < gamePanel.player.getWorldX() + gamePanel.player.getScreenX() && worldY -(2*gamePanel.getTileSize()) < gamePanel.player.getWorldY() + gamePanel.player.getScreenY())
+                g2.drawImage(tile[tileNum].image, screenX, screenY ,gamePanel.getTileSize(), gamePanel.getTileSize(), null);
 
-            g2.drawImage(tile[tileNum].image, screenX, screenY ,gamePanel.tileSize, gamePanel.tileSize, null);
             worldCol++;
 
 
-            if (worldCol == gamePanel.maxWorldCol)
+            if (worldCol == gamePanel.getMaxWorldCol())
             {
                 worldCol = 0;
 
