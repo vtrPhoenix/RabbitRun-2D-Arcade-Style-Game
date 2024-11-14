@@ -12,19 +12,19 @@ import java.awt.image.BufferedImage;
  */
 public class SuperObject {
     /** Image representing this object. */
-    public BufferedImage image;
+    protected BufferedImage image;
     /** Name of the object, typically used for identification. */
-    public String name;
+    protected String name;
     /** Determines if the object has collision properties. */
-    public boolean collision = false;
+    private boolean collision = false;
     /** X & Y -coordinates of the object in the game world. */
     private int worldX, worldY;
     /** Defines the object's solid area for collision detection. */
-    public Rectangle solidArea = new Rectangle(0, 0, 32, 32);
+    protected Rectangle solidArea = new Rectangle(0, 0, 32, 32);
     /** Default X-coordinate of the solid area relative to the object. */
-    public int solidAreaDefaultX = 0;
+    private int solidAreaDefaultX = 0;
     /** Default Y-coordinate of the solid area relative to the object. */
-    public int solidAreaDefaultY = 0;
+    private int solidAreaDefaultY = 0;
 
     /**
      * Draws the object on the game screen if it is within the visible screen area.
@@ -86,6 +86,22 @@ public class SuperObject {
         this.solidArea = solidArea;
     }
 
+    public int getSolidAreaX() {
+        return solidArea.x;
+    }
+
+    public void setSolidAreaX(int x) {
+        this.solidArea.x = x;
+    }
+
+    public int getSolidAreaY() {
+        return solidArea.y;
+    }
+
+    public void setSolidAreaY(int y) {
+        this.solidArea.y = y;
+    }
+
     public int getSolidAreaDefaultX() {
         return solidAreaDefaultX;
     }
@@ -101,4 +117,6 @@ public class SuperObject {
     public void setSolidAreaDefaultY(int solidAreaDefaultY) {
         this.solidAreaDefaultY = solidAreaDefaultY;
     }
+
+
 }
