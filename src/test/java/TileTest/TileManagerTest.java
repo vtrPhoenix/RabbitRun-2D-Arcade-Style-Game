@@ -21,19 +21,49 @@ class TileManagerTest {
     }
 
     @Test
-    /** tests gettileimage() and loadmap() methods in the tile managaer class.
-     * if both methods work correctly the mapTileNum array will contain the values 0 or 1 at every index
+    /** tests loadmap() method in the tile manager class.
+     * if the method works correctly the mapTileNum array will contain the value 1 at every index
      */
     void testloadMap() {
-
+        tileManager.loadMap("/Maps/testmap01.txt");
         for(int i = 0; i < gamePanel.getMaxWorldCol(); i++)
         {
             for(int j = 0; j < gamePanel.getMaxWorldRow(); j++)
             {
-                assertTrue(tileManager.mapTileNum[i][j] == 0 || tileManager.mapTileNum[i][j] == 1, "The values in" +
+                assertTrue(tileManager.mapTileNum[i][j] == 1, "The values in" +
                         " the mapTileNum array" +
-                        "are either 0 or 1 as read from the input file");
+                        "are all 1 as read from the input file");
             }
         }
     }
+
+
+    @Test
+    /**
+     * tests loadmap() method in the tile manager class with a different map with different data
+     * if the method works correctly the mapTileNum array will contain the value 0 at every index
+     */
+    void testloadMap2() {
+        tileManager.loadMap("/Maps/testmap02.txt");
+        for(int i = 0; i < gamePanel.getMaxWorldCol(); i++)
+        {
+            for(int j = 0; j < gamePanel.getMaxWorldRow(); j++)
+            {
+                assertTrue(tileManager.mapTileNum[i][j] == 0, "The values in" +
+                        " the mapTileNum array" +
+                        "are all 0 as read from the input file");
+            }
+        }
+    }
+
+    @Test
+    void testgetTileImage()
+    {
+        tileManager.getTileImage();
+        assertNotNull(tileManager.tile[0]);
+        assertNotNull(tileManager.tile[1]);
+    }
+
+
+
 }
