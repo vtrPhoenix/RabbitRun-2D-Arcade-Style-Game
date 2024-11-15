@@ -255,4 +255,36 @@ public class UI {
         message = "";
         messageTimer = 0;
     }
+
+    public boolean isDispMessage() {
+        return dispMessage;
+    }
+
+    public void setDispMessage(boolean dispMessage) {
+        this.dispMessage = dispMessage;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Color getMessageColor() {
+        return messageColor;
+    }
+
+    public void setMessageColor(Color messageColor) {
+        this.messageColor = messageColor;
+    }
+
+    public int getMessageTimer() {
+        return messageTimer;
+    }
+
+    public void setMessageTimer(int messageTimer) {
+        this.messageTimer = messageTimer;
+    }
 }
