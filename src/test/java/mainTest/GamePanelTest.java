@@ -27,7 +27,7 @@ public class GamePanelTest {
         assertEquals(576, gamePanel.getScreenHeight(), "Screen height should be correctly set.");
 
         // Test that essential components are initialized
-        assertNotNull(gamePanel.getPlayer(), "Player should be initialized.");
+        assertNotNull(gamePanel.player, "Player should be initialized.");
 //        assertNotNull(gamePanel.tileM, "TileManager should be initialized.");
         assertNotNull(gamePanel.enemies, "Enemies list should be initialized.");
     }
