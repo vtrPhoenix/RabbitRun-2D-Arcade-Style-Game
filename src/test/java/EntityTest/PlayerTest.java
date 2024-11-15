@@ -21,7 +21,7 @@ public class PlayerTest {
         player = new Player(gamePanel, keyHandler);
 
         // Set up any necessary state for the player or GamePanel
-        player.setDefaultValues();  // Reset player to default state before each test
+        player.setDefaultValues();
     }
 
     @Test
@@ -82,4 +82,22 @@ public class PlayerTest {
         assertEquals(0, player.getHasClover(), "Player clover count should be reset to 0");
         assertEquals(0, player.getHasCarrot(), "Player carrot count should be reset to 0");
     }
+
+    @Test
+    public void testPlayerImageLoading() {
+        assertDoesNotThrow(() -> player.getPlayerImage(), "Loading player images should not throw an exception");
+    }
+
+    @Test
+    public void testDirectionChange() {
+        keyHandler.setRightPressed(true);
+        player.update();
+        assertEquals("right", player.getDirection(), "Player's direction should be 'right' when right key is pressed");
+
+        keyHandler.setRightPressed(false);
+        keyHandler.setLeftPressed(true);
+        player.update();
+        assertEquals("left", player.getDirection(), "Player's direction should be 'left' when left key is pressed");
+    }
+
 }
