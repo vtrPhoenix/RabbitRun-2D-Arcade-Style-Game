@@ -40,6 +40,8 @@ public class Player extends Entity {
     /** Points required to open the exit door. */
     private final int winningPoints = 400;
 
+    private final int winningClovers = 8;
+
     /** Represents the open exit door object. */
     private ObjExitDoor openDoor;
 
@@ -221,7 +223,7 @@ public class Player extends Entity {
             }
 
             /* Checks if points threshold is met to open the exit door. */
-            if (points >= winningPoints && hasClover == 8) {
+            if (points >= winningPoints && hasClover == winningClovers) {
                 gamePanel.object[5] = openDoor;
                 gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
                 gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
@@ -275,7 +277,7 @@ public class Player extends Entity {
                     else if (points < winningPoints) {
                         gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
                     }
-                    else if (hasClover < 8) {
+                    else if (hasClover < winningClovers) {
                         int remainingClover = 8 - hasClover;
                         gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
                     }
