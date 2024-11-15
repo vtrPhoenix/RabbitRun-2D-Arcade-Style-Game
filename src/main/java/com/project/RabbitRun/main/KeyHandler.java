@@ -10,7 +10,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     /** Flags indicating the direction keys' states (pressed or released) */
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed;
 
     /** Reference to the main GamePanel to access and modify game state */
     GamePanel gamePanel;
@@ -60,15 +60,15 @@ public class KeyHandler implements KeyListener {
 
         // Toggle between play and pause states when 'P' is pressed
         if (key == KeyEvent.VK_P) {
-            if (gamePanel.gameState == gamePanel.playState) {
-                gamePanel.gameState = gamePanel.pauseState;
-            } else if (gamePanel.gameState == gamePanel.pauseState) {
-                gamePanel.gameState = gamePanel.playState;
+            if (gamePanel.getGameState() == gamePanel.playState) {
+                gamePanel.setGameState(gamePanel.pauseState);
+            } else if (gamePanel.getGameState() == gamePanel.pauseState) {
+                gamePanel.setGameState(gamePanel.playState);
             }
         }
-        if(gamePanel.gameState == gamePanel.guideState) {
+        if(gamePanel.getGameState() == gamePanel.guideState) {
             if(key == KeyEvent.VK_B) {
-                gamePanel.gameState = gamePanel.menuState;
+                gamePanel.setGameState(gamePanel.menuState);
             }
         }
     }
@@ -92,4 +92,77 @@ public class KeyHandler implements KeyListener {
             rightPressed = false;
         }
     }
+
+    /**
+     * Returns whether the up key is pressed.
+     *
+     * @return true if the up key is pressed, false otherwise.
+     */
+    public boolean isUpPressed() {
+        return upPressed;
+    }
+
+    /**
+     * Returns whether the down key is pressed.
+     *
+     * @return true if the down key is pressed, false otherwise.
+     */
+    public boolean isDownPressed() {
+        return downPressed;
+    }
+
+    /**
+     * Returns whether the left key is pressed.
+     *
+     * @return true if the left key is pressed, false otherwise.
+     */
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    /**
+     * Returns whether the right key is pressed.
+     *
+     * @return true if the right key is pressed, false otherwise.
+     */
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
+
+    /**
+     * Sets the state of the "up" button.
+     *
+     * @param upPressed true if the "up" button is pressed, false otherwise
+     */
+    public void setUpPressed(boolean upPressed) {
+        this.upPressed = upPressed;
+    }
+
+    /**
+     * Sets the state of the "down" button.
+     *
+     * @param downPressed true if the "down" button is pressed, false otherwise
+     */
+    public void setDownPressed(boolean downPressed) {
+        this.downPressed = downPressed;
+    }
+
+    /**
+     * Sets the state of the "left" button.
+     *
+     * @param leftPressed true if the "left" button is pressed, false otherwise
+     */
+    public void setLeftPressed(boolean leftPressed) {
+        this.leftPressed = leftPressed;
+    }
+
+    /**
+     * Sets the state of the "right" button.
+     *
+     * @param rightPressed true if the "right" button is pressed, false otherwise
+     */
+    public void setRightPressed(boolean rightPressed) {
+        this.rightPressed = rightPressed;
+    }
+
 }
