@@ -79,9 +79,11 @@ public class mouseListener extends MouseAdapter {
     private void handleEndScreenClick(Point clickPoint) {
         if (playAgainButtonBounds.contains(clickPoint)) {
             // Restart the game
+            gamePanel.playSoundEffect(5);
             gamePanel.restartGame();
         } else if (quitOverButtonBounds.contains(clickPoint)) {
             // Exit the application
+            gamePanel.playSoundEffect(5);
             System.exit(0);
         }
     }
