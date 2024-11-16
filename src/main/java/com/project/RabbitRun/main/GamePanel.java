@@ -29,7 +29,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     /** Width of the screen in pixels. */
     private final int screenWidth = maxScreenCol * tileSize;
-
     /** Height of the screen in pixels. */
     private final int screenHeight = maxScreenRow * tileSize;
 
@@ -284,5 +283,19 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = gameState;
     }
 
+    public Thread getGameThread() {
+        return gameThread;
+    }
 
+    public void setGameThread(Thread gameThread) {
+        this.gameThread = gameThread;
+    }
+
+    public int getScreenWidht(){
+        return screenWidth;
+    }
+
+    public int getScreebHeight(){
+        return screenHeight;
+    }
 }
