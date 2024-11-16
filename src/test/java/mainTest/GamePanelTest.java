@@ -51,15 +51,5 @@ public class GamePanelTest {
         assertTrue(gamePanel.getGameThread().isAlive(), "Game thread should be alive after starting.");
     }
 
-//    @Test
-//    public void testGameLoop() {
-//        // Mocking a Runnable method to verify game loop execution
-//        Thread mockThread = Mockito.mock(Thread.class);
-//        gamePanel.gameThread = mockThread;
-//
-//        // Simulate game loop running
-//        doNothing().when(mockThread).run();
-//        gamePanel.run();
-//        verify(mockThread, times(1)).run();
-//    }
+
 }
