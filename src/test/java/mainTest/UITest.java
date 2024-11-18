@@ -5,7 +5,6 @@ import com.project.RabbitRun.main.UI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
