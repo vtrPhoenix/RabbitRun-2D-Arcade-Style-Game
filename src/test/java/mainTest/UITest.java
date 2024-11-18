@@ -44,6 +44,15 @@ class UITest {
         assertEquals(expectedStartTime, ui.getStartTime());
     }
 
+    @Test
+    public void testImageLoading() {
+        assertDoesNotThrow(() -> ui.getCloverImage(), "Loading clover image should not throw an exception");
+        assertDoesNotThrow(() -> ui.getGuidePageImage(), "Loading guide page image should not throw an exception");
+        assertDoesNotThrow(() -> ui.getMenuPageImage(), "Loading menu page image should not throw an exception");
+        assertDoesNotThrow(() -> ui.getPointsImage(), "Loading points image should not throw an exception");
+        assertDoesNotThrow(() -> ui.getYouWonPageImage(), "Loading you won page image should not throw an exception");
+        assertDoesNotThrow(() -> ui.getYouLostPageImage(), "Loading you lost image should not throw an exception");
+    }
 
 }
 
