@@ -25,4 +25,4 @@ mvn exec:java\
 <br />
 **Run Tests:**\
 To execute the test suite, use this command:\
-mvn test\
+mvn test
