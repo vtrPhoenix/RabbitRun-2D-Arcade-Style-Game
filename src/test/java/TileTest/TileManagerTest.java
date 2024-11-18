@@ -56,6 +56,9 @@ class TileManagerTest {
         }
     }
 
+    /**
+     * tests whether gettileimage() was successful in opening the tile images
+     */
     @Test
     void testgetTileImage()
     {
