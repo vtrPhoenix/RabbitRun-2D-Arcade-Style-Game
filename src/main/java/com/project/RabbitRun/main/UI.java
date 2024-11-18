@@ -287,4 +287,28 @@ public class UI {
     public void setMessageTimer(int messageTimer) {
         this.messageTimer = messageTimer;
     }
+
+    public BufferedImage getPointsImage() {
+        return points;
+    }
+
+    public BufferedImage getCloverImage() {
+        return clover;
+    }
+
+    public BufferedImage getMenuPageImage() {
+        return menuPage;
+    }
+
+    public BufferedImage getGuidePageImage() {
+        return guidePage;
+    }
+
+    public BufferedImage getYouWonPageImage() {
+        return youWonPage;
+    }
+
+    public BufferedImage getYouLostPageImage() {
+        return youLostPage;
+    }
 }
