@@ -14,6 +14,6 @@ Our primary goal for this semester is to build a fun and engaging game called *R
 
 ## How To Run The Game
 Run all these commands on the terminal, you should be in the same directory as your pom.xml file
-To Build write : mvn clean install -DskipTests
-To run the Game : mvn exec:java
-To run Tests : mvn test
+-To Build write : **mvn clean install -DskipTests**
+-To run the Game : **mvn exec:java**
+-To run Tests : **mvn test**
