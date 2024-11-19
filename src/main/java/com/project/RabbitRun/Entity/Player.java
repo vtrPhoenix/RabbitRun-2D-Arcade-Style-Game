@@ -40,6 +40,7 @@ public class Player extends Entity {
     /** Points required to open the exit door. */
     private final int winningPoints = 400;
 
+    /** Clovers requires to open the exit door*/
     private final int winningClovers = 8;
 
     /** Represents the open exit door object. */
