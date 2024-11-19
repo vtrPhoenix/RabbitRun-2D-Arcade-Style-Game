@@ -43,10 +43,10 @@ public class Player extends Entity {
     private final int winningClovers = 8;
 
     /** Represents the open exit door object. */
-    private ObjExitDoor openDoor;
+    private final ObjExitDoor openDoor;
 
     /** Represents the closed exit door object. */
-    private ObjExitDoor closeDoor;
+    private final ObjExitDoor closeDoor;
 
     /**
      * Constructs a Player object with the specified game panel and key handler.
