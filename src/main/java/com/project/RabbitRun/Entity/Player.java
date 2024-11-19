@@ -170,6 +170,16 @@ public class Player extends Entity {
     }
 
     /**
+     * Retrieves the object representing the open exit door in the game.
+     *
+     * @return the {@code ObjExitDoor} instance representing the open door.
+     */
+    public ObjExitDoor getOpenDoor() {
+        return openDoor;
+    }
+
+
+    /**
      * Loads the images for the player’s movement animations.
      */
     public void getPlayerImage() {
@@ -217,21 +227,19 @@ public class Player extends Entity {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 sprintCounter = 0;
             }
-
-            if (points < 0) {
-                gamePanel.setGameState(gamePanel.youLostState);
-            }
-
-            /* Checks if points threshold is met to open the exit door. */
-            if (points >= winningPoints && hasClover == winningClovers) {
-                gamePanel.object[5] = openDoor;
-                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-            } else {
-                gamePanel.object[5] = closeDoor;
-                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-            }
+        }
+        if (points < 0) {
+            gamePanel.setGameState(gamePanel.youLostState);
+        }
+        /* Checks if points threshold is met to open the exit door. */
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.object[5] = openDoor;
+            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
+        } else {
+            gamePanel.object[5] = closeDoor;
+            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
         }
     }
 
@@ -253,7 +261,7 @@ public class Player extends Entity {
                     points += 50;
                     gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
 
-                    if (hasClover == 8) {
+                    if (hasClover == 8 && points >= winningPoints) {
                         gamePanel.playSoundEffect(4);
                     }
                 }
