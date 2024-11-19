@@ -50,5 +50,11 @@ public class GamePanelTest {
         assertTrue(gamePanel.getGameThread().isAlive(), "Game thread should be alive after starting.");
     }
 
+    @Test
+    public void testGameSetUp() {
+        gamePanel.setupGame();
+        assertEquals(gamePanel.menuState, gamePanel.getGameState(), "Game should start in the menu state.");
+        assertNotNull(gamePanel.object[0],"should have an object");
+    }
 
 }
