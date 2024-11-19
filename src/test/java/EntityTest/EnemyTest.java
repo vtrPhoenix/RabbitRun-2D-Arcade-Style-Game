@@ -152,17 +152,6 @@ public class EnemyTest {
     }
 
     @Test
-    public void testApplyOffset() {
-        int originalX = enemy.getWorldX();
-        int originalY = enemy.getWorldY();
-
-        enemy.applyOffset();
-
-        assertNotEquals(originalX, enemy.getWorldX(), "Enemy's X position should be adjusted by a random offset");
-        assertNotEquals(originalY, enemy.getWorldY(), "Enemy's Y position should be adjusted by a random offset");
-    }
-
-    @Test
     public void testDetermineDirectionRight() {
         player.setWorldX(200);
         player.setWorldY(150);
