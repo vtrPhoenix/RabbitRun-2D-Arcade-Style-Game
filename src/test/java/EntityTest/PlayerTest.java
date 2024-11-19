@@ -70,7 +70,7 @@ public class PlayerTest {
     @Test
     public void testPlayerRestart() {
         // Simulate the player collecting items and gaining points
-        player.points = 100;
+        player.setPoints(100);
         player.setHasClover(3);
         player.setHasCarrot(2);
 
@@ -78,7 +78,7 @@ public class PlayerTest {
         player.restart();
 
         // Verify player state is reset
-        assertEquals(0, player.points, "Player points should be reset to 0");
+        assertEquals(0, player.getPoints(), "Player points should be reset to 0");
         assertEquals(0, player.getHasClover(), "Player clover count should be reset to 0");
         assertEquals(0, player.getHasCarrot(), "Player carrot count should be reset to 0");
     }
