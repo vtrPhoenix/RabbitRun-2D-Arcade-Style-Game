@@ -54,5 +54,13 @@ class UITest {
         assertDoesNotThrow(() -> ui.getYouLostPageImage(), "Loading you lost image should not throw an exception");
     }
 
+    @Test
+    public void testRestart(){
+        ui.restart();
+        assertEquals(0, ui.getMessageTimer(),"message timer must be reset to 0");
+        assertFalse(ui.isDispMessage(),"disp message must be reset to false");
+        assertEquals("", ui.getMessage(),"message must be reset to empty string");
+    }
+
 }
 
