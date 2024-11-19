@@ -172,4 +172,20 @@ public class PlayerTest {
         assertEquals(0, player.getHasClover(), "Clover count should remain unchanged");
         assertEquals(0, player.getHasCarrot(), "Carrot count should remain unchanged");
     }
+
+    @Test
+    void testNegativePoints(){
+        player.setPoints(-100);
+        player.update();
+        assertEquals(gamePanel.youLostState, gamePanel.getGameState(), "Game state should change to 'you lost'");
+    }
+
+    @Test
+    void testExitDoorWithSufficientConditions() {
+        player.setPoints(400);
+        player.setHasClover(8);
+        player.update();
+        assertEquals(player.getOpenDoor(),gamePanel.object[5],"Door must be opened");
+    }
+
 }
