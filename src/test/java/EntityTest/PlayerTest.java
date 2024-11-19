@@ -8,12 +8,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@code Player} class.
+ * This class tests the functionality of the {@code Player} class, including movement,
+ * interaction with objects, and state changes.
+ */
 public class PlayerTest {
 
     private GamePanel gamePanel;
     private KeyHandler keyHandler;
     private Player player;
 
+    /**
+     * Sets up the test environment by initializing the {@code GamePanel},
+     * {@code KeyHandler}, and {@code Player} instances. Mock objects are also
+     * prepared in the {@code GamePanel}.
+     */
     @BeforeEach
     public void setUp() {
         // Initialize GamePanel and KeyHandler objects
@@ -33,6 +43,9 @@ public class PlayerTest {
         player.setDefaultValues();
     }
 
+    /**
+     * Tests if the {@code Player} object is initialized with the correct default values.
+     */
     @Test
     public void testPlayerInitialization() {
         // Check if player is initialized correctly
@@ -43,6 +56,9 @@ public class PlayerTest {
 
     }
 
+    /**
+     * Verifies the {@code Player}'s movement in response to directional key presses.
+     */
     @Test
     public void testPlayerMovement() {
         // Simulate pressing the right arrow key
@@ -76,6 +92,9 @@ public class PlayerTest {
 
     }
 
+    /**
+     * Ensures that the {@code Player}'s state is properly reset when the restart method is called.
+     */
     @Test
     public void testPlayerRestart() {
         // Simulate the player collecting items and gaining points
@@ -92,11 +111,17 @@ public class PlayerTest {
         assertEquals(0, player.getHasCarrot(), "Player carrot count should be reset to 0");
     }
 
+    /**
+     * Verifies that loading player images does not throw any exceptions.
+     */
     @Test
     public void testPlayerImageLoading() {
         assertDoesNotThrow(() -> player.getPlayerImage(), "Loading player images should not throw an exception");
     }
 
+    /**
+     * Tests that the {@code Player}'s direction changes correctly when corresponding keys are pressed.
+     */
     @Test
     public void testDirectionChange() {
         keyHandler.setRightPressed(true);
@@ -109,6 +134,10 @@ public class PlayerTest {
         assertEquals("left", player.getDirection(), "Player's direction should be 'left' when left key is pressed");
     }
 
+    /**
+     * Tests that picking up a clover increments the clover count, awards points,
+     * and removes the clover from the game.
+     */
     @Test
     void testPickClover() {
         player.pickObject(0);
@@ -117,6 +146,10 @@ public class PlayerTest {
         assertNull(gamePanel.object[0], "Clover should be removed from objects");
     }
 
+    /**
+     * Tests that picking up a carrot increments the carrot count, awards points,
+     * and removes the carrot from the game.
+     */
     @Test
     void testPickCarrot() {
         gamePanel.object[1] = new ObjBonusReward();
@@ -127,6 +160,9 @@ public class PlayerTest {
         assertNull(gamePanel.object[1], "Carrot should be removed from objects");
     }
 
+    /**
+     * Tests that picking up a mushroom decreases points and removes the mushroom from the game.
+     */
     @Test
     void testPickMushroom() {
         player.setPoints(200);
@@ -136,6 +172,10 @@ public class PlayerTest {
         assertNull(gamePanel.object[2], "Mushroom should be removed from objects");
     }
 
+    /**
+     * Verifies that the game state changes to "you won" when the player interacts with
+     * the exit door with sufficient points and clovers.
+     */
     @Test
     void testExitDoorWin() {
         player.setPoints(500);
@@ -145,6 +185,9 @@ public class PlayerTest {
         assertEquals(gamePanel.youWonState, gamePanel.getGameState(), "Game state should change to 'you won'");
     }
 
+    /**
+     * Tests the scenario where the player interacts with the exit door but has insufficient points.
+     */
     @Test
     void testExitDoorInsufficientPoints() {
         player.setPoints(300);
@@ -154,6 +197,9 @@ public class PlayerTest {
          assertEquals("YOU NEED MORE POINTS TO WIN!", gamePanel.ui.getMessage());
     }
 
+    /**
+     * Tests the scenario where the player interacts with the exit door but has insufficient clovers.
+     */
     @Test
     void testExitDoorInsufficientClovers() {
         player.setHasClover(5);
@@ -163,6 +209,9 @@ public class PlayerTest {
          assertEquals("YOU NEED 3 MORE CLOVERS TO EXIT!", gamePanel.ui.getMessage());
     }
 
+    /**
+     * Ensures no changes occur when the player interacts with an invalid object index.
+     */
     @Test
     void testInvalidIndex() {
         player.pickObject(999);
@@ -173,6 +222,9 @@ public class PlayerTest {
         assertEquals(0, player.getHasCarrot(), "Carrot count should remain unchanged");
     }
 
+    /**
+     * Tests that the game state changes to "you lost" when the player's points are negative.
+     */
     @Test
     void testNegativePoints(){
         player.setPoints(-100);
@@ -180,6 +232,9 @@ public class PlayerTest {
         assertEquals(gamePanel.youLostState, gamePanel.getGameState(), "Game state should change to 'you lost'");
     }
 
+    /**
+     * Verifies that the exit door opens when the player has sufficient points and clovers.
+     */
     @Test
     void testExitDoorWithSufficientConditions() {
         player.setPoints(400);
