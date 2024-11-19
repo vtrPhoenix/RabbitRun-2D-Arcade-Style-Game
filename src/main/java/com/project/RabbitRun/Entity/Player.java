@@ -35,7 +35,7 @@ public class Player extends Entity {
     private int hasCarrot = 0;
 
     /** Points scored by the player. */
-    public int points = 0;
+    private int points = 0;
 
     /** Points required to open the exit door. */
     private final int winningPoints = 400;
