@@ -209,17 +209,7 @@ public class Player extends Entity {
             String objName = gamePanel.object[index].getName();
 
             switch (objName) {
-                case "Clover" -> {
-                    gamePanel.playSoundEffect(1);
-                    hasClover++;
-                    gamePanel.object[index] = null;
-                    points += 50;
-                    gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
-
-                    if (hasClover == 8 && points >= winningPoints) {
-                        gamePanel.playSoundEffect(4);
-                    }
-                }
+                case "Clover" -> handleClover(index);
                 case "Carrot" -> {
                     gamePanel.playSoundEffect(2);
                     hasCarrot++;
@@ -248,6 +238,18 @@ public class Player extends Entity {
                     }
                 }
             }
+        }
+    }
+
+    private void handleClover(int index) {
+        gamePanel.playSoundEffect(1);
+        hasClover++;
+        gamePanel.object[index] = null;
+        points += 50;
+        gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
+
+        if (hasClover == winningClovers && points >= winningPoints) {
+            gamePanel.playSoundEffect(4);
         }
     }
 
