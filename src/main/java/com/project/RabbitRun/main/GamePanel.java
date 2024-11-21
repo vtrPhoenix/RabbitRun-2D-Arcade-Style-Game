@@ -361,21 +361,4 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameThread = gameThread;
     }
 
-    /**
-     * Retrieves the screen width.
-     *
-     * @return the width of the screen as an integer.
-     */
-    public int getScreenWidht() { // Note: Correct spelling to getScreenWidth for consistency
-        return screenWidth;
-    }
-
-    /**
-     * Retrieves the screen height.
-     *
-     * @return the height of the screen as an integer.
-     */
-    public int getScreebHeight() { // Note: Correct spelling to getScreenHeight for consistency
-        return screenHeight;
-    }
 }
