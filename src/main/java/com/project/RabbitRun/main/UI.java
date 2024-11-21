@@ -147,7 +147,9 @@ public class UI {
             }
         }
 
-        if (elapsedTime == 5) {
+        boolean hasBeenCollected = false;
+
+        if (elapsedTime == 5 && !hasBeenCollected) {
             //gamePanel.object[2] = new ObjBonusReward();
             gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
             gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
