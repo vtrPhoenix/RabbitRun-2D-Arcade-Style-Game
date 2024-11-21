@@ -110,6 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Restarts the game, resetting player, enemies, and other elements to default.
      */
     public void restartGame() {
+        playMusic(0);
         player.restart();
         aSetter.setObject();
         ui.restart();
