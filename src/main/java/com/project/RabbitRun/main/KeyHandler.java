@@ -60,6 +60,7 @@ public class KeyHandler implements KeyListener {
 
         // Toggle between play and pause states when 'P' is pressed
         if (key == KeyEvent.VK_P) {
+            gamePanel.playSoundEffect(5);
             if (gamePanel.getGameState() == gamePanel.playState) {
                 gamePanel.setGameState(gamePanel.pauseState);
             } else if (gamePanel.getGameState() == gamePanel.pauseState) {
@@ -68,6 +69,7 @@ public class KeyHandler implements KeyListener {
         }
         if(gamePanel.getGameState() == gamePanel.guideState) {
             if(key == KeyEvent.VK_B) {
+                gamePanel.playSoundEffect(5);
                 gamePanel.setGameState(gamePanel.menuState);
             }
         }
