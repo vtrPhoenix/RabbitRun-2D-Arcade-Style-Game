@@ -210,19 +210,8 @@ public class Player extends Entity {
 
             switch (objName) {
                 case "Clover" -> handleClover(index);
-                case "Carrot" -> {
-                    gamePanel.playSoundEffect(2);
-                    hasCarrot++;
-                    gamePanel.object[index] = null;
-                    points += 100;
-                    gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
-                }
-                case "Mushroom" -> {
-                    gamePanel.playSoundEffect(3);
-                    gamePanel.object[index] = null;
-                    points -= 100;
-                    gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
-                }
+                case "Carrot" -> handleCarrot(index);
+                case "Mushroom" -> handleMushroom(index);
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
                         gamePanel.stopMusic();
@@ -251,6 +240,21 @@ public class Player extends Entity {
         if (hasClover == winningClovers && points >= winningPoints) {
             gamePanel.playSoundEffect(4);
         }
+    }
+
+    private void handleCarrot(int index) {
+        gamePanel.playSoundEffect(2);
+        hasCarrot++;
+        gamePanel.object[index] = null;
+        points += 100;
+        gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
+    }
+
+    private void handleMushroom(int index) {
+        gamePanel.playSoundEffect(3);
+        gamePanel.object[index] = null;
+        points -= 100;
+        gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
     }
 
     /**
