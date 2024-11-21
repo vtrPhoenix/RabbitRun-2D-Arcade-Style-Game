@@ -45,7 +45,7 @@ public class AssetSetterTest {
 
         // Check that specific indices in the object array contain the expected object types
         assertInstanceOf(ObjReward.class, gamePanel.object[0], "First object should be an ObjReward");
-        assertInstanceOf(ObjPunishment.class, gamePanel.object[1], "Second object should be an ObjPunishment");
+        assertInstanceOf(ObjPunishment.class, gamePanel.object[1], "Second object should be an ObjReward");
         assertInstanceOf(ObjBonusReward.class, gamePanel.object[2], "Third object should be an ObjBonusReward");
         assertInstanceOf(ObjReward.class, gamePanel.object[3], "Fourth object should be an ObjReward");
     }
@@ -55,11 +55,11 @@ public class AssetSetterTest {
         assetSetter.setObject();
 
         // Verify object coordinates
-        assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[0].getWorldX(), "ObjBonusReward X coordinate should match");
-        assertEquals(9 * gamePanel.getTileSize(), gamePanel.object[0].getWorldY(), "ObjBonusReward Y coordinate should match");
+        assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[0].getWorldX(), "ObjReward X coordinate should match");
+        assertEquals(9 * gamePanel.getTileSize(), gamePanel.object[0].getWorldY(), "ObjReward Y coordinate should match");
 
-        assertEquals(22 * gamePanel.getTileSize(), gamePanel.object[1].getWorldX(), "ObjExitDoor X coordinate should match");
-        assertEquals(16 * gamePanel.getTileSize(), gamePanel.object[1].getWorldY(), "ObjExitDoor Y coordinate should match");
+        assertEquals(16 * gamePanel.getTileSize(), gamePanel.object[1].getWorldX(), "ObjExitDoor X coordinate should match");
+        assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[1].getWorldY(), "ObjExitDoor Y coordinate should match");
 
         assertEquals(0 * gamePanel.getTileSize(), gamePanel.object[2].getWorldX(), "ObjPunishment X coordinate should match");
         assertEquals(0 * gamePanel.getTileSize(), gamePanel.object[2].getWorldY(), "ObjPunishment Y coordinate should match");
@@ -74,7 +74,7 @@ public class AssetSetterTest {
 
         // Verify that only the allocated array length is used
         assertEquals(20, gamePanel.object.length, "GamePanel object array should have a maximum of 20 slots");
-        for (int index = 16; index < gamePanel.object.length; index++) {
+        for (int index = 18; index < gamePanel.object.length; index++) {
             assertNull(gamePanel.object[index], "Remaining slots in the object array should be null");
         }
     }
