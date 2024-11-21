@@ -196,11 +196,16 @@ public class UI {
      * @param g2 The Graphics object used for drawing.
      */
     public void drawPauseState(Graphics g2) {
-        g2.drawImage(points, gamePanel.getTileSize() / 2, gamePanel.getTileSize() / 2, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-        g2.drawString("x " + gamePanel.player.getPoints(), 74, 60);
-        g2.drawImage(clover,gamePanel.getScreenWidth() / 2 - 60, gamePanel.getTileSize() / 2 , gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-        g2.drawString("x "+ gamePanel.player.getHasClover(), gamePanel.getScreenWidth() / 2 , 60 );
-        g2.drawString("Time Elapsed: " + endTime + "s", gamePanel.getTileSize() * 12, 60);  // Adjust position as needed
+        drawPlayerStats(g2);
+        drawPauseMessage(g2);
+    }
+
+    /**
+     * Draws the "PAUSED" message with instructions to resume.
+     *
+     * @param g2 The Graphics object used for drawing.
+     */
+    private void drawPauseMessage(Graphics g2) {
         String message = "PAUSED";
         String toUnPause = "Press 'P' to unpause";
         int x = getScreenCentreX(message, g2);
@@ -390,4 +395,19 @@ public class UI {
         return youLostPage;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
 }
