@@ -15,7 +15,7 @@ public class Sound {
     Clip clip;
 
     /** Array storing URLs of the sound files used in the game. */
-    URL[] soundURL = new URL[30];
+    URL[] soundURL = new URL[15];
 
     /**
      * Initializes sound resources by loading audio files into an array.
