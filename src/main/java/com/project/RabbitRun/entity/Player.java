@@ -264,15 +264,21 @@ public class Player extends Entity {
      * @param g2 the graphics context used to draw the player
      */
     public void draw(Graphics2D g2) {
-        BufferedImage image = switch (direction) {
+        BufferedImage image = getSpriteImage();
+        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    /**
+     * Returns the appropriate sprite image based on direction and animation frame.
+     */
+    private BufferedImage getSpriteImage() {
+        return switch (direction) {
             case "left" -> (spriteNumber == 1) ? left1 : left2;
             case "right" -> (spriteNumber == 1) ? right1 : right2;
             case "up" -> (spriteNumber == 1) ? up1 : up2;
             case "down" -> (spriteNumber == 1) ? down1 : down2;
             default -> null;
         };
-
-        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
     /**
      * Returns the screen's X position.
