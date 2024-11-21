@@ -1,12 +1,13 @@
 package com.project.RabbitRun.main;
 
-import com.project.RabbitRun.Object.ObjBonusReward;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * The UI class is responsible for rendering all the user interface components in the RabbitRun game.
@@ -33,6 +34,8 @@ public class UI {
     private long startTime;
     private long endTime;
 
+    private final Map<Integer, Consumer<Graphics>> stateDrawActions = new HashMap<>();
+
     /**
      * Constructs the UI, initializing fonts and loading images for the menu, win, and lose screens.
      *
@@ -42,6 +45,11 @@ public class UI {
         this.gamePanel = gamePanel;
         openSans = new Font("Open Sans", Font.BOLD, 20);
         ariel = new Font("Ariel", Font.BOLD, 15);
+        loadImages();
+        setupStateDrawActions();
+    }
+
+    private void loadImages() {
         try {
             points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
             clover = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Reward/clover.png")));
@@ -54,13 +62,15 @@ public class UI {
         }
     }
 
-    public long getStartTime() {
-        return startTime;
+    private void setupStateDrawActions() {
+        stateDrawActions.put(gamePanel.menuState, this::drawMenuState);
+        stateDrawActions.put(gamePanel.playState, this::drawPlayState);
+        stateDrawActions.put(gamePanel.pauseState, this::drawPauseState);
+        stateDrawActions.put(gamePanel.youWonState, this::drawYouWonState);
+        stateDrawActions.put(gamePanel.youLostState, this::drawYouLostState);
+        stateDrawActions.put(gamePanel.guideState, this::drawGuideState);
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
 
     /**
      * Displays a temporary message on the screen in the specified color.
@@ -83,23 +93,27 @@ public class UI {
     public void draw(Graphics g2) {
         g2.setFont(openSans);
         g2.setColor(Color.white);
-        if (gamePanel.getGameState() == gamePanel.menuState) {
-            drawMenuState(g2);
-        }
-        if (gamePanel.getGameState() == gamePanel.playState) {
-            drawPlayState(g2);
-        }
-        if (gamePanel.getGameState() == gamePanel.pauseState) {
-            drawPauseState(g2);
-        }
-        if (gamePanel.getGameState() == gamePanel.youWonState) {
-            drawYouWonState(g2);
-        }
-        if (gamePanel.getGameState() == gamePanel.youLostState) {
-            drawYouLostState(g2);
-        }
-        if(gamePanel.getGameState() == gamePanel.guideState) {
-            drawGuideState(g2);
+//        if (gamePanel.getGameState() == gamePanel.menuState) {
+//            drawMenuState(g2);
+//        }
+//        if (gamePanel.getGameState() == gamePanel.playState) {
+//            drawPlayState(g2);
+//        }
+//        if (gamePanel.getGameState() == gamePanel.pauseState) {
+//            drawPauseState(g2);
+//        }
+//        if (gamePanel.getGameState() == gamePanel.youWonState) {
+//            drawYouWonState(g2);
+//        }
+//        if (gamePanel.getGameState() == gamePanel.youLostState) {
+//            drawYouLostState(g2);
+//        }
+//        if(gamePanel.getGameState() == gamePanel.guideState) {
+//            drawGuideState(g2);
+//        }
+        Consumer<Graphics> drawAction = stateDrawActions.get(gamePanel.getGameState());
+        if (drawAction != null) {
+            drawAction.accept(g2);
         }
     }
 
@@ -147,7 +161,7 @@ public class UI {
             }
         }
 
-        //while (gamePanel.getGameState() == 1) {
+            //for Bonus Object placement
             if (elapsedTime == 5) {
                 gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
                 gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
@@ -178,8 +192,6 @@ public class UI {
             if (elapsedTime == 50) {
                 gamePanel.object[15] = null;
             }
-       // }
-
     }
 
     /**
