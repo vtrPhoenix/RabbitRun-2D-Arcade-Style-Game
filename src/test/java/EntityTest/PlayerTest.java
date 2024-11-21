@@ -180,7 +180,7 @@ public class PlayerTest {
     void testExitDoorWin() {
         player.setPoints(500);
         player.setHasClover(8);
-
+        gamePanel.playMusic(0);
         player.pickObject(3);
         assertEquals(gamePanel.youWonState, gamePanel.getGameState(), "Game state should change to 'you won'");
     }
@@ -228,6 +228,7 @@ public class PlayerTest {
     @Test
     void testNegativePoints(){
         player.setPoints(-100);
+        gamePanel.playMusic(0);
         player.update();
         assertEquals(gamePanel.youLostState, gamePanel.getGameState(), "Game state should change to 'you lost'");
     }
