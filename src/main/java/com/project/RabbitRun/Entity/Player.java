@@ -230,6 +230,8 @@ public class Player extends Entity {
             }
         }
         if (points < 0) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
             gamePanel.setGameState(gamePanel.youLostState);
         }
         /* Checks if points threshold is met to open the exit door. */
@@ -281,6 +283,8 @@ public class Player extends Entity {
                 }
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
+                        gamePanel.stopMusic();
+                        gamePanel.playSoundEffect(6);
                         gamePanel.setGameState(gamePanel.youWonState);
                     }
                     else if (points < winningPoints) {
