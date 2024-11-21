@@ -186,6 +186,8 @@ public class Enemy extends Entity {
         gamePanel.collisionChecker.checkTile(this);
 
         if (collisionWithPlayer(player)) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
             gamePanel.setGameState(gamePanel.youLostState);
         }
 
