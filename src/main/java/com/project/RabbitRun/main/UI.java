@@ -1,7 +1,5 @@
 package com.project.RabbitRun.main;
 
-import com.project.RabbitRun.Object.ObjBonusReward;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

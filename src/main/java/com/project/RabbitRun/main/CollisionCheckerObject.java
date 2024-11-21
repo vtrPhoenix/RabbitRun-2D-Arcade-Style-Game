@@ -1,6 +1,6 @@
 package com.project.RabbitRun.main;
 
-import com.project.RabbitRun.Entity.Entity;
+import com.project.RabbitRun.entity.Entity;
 
 public class CollisionCheckerObject {
 
