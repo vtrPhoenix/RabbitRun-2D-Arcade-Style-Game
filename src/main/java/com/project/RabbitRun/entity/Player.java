@@ -125,29 +125,37 @@ public class Player extends Entity {
     }
 
     /**
+     * Handles player movement based on input.
+     */
+    private void handleMovement() {
+        if (keyHandler.isUpPressed()) direction = "up";
+        else if (keyHandler.isDownPressed()) direction = "down";
+        else if (keyHandler.isLeftPressed()) direction = "left";
+        else if (keyHandler.isRightPressed()) direction = "right";
+
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+
+        int objIndex = gamePanel.collisionChecker.checkObject(this, true);
+        pickObject(objIndex);
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+    }
+
+    /**
      * Updates the player’s state, including movement, collision detection, and interaction with objects.
      */
     public void update() {
-        if (keyHandler.isUpPressed() || keyHandler.isLeftPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed()) {
-            if (keyHandler.isUpPressed()) direction = "up";
-            else if (keyHandler.isDownPressed()) direction = "down";
-            else if (keyHandler.isLeftPressed()) direction = "left";
-            else if(keyHandler.isRightPressed()) direction = "right";
 
-            collisionOn = false;
-            gamePanel.collisionChecker.checkTile(this);
-
-            int objIndex = gamePanel.collisionChecker.checkObject(this, true);
-            pickObject(objIndex);
-
-            if (!collisionOn) {
-                switch (direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
-            }
+        if (isMoving()) {
+            handleMovement();
 
             sprintCounter++;
             if (sprintCounter > 13) {
