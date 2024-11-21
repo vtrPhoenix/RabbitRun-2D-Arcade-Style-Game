@@ -65,13 +65,6 @@ public class Player extends Entity {
          * sets solid area rectangle which defines the bounds of the player character for collision with other blocks
          * **/
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = 25;
-        solidArea.height = 25;
-
         closeDoor = new ObjExitDoor(false);
         openDoor = new ObjExitDoor(true);
         setDefaultValues();
@@ -96,6 +89,12 @@ public class Player extends Entity {
         worldY = gamePanel.getTileSize() * 6;
         speed = 4;
         direction = "left";
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 25;
+        solidArea.height = 25;
     }
 
     /**
