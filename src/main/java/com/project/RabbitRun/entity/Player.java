@@ -163,11 +163,7 @@ public class Player extends Entity {
                 sprintCounter = 0;
             }
         }
-        if (points < 0) {
-            gamePanel.stopMusic();
-            gamePanel.playSoundEffect(7);
-            gamePanel.setGameState(gamePanel.youLostState);
-        }
+        checkGameState();
         /* Checks if points threshold is met to open the exit door. */
         if (points >= winningPoints && hasClover == winningClovers) {
             gamePanel.object[5] = openDoor;
@@ -178,6 +174,19 @@ public class Player extends Entity {
             gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
             gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
         }
+    }
+
+    /**
+     * Checks if the player has lost and updates the game state accordingly.
+     */
+    private void checkGameState() {
+        if (points < 0) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
+            gamePanel.setGameState(gamePanel.youLostState);
+        }
+
+//        updateExitDoorState();
     }
 
     /**
