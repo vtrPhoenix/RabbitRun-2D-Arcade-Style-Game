@@ -28,11 +28,11 @@ public class CollisionChecker {
     public void checkTile(Entity entity)
     {
         /** the left coordinate of an entity solid area */
-        int entityLeftworldX = entity.getWorldX() +entity.solidArea.x;
+        int entityLeftworldX = entity.getWorldX() + entity.solidArea.x;
         /**
          * the right coordinate of an entity solid area
          */
-        int entityRightworldX= entity.getWorldX() + entity.solidArea.x + entity.solidArea.width;
+        int entityRightworldX = entity.getWorldX() + entity.solidArea.x + entity.solidArea.width;
         /**
          * the top coordinate of an entity solid area
          */
