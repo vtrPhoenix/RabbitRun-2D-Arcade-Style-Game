@@ -1,8 +1,8 @@
 package com.project.RabbitRun.main;
 
-import com.project.RabbitRun.Entity.Player;
-import com.project.RabbitRun.Entity.Enemy;
-import com.project.RabbitRun.Object.SuperObject;
+import com.project.RabbitRun.entity.Player;
+import com.project.RabbitRun.entity.Enemy;
+import com.project.RabbitRun.object.SuperObject;
 import com.project.RabbitRun.tile.TileManager;
 
 import javax.swing.*;
@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Handles mouse inputs in menu and other UI interactions.
      */
-    com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
+    MouseListener mouseListener = new MouseListener(this);
     /**
      * Checks for collisions between player, enemies, and objects.
      */

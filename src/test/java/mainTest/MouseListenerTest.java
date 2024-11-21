@@ -1,7 +1,7 @@
 package mainTest;
 
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.main.mouseListener;
+import com.project.RabbitRun.main.MouseListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MouseListenerTest {
 
     private GamePanel gamePanel;
-    private mouseListener mouseListener;
+    private MouseListener mouseListener;
 
     /**
      * Sets up the test environment by initializing a {@code GamePanel} instance
@@ -27,7 +27,7 @@ public class MouseListenerTest {
     @BeforeEach
     public void setUp() {
         gamePanel = new GamePanel();
-        mouseListener = new mouseListener(gamePanel);
+        mouseListener = new MouseListener(gamePanel);
     }
 
     /**
