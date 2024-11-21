@@ -114,9 +114,13 @@ public class GamePanel extends JPanel implements Runnable {
      */
     com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
     /**
-     * Checks for collisions between player, enemies, and objects.
+     * Checks for collisions between player, enemies.
      */
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    /**
+     * Checks for collisions between player, objects.
+     */
+    public CollisionCheckerObject collisionCheckerObject = new CollisionCheckerObject(this);
     /**
      * Player character for the game.
      */
