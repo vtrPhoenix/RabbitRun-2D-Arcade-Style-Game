@@ -212,20 +212,7 @@ public class Player extends Entity {
                 case "Clover" -> handleClover(index);
                 case "Carrot" -> handleCarrot(index);
                 case "Mushroom" -> handleMushroom(index);
-                case "ExitDoor" -> {
-                    if (points >= winningPoints && hasClover == 8) {
-                        gamePanel.stopMusic();
-                        gamePanel.playSoundEffect(6);
-                        gamePanel.setGameState(gamePanel.youWonState);
-                    }
-                    else if (points < winningPoints) {
-                        gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
-                    }
-                    else if (hasClover < winningClovers) {
-                        int remainingClover = 8 - hasClover;
-                        gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
-                    }
-                }
+                case "ExitDoor" -> handleExitDoor();
             }
         }
     }
@@ -255,6 +242,19 @@ public class Player extends Entity {
         gamePanel.object[index] = null;
         points -= 100;
         gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
+    }
+
+    private void handleExitDoor() {
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(6);
+            gamePanel.setGameState(gamePanel.youWonState);
+        } else if (points < winningPoints) {
+            gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
+        } else if (hasClover < winningClovers) {
+            int remainingClover = winningClovers - hasClover;
+            gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
+        }
     }
 
     /**
