@@ -97,86 +97,6 @@ public class Player extends Entity {
         solidArea.height = 25;
     }
 
-    /**
-     * Returns the screen's X position.
-     *
-     * @return the screen's X coordinate.
-     */
-    public int getScreenX() {
-        return screenX;
-    }
-
-    /**
-     * Returns the screen's Y position.
-     *
-     * @return the screen's Y coordinate.
-     */
-    public int getScreenY() {
-        return screenY;
-    }
-
-    /**
-     * Returns the number of clovers the character has.
-     *
-     * @return the number of clovers the character has.
-     */
-    public int getHasClover() {
-        return hasClover;
-    }
-
-    /**
-     * Sets the number of clovers the character has.
-     *
-     * @param hasClover the number of clovers the character should have.
-     */
-    public void setHasClover(int hasClover) {
-        this.hasClover = hasClover;
-    }
-
-    /**
-     * Returns the number of carrots the character has.
-     *
-     * @return the number of carrots the character has.
-     */
-    public int getHasCarrot() {
-        return hasCarrot;
-    }
-
-    /**
-     * Sets the number of carrots the character has.
-     *
-     * @param hasCarrot the number of carrots the character should have.
-     */
-    public void setHasCarrot(int hasCarrot) {
-        this.hasCarrot = hasCarrot;
-    }
-
-    /**
-     * Returns the points the character has earned.
-     *
-     * @return the points.
-     */
-    public int getPoints() {
-        return points;
-    }
-
-    /**
-     * Sets the points the character has earned.
-     *
-     * @param points the new points value.
-     */
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    /**
-     * Retrieves the object representing the open exit door in the game.
-     *
-     * @return the {@code ObjExitDoor} instance representing the open door.
-     */
-    public ObjExitDoor getOpenDoor() {
-        return openDoor;
-    }
 
 
     /**
@@ -195,6 +115,13 @@ public class Player extends Entity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Checks if the player is moving (any key is pressed).
+     */
+    private boolean isMoving() {
+        return keyHandler.isUpPressed() || keyHandler.isLeftPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed();
     }
 
     /**
@@ -315,4 +242,85 @@ public class Player extends Entity {
 
         g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
+    /**
+     * Returns the screen's X position.
+     *
+     * @return the screen's X coordinate.
+     */
+    public int getScreenX() {
+        return screenX;
+    }
+
+    /**
+     * Returns the screen's Y position.
+     *
+     * @return the screen's Y coordinate.
+     */
+    public int getScreenY() {
+        return screenY;
+    }
+
+    /**
+     * Returns the number of clovers the character has.
+     *
+     * @return the number of clovers the character has.
+     */
+    public int getHasClover() {
+        return hasClover;
+    }
+
+    /**
+     * Sets the number of clovers the character has.
+     *
+     * @param hasClover the number of clovers the character should have.
+     */
+    public void setHasClover(int hasClover) {
+        this.hasClover = hasClover;
+    }
+
+    /**
+     * Returns the number of carrots the character has.
+     *
+     * @return the number of carrots the character has.
+     */
+    public int getHasCarrot() {
+        return hasCarrot;
+    }
+
+    /**
+     * Sets the number of carrots the character has.
+     *
+     * @param hasCarrot the number of carrots the character should have.
+     */
+    public void setHasCarrot(int hasCarrot) {
+        this.hasCarrot = hasCarrot;
+    }
+
+    /**
+     * Returns the points the character has earned.
+     *
+     * @return the points.
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Sets the points the character has earned.
+     *
+     * @param points the new points value.
+     */
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    /**
+     * Retrieves the object representing the open exit door in the game.
+     *
+     * @return the {@code ObjExitDoor} instance representing the open door.
+     */
+    public ObjExitDoor getOpenDoor() {
+        return openDoor;
+    }
+
 }
