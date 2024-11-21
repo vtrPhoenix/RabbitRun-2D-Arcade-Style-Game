@@ -163,30 +163,33 @@ public class Player extends Entity {
                 sprintCounter = 0;
             }
         }
-        checkGameState();
-        /* Checks if points threshold is met to open the exit door. */
-        if (points >= winningPoints && hasClover == winningClovers) {
-            gamePanel.object[5] = openDoor;
-            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-        } else {
-            gamePanel.object[5] = closeDoor;
-            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-        }
+        checkGameStats();
     }
 
     /**
      * Checks if the player has lost and updates the game state accordingly.
      */
-    private void checkGameState() {
+    private void checkGameStats() {
         if (points < 0) {
             gamePanel.stopMusic();
             gamePanel.playSoundEffect(7);
             gamePanel.setGameState(gamePanel.youLostState);
         }
 
-//        updateExitDoorState();
+        updateExitDoorState();
+    }
+
+    /**
+     * Updates the state of the exit door depending on the player's score and collected clovers.
+     */
+    private void updateExitDoorState() {
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.object[5] = openDoor;
+        } else {
+            gamePanel.object[5] = closeDoor;
+        }
+        gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+        gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
     }
 
     /**
