@@ -33,9 +33,9 @@ public class AssetSetter {
         gamePanel.object[0].setWorldX(17 * gamePanel.getTileSize());
         gamePanel.object[0].setWorldY(9 * gamePanel.getTileSize());
 
-        gamePanel.object[1] = new ObjReward();
-        gamePanel.object[1].setWorldX(22 * gamePanel.getTileSize());
-        gamePanel.object[1].setWorldY(16 * gamePanel.getTileSize());
+        gamePanel.object[4] = new ObjReward();
+        gamePanel.object[4].setWorldX(22 * gamePanel.getTileSize());
+        gamePanel.object[4].setWorldY(16 * gamePanel.getTileSize());
 
         gamePanel.object[2] = new ObjBonusReward();
 
@@ -43,9 +43,9 @@ public class AssetSetter {
         gamePanel.object[3].setWorldX(14 * gamePanel.getTileSize());
         gamePanel.object[3].setWorldY(21 * gamePanel.getTileSize());
 
-        gamePanel.object[4] = new ObjPunishment();
-        gamePanel.object[4].setWorldX(16 * gamePanel.getTileSize());
-        gamePanel.object[4].setWorldY(17 * gamePanel.getTileSize());
+        gamePanel.object[1] = new ObjPunishment();
+        gamePanel.object[1].setWorldX(16 * gamePanel.getTileSize());
+        gamePanel.object[1].setWorldY(17 * gamePanel.getTileSize());
 
         gamePanel.object[6] = new ObjReward();
         gamePanel.object[6].setWorldX(23 * gamePanel.getTileSize());
@@ -80,5 +80,9 @@ public class AssetSetter {
         gamePanel.object[14].setWorldY(8 * gamePanel.getTileSize());
 
         gamePanel.object[15] = new ObjBonusReward();
+
+        gamePanel.object[16] = new ObjBonusReward();
+
+        gamePanel.object[17] = new ObjBonusReward();
     }
 }

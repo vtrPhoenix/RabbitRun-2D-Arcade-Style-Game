@@ -63,67 +63,148 @@ public class Entity {
     /** Indicates whether a collision is currently occurring. */
     protected boolean collisionOn = false;
 
+    /**
+     * Retrieves the X-coordinate of the object's position in the game world.
+     *
+     * @return the X-coordinate of the object in the game world.
+     */
     public int getWorldX() {
         return worldX;
     }
 
+    /**
+     * Sets the X-coordinate of the object's position in the game world.
+     *
+     * @param worldX the X-coordinate to set for the object in the game world.
+     */
     public void setWorldX(int worldX) {
         this.worldX = worldX;
     }
 
+    /**
+     * Retrieves the Y-coordinate of the object's position in the game world.
+     *
+     * @return the Y-coordinate of the object in the game world.
+     */
     public int getWorldY() {
         return worldY;
     }
 
+    /**
+     * Sets the Y-coordinate of the object's position in the game world.
+     *
+     * @param worldY the Y-coordinate to set for the object in the game world.
+     */
     public void setWorldY(int worldY) {
         this.worldY = worldY;
     }
 
+    /**
+     * Retrieves the movement speed of the object.
+     *
+     * @return the speed of the object.
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Sets the movement speed of the object.
+     *
+     * @param speed the speed to set for the object.
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+    /**
+     * Retrieves the current direction of the object.
+     *
+     * @return the current direction as a {@code String}.
+     */
     public String getDirection() {
         return direction;
     }
 
+    /**
+     * Sets the current direction of the object.
+     *
+     * @param direction the direction to set, represented as a {@code String}.
+     */
     public void setDirection(String direction) {
         this.direction = direction;
     }
 
+    /**
+     * Retrieves the solid area of the object used for collision detection.
+     *
+     * @return a {@code Rectangle} representing the object's solid area.
+     */
     public Rectangle getSolidArea() {
         return solidArea;
     }
 
+    /**
+     * Sets the solid area of the object used for collision detection.
+     *
+     * @param solidArea a {@code Rectangle} representing the solid area to set.
+     */
     public void setSolidArea(Rectangle solidArea) {
         this.solidArea = solidArea;
     }
 
+    /**
+     * Retrieves the default X-coordinate of the solid area's position.
+     *
+     * @return the default X-coordinate of the solid area.
+     */
     public int getSolidAreaDefaultX() {
         return solidAreaDefaultX;
     }
 
+    /**
+     * Sets the default X-coordinate of the solid area's position.
+     *
+     * @param solidAreaDefaultX the default X-coordinate to set for the solid area.
+     */
     public void setSolidAreaDefaultX(int solidAreaDefaultX) {
         this.solidAreaDefaultX = solidAreaDefaultX;
     }
 
+    /**
+     * Retrieves the default Y-coordinate of the solid area's position.
+     *
+     * @return the default Y-coordinate of the solid area.
+     */
     public int getSolidAreaDefaultY() {
         return solidAreaDefaultY;
     }
 
+    /**
+     * Sets the default Y-coordinate of the solid area's position.
+     *
+     * @param solidAreaDefaultY the default Y-coordinate to set for the solid area.
+     */
     public void setSolidAreaDefaultY(int solidAreaDefaultY) {
         this.solidAreaDefaultY = solidAreaDefaultY;
     }
 
+    /**
+     * Checks whether collision detection is currently enabled for the object.
+     *
+     * @return {@code true} if collision detection is enabled; {@code false} otherwise.
+     */
     public boolean isCollisionOn() {
         return collisionOn;
     }
 
+    /**
+     * Enables or disables collision detection for the object.
+     *
+     * @param collisionOn {@code true} to enable collision detection; {@code false} to disable it.
+     */
     public void setCollisionOn(boolean collisionOn) {
         this.collisionOn = collisionOn;
     }
+
 }

@@ -15,8 +15,8 @@ import java.util.Objects;
 public class UI {
     private final GamePanel gamePanel;
 
-    private Font openSans;
-    private Font ariel;
+    private final Font openSans;
+    private final Font ariel;
 
     private BufferedImage points;
     private BufferedImage clover;
@@ -147,38 +147,38 @@ public class UI {
             }
         }
 
-        if (elapsedTime == 5) {
-            //gamePanel.object[2] = new ObjBonusReward();
-            gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
-            gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
-        }
-        if (elapsedTime == 20) {
-            gamePanel.object[2] = null;
-        }
-        if (elapsedTime == 15) {
-            //gamePanel.object[7] = new ObjBonusReward();
-            gamePanel.object[7].setWorldX(11 * gamePanel.getTileSize());
-            gamePanel.object[7].setWorldY(33 * gamePanel.getTileSize());
-        }
-        if (elapsedTime == 30) {
-            gamePanel.object[7] = null;
-        }
-        if (elapsedTime == 25) {
-            //gamePanel.object[11] = new ObjBonusReward();
-            gamePanel.object[11].setWorldX(38 * gamePanel.getTileSize());
-            gamePanel.object[11].setWorldY(8 * gamePanel.getTileSize());
-        }
-        if (elapsedTime == 40) {
-            gamePanel.object[11] = null;
-        }
-        if (elapsedTime == 35) {
-            //gamePanel.object[11] = new ObjBonusReward();
-            gamePanel.object[15].setWorldX(25 * gamePanel.getTileSize());
-            gamePanel.object[15].setWorldY(12 * gamePanel.getTileSize());
-        }
-        if (elapsedTime == 50) {
-            gamePanel.object[15] = null;
-        }
+        //while (gamePanel.getGameState() == 1) {
+            if (elapsedTime == 5) {
+                gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
+                gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
+            }
+            if (elapsedTime == 20) {
+                gamePanel.object[2] = null;
+            }
+            if (elapsedTime == 15) {
+                gamePanel.object[7].setWorldX(11 * gamePanel.getTileSize());
+                gamePanel.object[7].setWorldY(33 * gamePanel.getTileSize());
+            }
+            if (elapsedTime == 30) {
+                gamePanel.object[7] = null;
+            }
+            if (elapsedTime == 25) {
+                //gamePanel.object[11] = new ObjBonusReward();
+                gamePanel.object[11].setWorldX(38 * gamePanel.getTileSize());
+                gamePanel.object[11].setWorldY(8 * gamePanel.getTileSize());
+            }
+            if (elapsedTime == 40) {
+                gamePanel.object[11] = null;
+            }
+            if (elapsedTime == 35) {
+                //gamePanel.object[11] = new ObjBonusReward();
+                gamePanel.object[15].setWorldX(25 * gamePanel.getTileSize());
+                gamePanel.object[15].setWorldY(12 * gamePanel.getTileSize());
+            }
+            if (elapsedTime == 50) {
+                gamePanel.object[15] = null;
+            }
+       // }
 
     }
 
@@ -255,4 +255,131 @@ public class UI {
         message = "";
         messageTimer = 0;
     }
+
+    /**
+     * Checks whether a message is currently set to be displayed.
+     *
+     * @return {@code true} if a message is set to be displayed; {@code false} otherwise.
+     */
+    public boolean isDispMessage() {
+        return dispMessage;
+    }
+
+    /**
+     * Sets whether a message should be displayed.
+     *
+     * @param dispMessage {@code true} to display a message; {@code false} otherwise.
+     */
+    public void setDispMessage(boolean dispMessage) {
+        this.dispMessage = dispMessage;
+    }
+
+    /**
+     * Retrieves the current message to be displayed.
+     *
+     * @return the message as a {@code String}.
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * Sets the message to be displayed.
+     *
+     * @param message the message as a {@code String}.
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * Retrieves the color of the message to be displayed.
+     *
+     * @return the {@code Color} of the message.
+     */
+    public Color getMessageColor() {
+        return messageColor;
+    }
+
+    /**
+     * Sets the color of the message to be displayed.
+     *
+     * @param messageColor the {@code Color} to set for the message.
+     */
+    public void setMessageColor(Color messageColor) {
+        this.messageColor = messageColor;
+    }
+
+    /**
+     * Retrieves the timer value for the message display duration.
+     *
+     * @return the message timer as an {@code int}.
+     */
+    public int getMessageTimer() {
+        return messageTimer;
+    }
+
+    /**
+     * Sets the timer value for the message display duration.
+     *
+     * @param messageTimer the duration in milliseconds as an {@code int}.
+     */
+    public void setMessageTimer(int messageTimer) {
+        this.messageTimer = messageTimer;
+    }
+
+    /**
+     * Retrieves the image representing points in the game.
+     *
+     * @return a {@code BufferedImage} representing the points image.
+     */
+    public BufferedImage getPointsImage() {
+        return points;
+    }
+
+    /**
+     * Retrieves the image representing a clover in the game.
+     *
+     * @return a {@code BufferedImage} representing the clover image.
+     */
+    public BufferedImage getCloverImage() {
+        return clover;
+    }
+
+    /**
+     * Retrieves the image for the menu page.
+     *
+     * @return a {@code BufferedImage} representing the menu page image.
+     */
+    public BufferedImage getMenuPageImage() {
+        return menuPage;
+    }
+
+    /**
+     * Retrieves the image for the guide page.
+     *
+     * @return a {@code BufferedImage} representing the guide page image.
+     */
+    public BufferedImage getGuidePageImage() {
+        return guidePage;
+    }
+
+    /**
+     * Retrieves the image for the "You Won" page.
+     *
+     * @return a {@code BufferedImage} representing the "You Won" page image.
+     */
+    public BufferedImage getYouWonPageImage() {
+        return youWonPage;
+    }
+
+    /**
+     * Retrieves the image for the "You Lost" page.
+     *
+     * @return a {@code BufferedImage} representing the "You Lost" page image.
+     */
+    public BufferedImage getYouLostPageImage() {
+        return youLostPage;
+    }
+
 }

@@ -110,6 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
      * Restarts the game, resetting player, enemies, and other elements to default.
      */
     public void restartGame() {
+        playMusic(0);
         player.restart();
         aSetter.setObject();
         ui.restart();
@@ -283,19 +284,40 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = gameState;
     }
 
+    /**
+     * Retrieves the current game thread.
+     *
+     * @return the {@link Thread} instance representing the game thread.
+     */
     public Thread getGameThread() {
         return gameThread;
     }
 
+    /**
+     * Sets the game thread to the specified thread.
+     *
+     * @param gameThread the {@link Thread} instance to set as the game thread.
+     */
     public void setGameThread(Thread gameThread) {
         this.gameThread = gameThread;
     }
 
-    public int getScreenWidht(){
+    /**
+     * Retrieves the screen width.
+     *
+     * @return the width of the screen as an integer.
+     */
+    public int getScreenWidht() { // Note: Correct spelling to getScreenWidth for consistency
         return screenWidth;
     }
 
-    public int getScreebHeight(){
+    /**
+     * Retrieves the screen height.
+     *
+     * @return the height of the screen as an integer.
+     */
+    public int getScreebHeight() { // Note: Correct spelling to getScreenHeight for consistency
         return screenHeight;
     }
+
 }

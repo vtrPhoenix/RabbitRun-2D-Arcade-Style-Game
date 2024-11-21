@@ -35,18 +35,19 @@ public class Player extends Entity {
     private int hasCarrot = 0;
 
     /** Points scored by the player. */
-    public int points = 0;
+    private int points = 0;
 
     /** Points required to open the exit door. */
     private final int winningPoints = 400;
 
+    /** Clovers requires to open the exit door*/
     private final int winningClovers = 8;
 
     /** Represents the open exit door object. */
-    private ObjExitDoor openDoor;
+    private final ObjExitDoor openDoor;
 
     /** Represents the closed exit door object. */
-    private ObjExitDoor closeDoor;
+    private final ObjExitDoor closeDoor;
 
     /**
      * Constructs a Player object with the specified game panel and key handler.
@@ -170,6 +171,16 @@ public class Player extends Entity {
     }
 
     /**
+     * Retrieves the object representing the open exit door in the game.
+     *
+     * @return the {@code ObjExitDoor} instance representing the open door.
+     */
+    public ObjExitDoor getOpenDoor() {
+        return openDoor;
+    }
+
+
+    /**
      * Loads the images for the player’s movement animations.
      */
     public void getPlayerImage() {
@@ -217,21 +228,21 @@ public class Player extends Entity {
                 spriteNumber = spriteNumber == 1 ? 2 : 1;
                 sprintCounter = 0;
             }
-
-            if (points < 0) {
-                gamePanel.setGameState(gamePanel.youLostState);
-            }
-
-            /* Checks if points threshold is met to open the exit door. */
-            if (points >= winningPoints && hasClover == winningClovers) {
-                gamePanel.object[5] = openDoor;
-                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-            } else {
-                gamePanel.object[5] = closeDoor;
-                gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-                gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-            }
+        }
+        if (points < 0) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
+            gamePanel.setGameState(gamePanel.youLostState);
+        }
+        /* Checks if points threshold is met to open the exit door. */
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.object[5] = openDoor;
+            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
+        } else {
+            gamePanel.object[5] = closeDoor;
+            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
         }
     }
 
@@ -253,7 +264,7 @@ public class Player extends Entity {
                     points += 50;
                     gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
 
-                    if (hasClover == 8) {
+                    if (hasClover == 8 && points >= winningPoints) {
                         gamePanel.playSoundEffect(4);
                     }
                 }
@@ -272,6 +283,8 @@ public class Player extends Entity {
                 }
                 case "ExitDoor" -> {
                     if (points >= winningPoints && hasClover == 8) {
+                        gamePanel.stopMusic();
+                        gamePanel.playSoundEffect(6);
                         gamePanel.setGameState(gamePanel.youWonState);
                     }
                     else if (points < winningPoints) {

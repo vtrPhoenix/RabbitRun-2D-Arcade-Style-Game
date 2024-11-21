@@ -16,10 +16,9 @@ import java.util.Random;
  * Represents an enemy entity in the Rabbit Run game.
  * The enemy can move in four directions and detects collisions with tiles, players, and other enemies.
  *
- * @author Vivien Li
  * @version 1.0
  */
-public class Enemy extends Entity{
+public class Enemy extends Entity {
 
     /** The game panel in which the enemy exists. */
     GamePanel gamePanel;
@@ -66,11 +65,76 @@ public class Enemy extends Entity{
     }
 
     /**
+     * Gets the current cooldown value for changing direction.
+     *
+     * @return The current direction cooldown value.
+     */
+    public int getDirectionCooldown() {
+        return directionCooldown;
+    }
+
+    /**
+     * Checks if a collision is currently detected.
+     *
+     * @return True if a collision is detected, false otherwise.
+     */
+    public boolean isCollisionOn() {
+        return collisionOn;
+    }
+
+    /**
+     * Sets the cooldown value for changing direction.
+     *
+     * @param cooldown The cooldown value to be set.
+     */
+    public void setDirectionCooldown(int cooldown) {
+        this.directionCooldown = cooldown;
+    }
+
+    /**
+     * Sets the counter value for how long the enemy has been stuck.
+     *
+     * @param stuckCounter The stuck counter value to be set.
+     */
+    public void setStuckCounter(int stuckCounter) {
+        this.stuckCounter = stuckCounter;
+    }
+
+    /**
+     * Sets whether a collision is currently detected.
+     *
+     * @param collisionOn True if a collision is detected, false otherwise.
+     */
+    public void setCollisionOn(boolean collisionOn) {
+        this.collisionOn = collisionOn;
+    }
+
+
+    /**
      * Sets the default values for the enemy's speed and direction.
      */
     public void setDefaultValues() {
         speed = 2;
         direction = "left";
+    }
+
+    /**
+     * Loads the images for the enemy's movement in different directions.
+     */
+    public void getEnemyImage() {
+        try {
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down2.png")));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -103,64 +167,32 @@ public class Enemy extends Entity{
     }
 
     /**
-     * Loads the images for the enemy's movement in different directions.
-     */
-    public void getEnemyImage() {
-        try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down2.png")));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Updates the enemy's movement and collision checks based on the player's position.
      *
      * @param player The player to track and interact with.
      */
     public void updateEnemy(Player player) {
-
         if (directionCooldown > 0) {
             directionCooldown--;
         }
 
-        int deltaX = player.worldX - this.worldX;
-        int deltaY = player.worldY - this.worldY;
-
+        // Determine direction only if the cooldown is zero
         if (directionCooldown == 0) {
-
-            if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                if (deltaX > 0) {
-                    direction = "right";
-                } else {
-                    direction = "left";
-                }
-            } else {
-                if (deltaY > 0) {
-                    direction = "down";
-                } else {
-                    direction = "up";
-                }
-            }
+            determineDirection(player);
         }
 
+        // Check for collisions
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
 
         if (collisionWithPlayer(player)) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
             gamePanel.setGameState(gamePanel.youLostState);
         }
 
         if (collisionOn || collisionWithEnemy()) {
-            alternateDirection(deltaX, deltaY);
+            alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
             directionCooldown = 60;
             stuckCounter++;
         } else {
@@ -176,6 +208,7 @@ public class Enemy extends Entity{
             stuckCounter = 0;
         }
 
+        // Handle sprite animation
         sprintCounter++;
         if (sprintCounter > 13) {
             if (spriteNumber == 1) {
@@ -184,6 +217,30 @@ public class Enemy extends Entity{
                 spriteNumber = 1;
             }
             sprintCounter = 0;
+        }
+    }
+
+    /**
+     * Determines the direction of the enemy based on the player's position.
+     *
+     * @param player The player to track.
+     */
+    public void determineDirection(Player player) {
+        int deltaX = player.worldX - this.worldX;
+        int deltaY = player.worldY - this.worldY;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 0) {
+                direction = "right";
+            } else {
+                direction = "left";
+            }
+        } else {
+            if (deltaY > 0) {
+                direction = "down";
+            } else {
+                direction = "up";
+            }
         }
     }
 
@@ -222,7 +279,7 @@ public class Enemy extends Entity{
     /**
      * Moves the enemy in the current direction.
      */
-    private void currentDirection() {
+    public void currentDirection() {
         switch (direction) {
             case "up":
                 worldY -= speed;
@@ -245,7 +302,7 @@ public class Enemy extends Entity{
      * @param deltaX Difference between the player's X position and enemy's X position.
      * @param deltaY Difference between the player's Y position and enemy's Y position.
      */
-    private void alternateDirection(int deltaX, int deltaY) {
+    public void alternateDirection(int deltaX, int deltaY) {
         if (direction.equals("left") || direction.equals("right")) {
             if (deltaY > 0) {
                 direction = "down";
@@ -266,6 +323,7 @@ public class Enemy extends Entity{
             changeDirection();
         }
     }
+
 
     /**
      * Reverses the current direction of the enemy.
@@ -290,7 +348,7 @@ public class Enemy extends Entity{
     /**
      * Applies a small random offset to the enemy's position when it is stuck.
      */
-    private void applyOffset() {
+    public void applyOffset() {
         int offsetX = random.nextInt(31) - 15;
         int offsetY = random.nextInt(31) - 15;
 
