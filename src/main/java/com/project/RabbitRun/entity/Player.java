@@ -150,18 +150,24 @@ public class Player extends Entity {
     }
 
     /**
+     * Updates the player's sprite for animation.
+     */
+    private void updateSprite() {
+        sprintCounter++;
+        if (sprintCounter > 13) {
+            spriteNumber = spriteNumber == 1 ? 2 : 1;
+            sprintCounter = 0;
+        }
+    }
+
+    /**
      * Updates the player’s state, including movement, collision detection, and interaction with objects.
      */
     public void update() {
 
         if (isMoving()) {
             handleMovement();
-
-            sprintCounter++;
-            if (sprintCounter > 13) {
-                spriteNumber = spriteNumber == 1 ? 2 : 1;
-                sprintCounter = 0;
-            }
+            updateSprite();
         }
         checkGameStats();
     }
