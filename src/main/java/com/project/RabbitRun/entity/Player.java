@@ -1,6 +1,6 @@
-package com.project.RabbitRun.Entity;
+package com.project.RabbitRun.entity;
 
-import com.project.RabbitRun.Object.ObjExitDoor;
+import com.project.RabbitRun.object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.main.KeyHandler;
 
