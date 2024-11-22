@@ -12,16 +12,15 @@ import java.net.URL;
 public class Sound {
 
     /** The audio clip used for playing sounds. */
-    Clip clip;
+    public Clip clip;
 
     /** Array storing URLs of the sound files used in the game. */
-    URL[] soundURL = new URL[15];
+    public URL[] soundURL = new URL[15];
 
     /**
      * Initializes sound resources by loading audio files into an array.
      */
     public Sound() {
-
         soundURL[0] = getClass().getResource("/sound/Game_Sound.wav");
         soundURL[1] = getClass().getResource("/sound/Reward_Sound.wav");
         soundURL[2] = getClass().getResource("/sound/BonusReward_Sound.wav");
