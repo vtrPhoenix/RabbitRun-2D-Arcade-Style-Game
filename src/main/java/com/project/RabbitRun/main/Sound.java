@@ -21,7 +21,6 @@ public class Sound {
      * Initializes sound resources by loading audio files into an array.
      */
     public Sound() {
-
         soundURL[0] = getClass().getResource("/sound/Game_Sound.wav");
         soundURL[1] = getClass().getResource("/sound/Reward_Sound.wav");
         soundURL[2] = getClass().getResource("/sound/BonusReward_Sound.wav");
