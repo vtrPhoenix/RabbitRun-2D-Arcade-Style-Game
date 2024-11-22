@@ -1,7 +1,6 @@
-package TileTest;
+package tileTest;
 
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.tile.Tile;
 import com.project.RabbitRun.tile.TileManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

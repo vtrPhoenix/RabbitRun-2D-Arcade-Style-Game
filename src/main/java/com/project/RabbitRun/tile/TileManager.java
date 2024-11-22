@@ -23,6 +23,11 @@ public class TileManager {
     /** 2D array representing the tile map, where each element refers to a tile index. */
     public int[][] mapTileNum;
 
+    public String map_path = "/maps/map03.txt";
+    public String map_path2 = "/maps/map02.txt";
+    public String tile1_path = "/Tiles/grass.png";
+    public String tile2_path = "/Tiles/tree2.png";
+
     /**
      * Main constructor for the tile manager. Initializes the tile array with a maximum of 10 tiles
      * and sets the dimensions of the {@code mapTileNum} array based on the game's world size.
@@ -34,7 +39,13 @@ public class TileManager {
         tile = new Tile[10];
         mapTileNum = new int[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
         getTileImage();
-        loadMap("/maps/map03.txt");
+        //change this variable to change the map that is loaded
+        choose_map(map_path);
+    }
+
+    public void choose_map(String path)
+    {
+        loadMap(path);
     }
 
     /**
@@ -45,10 +56,10 @@ public class TileManager {
     {
         try{
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/grass.png")));
+            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResource(tile1_path)));
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource("/Tiles/tree2.png")));
+            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource(tile2_path)));
             tile[1].collision = true;
 
         }

@@ -1,9 +1,8 @@
 package com.project.RabbitRun.main;
 
-import com.project.RabbitRun.Object.ObjBonusReward;
-import com.project.RabbitRun.Object.ObjExitDoor;
-import com.project.RabbitRun.Object.ObjPunishment;
-import com.project.RabbitRun.Object.ObjReward;
+import com.project.RabbitRun.object.ObjBonusReward;
+import com.project.RabbitRun.object.ObjPunishment;
+import com.project.RabbitRun.object.ObjReward;
 
 /**
  * Responsible for initializing and placing game objects on the game board

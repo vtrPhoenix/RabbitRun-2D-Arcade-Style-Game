@@ -1,6 +1,5 @@
-package com.project.RabbitRun.Entity;
+package com.project.RabbitRun.entity;
 
-import com.project.RabbitRun.main.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;

@@ -1,4 +1,4 @@
-package com.project.RabbitRun.Object;
+package com.project.RabbitRun.object;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package com.project.RabbitRun.Entity;
+package com.project.RabbitRun.entity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

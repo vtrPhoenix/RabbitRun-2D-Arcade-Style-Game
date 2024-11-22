@@ -1,7 +1,7 @@
-package EntityTest;
+package entityTest;
 
-import com.project.RabbitRun.Entity.Player;
-import com.project.RabbitRun.Object.*;
+import com.project.RabbitRun.entity.Player;
+import com.project.RabbitRun.object.*;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.main.KeyHandler;
 import org.junit.jupiter.api.BeforeEach;

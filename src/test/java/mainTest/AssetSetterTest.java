@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import com.project.RabbitRun.main.AssetSetter;
-import com.project.RabbitRun.Object.ObjBonusReward;
-import com.project.RabbitRun.Object.ObjPunishment;
-import com.project.RabbitRun.Object.ObjReward;
+import com.project.RabbitRun.object.ObjBonusReward;
+import com.project.RabbitRun.object.ObjPunishment;
+import com.project.RabbitRun.object.ObjReward;
 
 public class AssetSetterTest {
 
