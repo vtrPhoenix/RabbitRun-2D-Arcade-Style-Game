@@ -133,6 +133,20 @@ public class UI {
         if (elapsedTime == 50) {
             gamePanel.object[15] = null;
         }
+        if (elapsedTime == 45) {
+            gamePanel.object[16].setWorldX(32 * gamePanel.getTileSize());
+            gamePanel.object[16].setWorldY(18 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 60) {
+            gamePanel.object[16] = null;
+        }
+        if (elapsedTime == 55) {
+            gamePanel.object[17].setWorldX(20 * gamePanel.getTileSize());
+            gamePanel.object[17].setWorldY(33 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 70) {
+            gamePanel.object[17] = null;
+        }
     }
 
     /**
