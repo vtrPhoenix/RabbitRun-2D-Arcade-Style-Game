@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the Enemy class in the RabbitRun game.
+ *
+ */
 public class EnemyTest {
 
     private GamePanel gamePanel;
@@ -18,6 +22,9 @@ public class EnemyTest {
     private Enemy enemy;
     private Player player;
 
+    /**
+     * Sets up the necessary objects and default values before each test.
+     */
     @BeforeEach
     public void setUp() {
         gamePanel = new GamePanel();
@@ -34,6 +41,9 @@ public class EnemyTest {
         enemy.setDefaultValues();
     }
 
+    /**
+     * Tests the initialization of the Enemy object.
+     */
     @Test
     public void testEnemyInitialization() {
         assertNotNull(enemy, "Enemy should be initialized");
@@ -43,6 +53,9 @@ public class EnemyTest {
         assertEquals("left", enemy.getDirection(), "Enemy's initial direction should be 'left'");
     }
 
+    /**
+     * Tests the restart functionality of the Enemy.
+     */
     @Test
     public void testEnemyRestart() {
         enemy.setWorldX(200);
@@ -56,11 +69,17 @@ public class EnemyTest {
         assertEquals("left", enemy.getDirection(), "Enemy's direction should reset to default 'left'");
     }
 
+    /**
+     * Tests that enemy images are loaded without errors.
+     */
     @Test
     public void testLoadImage() {
         assertDoesNotThrow(() -> enemy.getEnemyImage(), "Loading enemy images should not throw an exception");
     }
 
+    /**
+     * Tests collision detection between enemies.
+     */
     @Test
     public void testCollisionWithEnemy() {
         // Create a second enemy at the same position
@@ -76,6 +95,9 @@ public class EnemyTest {
         assertFalse(enemy.collisionWithEnemy(), "Enemy should not detect a collision when no other enemy is at the same position");
     }
 
+    /**
+     * Tests movement in all directions based on the current direction.
+     */
     @Test
     public void testCurrentDirection() {
         enemy.setDirection("up");
@@ -99,6 +121,9 @@ public class EnemyTest {
         assertEquals(initialX + enemy.getSpeed(), enemy.getWorldX(), "Enemy should move right correctly");
     }
 
+    /**
+     * Tests the alternate direction logic when an obstacle is encountered.
+     */
     @Test
     public void testAlternateDirection() {
         enemy.setDirection("left");
@@ -132,6 +157,9 @@ public class EnemyTest {
         assertEquals("left", enemy.getDirection(), "Enemy should change direction to 'left' when going down and deltaX is negative");
     }
 
+    /**
+     * Tests direction changes for the enemy.
+     */
     @Test
     public void testChangeDirection() {
         enemy.setDirection("up");
@@ -151,6 +179,9 @@ public class EnemyTest {
         assertEquals("left", enemy.getDirection(), "Direction should change from 'right' to 'left'");
     }
 
+    /**
+     * Tests determining the direction towards the player.
+     */
     @Test
     public void testDetermineDirectionRight() {
         player.setWorldX(200);
@@ -187,33 +218,30 @@ public class EnemyTest {
         assertEquals("up", enemy.getDirection(), "Enemy should set direction to 'up' towards the player.");
     }
 
+    /**
+     * Tests the overall update logic for the enemy, including direction updates and collision handling.
+     */
     @Test
     public void testUpdateEnemy() {
-        // Set initial direction and no cooldown
+
         enemy.setDirection("left");
         enemy.setDirectionCooldown(0);
 
-        // Place player to the right of the enemy
         player.setWorldX(200);
         player.setWorldY(150);
 
-        // updateEnemy without any collision
         enemy.updateEnemy(player);
 
-        // Verify that direction is set towards the player initially
         if (!enemy.isCollisionOn()) {
             assertEquals("right", enemy.getDirection(), "Enemy should set direction towards the player when updated");
         } else {
-            // If collision happens, ensure the cooldown is set
             assertEquals(60, enemy.getDirectionCooldown(), "Cooldown should be set to 60 after collision");
             assertNotEquals("right", enemy.getDirection(), "Direction should change due to collision");
         }
 
-        // Trigger a collision and verify the logic
         enemy.setCollisionOn(true);
         enemy.updateEnemy(player);
 
-        // Verify the cooldown after collision
         assertEquals(60, enemy.getDirectionCooldown(), "Cooldown should be set to 60 after collision");
         assertNotEquals("right", enemy.getDirection(), "Direction should change due to collision");
     }
