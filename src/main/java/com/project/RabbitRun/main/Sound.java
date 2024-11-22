@@ -12,10 +12,10 @@ import java.net.URL;
 public class Sound {
 
     /** The audio clip used for playing sounds. */
-    Clip clip;
+    public Clip clip;
 
     /** Array storing URLs of the sound files used in the game. */
-    URL[] soundURL = new URL[15];
+    public URL[] soundURL = new URL[15];
 
     /**
      * Initializes sound resources by loading audio files into an array.
