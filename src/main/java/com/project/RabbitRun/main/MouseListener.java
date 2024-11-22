@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
  * This listener manages the main menu, game end options, and transitions between game states
  * based on button interactions.
  */
-public class mouseListener extends MouseAdapter {
+public class MouseListener extends MouseAdapter {
     private final GamePanel gamePanel;
 
     // Button bounds for menu and end-screen actions
@@ -24,7 +24,7 @@ public class mouseListener extends MouseAdapter {
      *
      * @param gamePanel The GamePanel instance that this listener interacts with.
      */
-    public mouseListener(GamePanel gamePanel) {
+    public MouseListener(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 

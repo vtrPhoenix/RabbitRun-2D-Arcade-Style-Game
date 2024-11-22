@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Handles mouse inputs in menu and other UI interactions.
      */
-    com.project.RabbitRun.main.mouseListener mouseListener = new mouseListener(this);
+    MouseListener mouseListener = new MouseListener(this);
     /**
      * Checks for collisions between player, enemies.
      */

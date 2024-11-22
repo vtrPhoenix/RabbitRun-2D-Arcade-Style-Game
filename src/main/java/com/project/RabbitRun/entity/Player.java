@@ -65,13 +65,6 @@ public class Player extends Entity {
          * sets solid area rectangle which defines the bounds of the player character for collision with other blocks
          * **/
         solidArea = new Rectangle();
-        solidArea.x = 8;
-        solidArea.y = 16;
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
-        solidArea.width = 25;
-        solidArea.height = 25;
-
         closeDoor = new ObjExitDoor(false);
         openDoor = new ObjExitDoor(true);
         setDefaultValues();
@@ -96,8 +89,197 @@ public class Player extends Entity {
         worldY = gamePanel.getTileSize() * 6;
         speed = 4;
         direction = "left";
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+        solidArea.width = 25;
+        solidArea.height = 25;
     }
 
+
+
+    /**
+     * Loads the images for the player’s movement animations.
+     */
+    public void getPlayerImage() {
+        try {
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up1.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left1.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down1.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up2.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left2.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down2.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right2.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Checks if the player is moving (any key is pressed).
+     */
+    private boolean isMoving() {
+        return keyHandler.isUpPressed() || keyHandler.isLeftPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed();
+    }
+
+    /**
+     * Handles player movement based on input.
+     */
+    private void handleMovement() {
+        if (keyHandler.isUpPressed()) direction = "up";
+        else if (keyHandler.isDownPressed()) direction = "down";
+        else if (keyHandler.isLeftPressed()) direction = "left";
+        else if (keyHandler.isRightPressed()) direction = "right";
+
+        collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+
+        int objIndex = gamePanel.collisionCheckerObject.checkObject(this, true);
+        pickObject(objIndex);
+
+        if (!collisionOn) {
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+    }
+
+    /**
+     * Updates the player's sprite for animation.
+     */
+    private void updateSprite() {
+        sprintCounter++;
+        if (sprintCounter > 13) {
+            spriteNumber = spriteNumber == 1 ? 2 : 1;
+            sprintCounter = 0;
+        }
+    }
+
+    /**
+     * Updates the player’s state, including movement, collision detection, and interaction with objects.
+     */
+    public void update() {
+
+        if (isMoving()) {
+            handleMovement();
+            updateSprite();
+        }
+        checkGameStats();
+    }
+
+    /**
+     * Checks if the player has lost and updates the game state accordingly.
+     */
+    private void checkGameStats() {
+        if (points < 0) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(7);
+            gamePanel.setGameState(gamePanel.youLostState);
+        }
+
+        updateExitDoorState();
+    }
+
+    /**
+     * Updates the state of the exit door depending on the player's score and collected clovers.
+     */
+    private void updateExitDoorState() {
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.object[5] = openDoor;
+        } else {
+            gamePanel.object[5] = closeDoor;
+        }
+        gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
+        gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
+    }
+
+    /**
+     * Handles picking up an object in the game, adjusting points and
+     * updating messages based on the type of object collected.
+     *
+     * @param index the index of the object to interact with
+     */
+    public void pickObject(int index) {
+        if (index != 999) {
+            String objName = gamePanel.object[index].getName();
+
+            switch (objName) {
+                case "Clover" -> handleClover(index);
+                case "Carrot" -> handleCarrot(index);
+                case "Mushroom" -> handleMushroom(index);
+                case "ExitDoor" -> handleExitDoor();
+            }
+        }
+    }
+
+    private void handleClover(int index) {
+        gamePanel.playSoundEffect(1);
+        hasClover++;
+        gamePanel.object[index] = null;
+        points += 50;
+        gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
+
+        if (hasClover == winningClovers && points >= winningPoints) {
+            gamePanel.playSoundEffect(4);
+        }
+    }
+
+    private void handleCarrot(int index) {
+        gamePanel.playSoundEffect(2);
+        hasCarrot++;
+        gamePanel.object[index] = null;
+        points += 100;
+        gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
+    }
+
+    private void handleMushroom(int index) {
+        gamePanel.playSoundEffect(3);
+        gamePanel.object[index] = null;
+        points -= 100;
+        gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
+    }
+
+    private void handleExitDoor() {
+        if (points >= winningPoints && hasClover == winningClovers) {
+            gamePanel.stopMusic();
+            gamePanel.playSoundEffect(6);
+            gamePanel.setGameState(gamePanel.youWonState);
+        } else if (points < winningPoints) {
+            gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
+        } else if (hasClover < winningClovers) {
+            int remainingClover = winningClovers - hasClover;
+            gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
+        }
+    }
+
+    /**
+     * Draws the player with the appropriate sprite image based on the
+     * direction and animation frame.
+     *
+     * @param g2 the graphics context used to draw the player
+     */
+    public void draw(Graphics2D g2) {
+        BufferedImage image = getSpriteImage();
+        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+    }
+
+    /**
+     * Returns the appropriate sprite image based on direction and animation frame.
+     */
+    private BufferedImage getSpriteImage() {
+        return switch (direction) {
+            case "left" -> (spriteNumber == 1) ? left1 : left2;
+            case "right" -> (spriteNumber == 1) ? right1 : right2;
+            case "up" -> (spriteNumber == 1) ? up1 : up2;
+            case "down" -> (spriteNumber == 1) ? down1 : down2;
+            default -> null;
+        };
+    }
     /**
      * Returns the screen's X position.
      *
@@ -179,141 +361,4 @@ public class Player extends Entity {
         return openDoor;
     }
 
-
-    /**
-     * Loads the images for the player’s movement animations.
-     */
-    public void getPlayerImage() {
-        try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up1.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left1.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down1.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up2.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left2.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down2.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right2.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Updates the player’s state, including movement, collision detection, and interaction with objects.
-     */
-    public void update() {
-        if (keyHandler.isUpPressed() || keyHandler.isLeftPressed() || keyHandler.isDownPressed() || keyHandler.isRightPressed()) {
-            if (keyHandler.isUpPressed()) direction = "up";
-            else if (keyHandler.isDownPressed()) direction = "down";
-            else if (keyHandler.isLeftPressed()) direction = "left";
-            else if(keyHandler.isRightPressed()) direction = "right";
-
-            collisionOn = false;
-            gamePanel.collisionChecker.checkTile(this);
-
-            int objIndex = gamePanel.collisionCheckerObject.checkObject(this, true);
-            pickObject(objIndex);
-
-            if (!collisionOn) {
-                switch (direction) {
-                    case "up" -> worldY -= speed;
-                    case "down" -> worldY += speed;
-                    case "left" -> worldX -= speed;
-                    case "right" -> worldX += speed;
-                }
-            }
-
-            sprintCounter++;
-            if (sprintCounter > 13) {
-                spriteNumber = spriteNumber == 1 ? 2 : 1;
-                sprintCounter = 0;
-            }
-        }
-        if (points < 0) {
-            gamePanel.stopMusic();
-            gamePanel.playSoundEffect(7);
-            gamePanel.setGameState(gamePanel.youLostState);
-        }
-        /* Checks if points threshold is met to open the exit door. */
-        if (points >= winningPoints && hasClover == winningClovers) {
-            gamePanel.object[5] = openDoor;
-            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-        } else {
-            gamePanel.object[5] = closeDoor;
-            gamePanel.object[5].setWorldX(38 * gamePanel.getTileSize());
-            gamePanel.object[5].setWorldY(32 * gamePanel.getTileSize());
-        }
-    }
-
-    /**
-     * Handles picking up an object in the game, adjusting points and
-     * updating messages based on the type of object collected.
-     *
-     * @param index the index of the object to interact with
-     */
-    public void pickObject(int index) {
-        if (index != 999) {
-            String objName = gamePanel.object[index].getName();
-
-            switch (objName) {
-                case "Clover" -> {
-                    gamePanel.playSoundEffect(1);
-                    hasClover++;
-                    gamePanel.object[index] = null;
-                    points += 50;
-                    gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
-
-                    if (hasClover == 8 && points >= winningPoints) {
-                        gamePanel.playSoundEffect(4);
-                    }
-                }
-                case "Carrot" -> {
-                    gamePanel.playSoundEffect(2);
-                    hasCarrot++;
-                    gamePanel.object[index] = null;
-                    points += 100;
-                    gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
-                }
-                case "Mushroom" -> {
-                    gamePanel.playSoundEffect(3);
-                    gamePanel.object[index] = null;
-                    points -= 100;
-                    gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
-                }
-                case "ExitDoor" -> {
-                    if (points >= winningPoints && hasClover == 8) {
-                        gamePanel.stopMusic();
-                        gamePanel.playSoundEffect(6);
-                        gamePanel.setGameState(gamePanel.youWonState);
-                    }
-                    else if (points < winningPoints) {
-                        gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
-                    }
-                    else if (hasClover < winningClovers) {
-                        int remainingClover = 8 - hasClover;
-                        gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Draws the player with the appropriate sprite image based on the
-     * direction and animation frame.
-     *
-     * @param g2 the graphics context used to draw the player
-     */
-    public void draw(Graphics2D g2) {
-        BufferedImage image = switch (direction) {
-            case "left" -> (spriteNumber == 1) ? left1 : left2;
-            case "right" -> (spriteNumber == 1) ? right1 : right2;
-            case "up" -> (spriteNumber == 1) ? up1 : up2;
-            case "down" -> (spriteNumber == 1) ? down1 : down2;
-            default -> null;
-        };
-
-        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-    }
 }
