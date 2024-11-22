@@ -10,12 +10,20 @@ import com.project.RabbitRun.object.SuperObject;
 
 import java.awt.*;
 
+/**
+ * Unit and integration tests for the {@link CollisionCheckerObject} class.
+ * This class validates the behavior of object collision detection in the game.
+ */
 public class CollisionCheckerObjectTest {
 
     private GamePanel gamePanel;
     private CollisionCheckerObject collisionChecker;
     private Entity testEntity;
 
+    /**
+     * Sets up the test environment by initializing the {@link GamePanel},
+     * {@link CollisionCheckerObject}, and test {@link Entity} before each test case.
+     */
     @BeforeEach
     public void setUp() {
         // Initialize GamePanel and CollisionCheckerObject
@@ -40,6 +48,10 @@ public class CollisionCheckerObjectTest {
         gamePanel.object[0] = testObject;
     }
 
+    /**
+     * Verifies that no collision is detected when the entity is placed away
+     * from any objects.
+     */
     @Test
     public void testNoCollision() {
         // Place the entity away from the object
@@ -53,6 +65,10 @@ public class CollisionCheckerObjectTest {
         assertFalse(testEntity.isCollisionOn(), "Collision flag should remain false");
     }
 
+    /**
+     * Verifies that a collision is detected when the entity moves into an object
+     * from the right side.
+     */
     @Test
     public void testCollisionFromRight() {
         // Move entity to collide from the right
@@ -66,6 +82,10 @@ public class CollisionCheckerObjectTest {
         assertTrue(testEntity.isCollisionOn(), "Collision flag should be set to true");
     }
 
+    /**
+     * Verifies that a collision is detected when the entity moves into an object
+     * from the left side.
+     */
     @Test
     public void testCollisionFromLeft() {
         // Move entity to collide from the left
@@ -79,6 +99,10 @@ public class CollisionCheckerObjectTest {
         assertTrue(testEntity.isCollisionOn(), "Collision flag should be set to true");
     }
 
+    /**
+     * Verifies that a collision is detected when the entity moves into an object
+     * from above.
+     */
     @Test
     public void testCollisionFromAbove() {
         // Move entity to collide from above
@@ -92,6 +116,10 @@ public class CollisionCheckerObjectTest {
         assertTrue(testEntity.isCollisionOn(), "Collision flag should be set to true");
     }
 
+    /**
+     * Verifies that a collision is detected when the entity moves into an object
+     * from below.
+     */
     @Test
     public void testCollisionFromBelow() {
         // Move entity to collide from below
@@ -105,6 +133,10 @@ public class CollisionCheckerObjectTest {
         assertTrue(testEntity.isCollisionOn(), "Collision flag should be set to true");
     }
 
+    /**
+     * Verifies that collisions are accurately detected when multiple objects
+     * are present in the game panel.
+     */
     @Test
     public void testMultipleObjects() {
         // Add another object to the GamePanel
