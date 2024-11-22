@@ -217,6 +217,14 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Handles the collection of a "Clover" object.
+     * Plays a sound effect, increments the clover count, adds points,
+     * and displays a reward message. If the player meets the winning
+     * conditions, a special sound effect is played.
+     *
+     * @param index the index of the Clover object in the gamePanel's object array
+     */
     private void handleClover(int index) {
         gamePanel.playSoundEffect(1);
         hasClover++;
@@ -229,6 +237,13 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Handles the collection of a "Carrot" object.
+     * Plays a bonus sound effect, increments the carrot count, adds points,
+     * and displays a bonus reward message.
+     *
+     * @param index the index of the Carrot object in the gamePanel's object array
+     */
     private void handleCarrot(int index) {
         gamePanel.playSoundEffect(2);
         hasCarrot++;
@@ -237,6 +252,13 @@ public class Player extends Entity {
         gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
     }
 
+    /**
+     * Handles the collection of a "Mushroom" object.
+     * Plays a penalty sound effect, reduces points, removes the object,
+     * and displays a warning message indicating a poison mushroom was found.
+     *
+     * @param index the index of the Mushroom object in the gamePanel's object array
+     */
     private void handleMushroom(int index) {
         gamePanel.playSoundEffect(3);
         gamePanel.object[index] = null;
@@ -244,6 +266,14 @@ public class Player extends Entity {
         gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
     }
 
+    /**
+     * Handles interactions with the "ExitDoor" object.
+     * Determines if the player has enough points and clovers to win:
+     * - If conditions are met, stops the music, plays a winning sound,
+     *   and transitions the game to the "You Won" state.
+     * - If not enough points, displays a message indicating more points are needed.
+     * - If not enough clovers, displays the number of clovers still required.
+     */
     private void handleExitDoor() {
         if (points >= winningPoints && hasClover == winningClovers) {
             gamePanel.stopMusic();
