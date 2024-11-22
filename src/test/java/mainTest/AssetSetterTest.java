@@ -9,17 +9,29 @@ import com.project.RabbitRun.object.ObjBonusReward;
 import com.project.RabbitRun.object.ObjPunishment;
 import com.project.RabbitRun.object.ObjReward;
 
+/**
+ * Unit tests for the {@link AssetSetter} class.
+ * This class ensures that game objects are properly initialized and placed on the game board.
+ */
 public class AssetSetterTest {
 
     private GamePanel gamePanel;
     private AssetSetter assetSetter;
 
+    /**
+     * Sets up the test environment by initializing the {@link GamePanel}
+     * and {@link AssetSetter} instances before each test case.
+     */
     @BeforeEach
     public void setUp() {
         gamePanel = new GamePanel();
         assetSetter = new AssetSetter(gamePanel);
     }
 
+    /**
+     * Verifies that the {@link AssetSetter#setObject()} method correctly
+     * places objects of the expected types in the {@link GamePanel#object} array.
+     */
     @Test
     public void testSetObjectPlacesCorrectTypes() {
         assetSetter.setObject();
@@ -31,6 +43,10 @@ public class AssetSetterTest {
         assertInstanceOf(ObjReward.class, gamePanel.object[3], "Fourth object should be an ObjReward");
     }
 
+    /**
+     * Verifies that the {@link AssetSetter#setObject()} method places objects
+     * at the correct coordinates on the game board.
+     */
     @Test
     public void testSetObjectPlacesCorrectCoordinates() {
         assetSetter.setObject();
@@ -49,6 +65,10 @@ public class AssetSetterTest {
         assertEquals(21 * gamePanel.getTileSize(), gamePanel.object[3].getWorldY(), "ObjReward Y coordinate should match");
     }
 
+    /**
+     * Ensures that the {@link AssetSetter#setObject()} method does not exceed the maximum
+     * number of allowed objects in the {@link GamePanel#object} array.
+     */
     @Test
     public void testSetObjectDoesNotExceedMaxObjects() {
         assetSetter.setObject();
@@ -60,6 +80,10 @@ public class AssetSetterTest {
         }
     }
 
+    /**
+     * Verifies that the {@link AssetSetter#setObject()} method initializes
+     * all required objects in the {@link GamePanel#object} array.
+     */
     @Test
     public void testObjectsAreNotNull() {
         assetSetter.setObject();
