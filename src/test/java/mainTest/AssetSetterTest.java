@@ -20,32 +20,13 @@ public class AssetSetterTest {
         assetSetter = new AssetSetter(gamePanel);
     }
 
-    /*
-    @Test
-    public void testInitialization() {
-        assertNotNull(assetSetter, "AssetSetter should be initialized properly");
-        assertEquals(gamePanel, assetSetter, "AssetSetter should reference the correct GamePanel");
-    }
-    */
-
-    /*
-    @Test
-    public void testSetObjectPlacesBonusReward() {
-        assetSetter.setObject();
-        assertTrue(gamePanel.getObjects()[0] instanceof ObjBonusReward, "First object should be a bonus reward");
-        assertEquals(3 * 48, gamePanel.getObjects()[0].getWorldX(), "Bonus reward should be placed at the correct X coordinate");
-        assertEquals(7 * 48, gamePanel.getObjects()[0].getWorldY(), "Bonus reward should be placed at the correct Y coordinate");
-    }
-    */
-
-
     @Test
     public void testSetObjectPlacesCorrectTypes() {
         assetSetter.setObject();
 
         // Check that specific indices in the object array contain the expected object types
         assertInstanceOf(ObjReward.class, gamePanel.object[0], "First object should be an ObjReward");
-        assertInstanceOf(ObjPunishment.class, gamePanel.object[1], "Second object should be an ObjReward");
+        assertInstanceOf(ObjPunishment.class, gamePanel.object[1], "Second object should be an ObjPunishment");
         assertInstanceOf(ObjBonusReward.class, gamePanel.object[2], "Third object should be an ObjBonusReward");
         assertInstanceOf(ObjReward.class, gamePanel.object[3], "Fourth object should be an ObjReward");
     }
@@ -58,11 +39,11 @@ public class AssetSetterTest {
         assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[0].getWorldX(), "ObjReward X coordinate should match");
         assertEquals(9 * gamePanel.getTileSize(), gamePanel.object[0].getWorldY(), "ObjReward Y coordinate should match");
 
-        assertEquals(16 * gamePanel.getTileSize(), gamePanel.object[1].getWorldX(), "ObjExitDoor X coordinate should match");
-        assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[1].getWorldY(), "ObjExitDoor Y coordinate should match");
+        assertEquals(16 * gamePanel.getTileSize(), gamePanel.object[1].getWorldX(), "ObjPunishment X coordinate should match");
+        assertEquals(17 * gamePanel.getTileSize(), gamePanel.object[1].getWorldY(), "ObjPunishment Y coordinate should match");
 
-        assertEquals(0 * gamePanel.getTileSize(), gamePanel.object[2].getWorldX(), "ObjPunishment X coordinate should match");
-        assertEquals(0 * gamePanel.getTileSize(), gamePanel.object[2].getWorldY(), "ObjPunishment Y coordinate should match");
+        assertEquals(0, gamePanel.object[2].getWorldX(), "ObjBonusReward X coordinate should match");
+        assertEquals(0, gamePanel.object[2].getWorldY(), "ObjBonusReward Y coordinate should match");
 
         assertEquals(14 * gamePanel.getTileSize(), gamePanel.object[3].getWorldX(), "ObjReward X coordinate should match");
         assertEquals(21 * gamePanel.getTileSize(), gamePanel.object[3].getWorldY(), "ObjReward Y coordinate should match");
