@@ -46,77 +46,39 @@ public class SuperObject {
         }
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public boolean isCollision() {
-        return collision;
-    }
+    public boolean isCollision() { return collision; }
 
-    public void setCollision(boolean collision) {
-        this.collision = collision;
-    }
+    public void setCollision(boolean collision) { this.collision = collision; }
 
-    public int getWorldX() {
-        return worldX;
-    }
+    public int getWorldX() { return worldX; }
 
-    public void setWorldX(int worldX) {
-        this.worldX = worldX;
-    }
+    public void setWorldX(int worldX) { this.worldX = worldX; }
 
-    public int getWorldY() {
-        return worldY;
-    }
+    public int getWorldY() { return worldY; }
 
-    public void setWorldY(int worldY) {
-        this.worldY = worldY;
-    }
+    public void setWorldY(int worldY) { this.worldY = worldY; }
 
-    public Rectangle getSolidArea() {
-        return solidArea;
-    }
+    public Rectangle getSolidArea() { return solidArea; }
 
-    public void setSolidArea(Rectangle solidArea) {
-        this.solidArea = solidArea;
-    }
+    public void setSolidArea(Rectangle solidArea) { this.solidArea = solidArea; }
 
-    public int getSolidAreaX() {
-        return solidArea.x;
-    }
+    public int getSolidAreaX() { return solidArea.x; }
 
-    public void setSolidAreaX(int x) {
-        this.solidArea.x = x;
-    }
+    public void setSolidAreaX(int x) { this.solidArea.x = x; }
 
-    public int getSolidAreaY() {
-        return solidArea.y;
-    }
+    public int getSolidAreaY() { return solidArea.y; }
 
-    public void setSolidAreaY(int y) {
-        this.solidArea.y = y;
-    }
+    public void setSolidAreaY(int y) { this.solidArea.y = y; }
 
-    public int getSolidAreaDefaultX() {
-        return solidAreaDefaultX;
-    }
+    public int getSolidAreaDefaultX() { return solidAreaDefaultX; }
 
-    public void setSolidAreaDefaultX(int solidAreaDefaultX) {
-        this.solidAreaDefaultX = solidAreaDefaultX;
-    }
+    public void setSolidAreaDefaultX(int solidAreaDefaultX) { this.solidAreaDefaultX = solidAreaDefaultX; }
 
-    public int getSolidAreaDefaultY() {
-        return solidAreaDefaultY;
-    }
+    public int getSolidAreaDefaultY() { return solidAreaDefaultY; }
 
-    public void setSolidAreaDefaultY(int solidAreaDefaultY) {
-        this.solidAreaDefaultY = solidAreaDefaultY;
-    }
-
-
+    public void setSolidAreaDefaultY(int solidAreaDefaultY) { this.solidAreaDefaultY = solidAreaDefaultY; }
 }
