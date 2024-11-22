@@ -120,6 +120,7 @@ public class UI {
     public void drawGuideState(Graphics g2) {
         g2.drawImage(guidePage, 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
     }
+
     /**
      * Draws the play screen, including the player's points and elapsed time.
      *
@@ -147,38 +148,49 @@ public class UI {
             }
         }
 
-        //while (gamePanel.getGameState() == 1) {
-            if (elapsedTime == 5) {
-                gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
-                gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
-            }
-            if (elapsedTime == 20) {
-                gamePanel.object[2] = null;
-            }
-            if (elapsedTime == 15) {
-                gamePanel.object[7].setWorldX(11 * gamePanel.getTileSize());
-                gamePanel.object[7].setWorldY(33 * gamePanel.getTileSize());
-            }
-            if (elapsedTime == 30) {
-                gamePanel.object[7] = null;
-            }
-            if (elapsedTime == 25) {
-                //gamePanel.object[11] = new ObjBonusReward();
-                gamePanel.object[11].setWorldX(38 * gamePanel.getTileSize());
-                gamePanel.object[11].setWorldY(8 * gamePanel.getTileSize());
-            }
-            if (elapsedTime == 40) {
-                gamePanel.object[11] = null;
-            }
-            if (elapsedTime == 35) {
-                //gamePanel.object[11] = new ObjBonusReward();
-                gamePanel.object[15].setWorldX(25 * gamePanel.getTileSize());
-                gamePanel.object[15].setWorldY(12 * gamePanel.getTileSize());
-            }
-            if (elapsedTime == 50) {
-                gamePanel.object[15] = null;
-            }
-       // }
+        // Manage bonus rewards based on cycle time
+        if (elapsedTime == 5) {
+            gamePanel.object[2].setWorldX(24 * gamePanel.getTileSize());
+            gamePanel.object[2].setWorldY(6 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 20) {
+            gamePanel.object[2] = null;
+        }
+        if (elapsedTime == 15) {
+            gamePanel.object[7].setWorldX(11 * gamePanel.getTileSize());
+            gamePanel.object[7].setWorldY(33 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 30) {
+            gamePanel.object[7] = null;
+        }
+        if (elapsedTime == 25) {
+            gamePanel.object[11].setWorldX(38 * gamePanel.getTileSize());
+            gamePanel.object[11].setWorldY(8 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 40) {
+            gamePanel.object[11] = null;
+        }
+        if (elapsedTime == 35) {
+            gamePanel.object[15].setWorldX(25 * gamePanel.getTileSize());
+            gamePanel.object[15].setWorldY(12 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 50) {
+            gamePanel.object[15] = null;
+        }
+        if (elapsedTime == 45) {
+            gamePanel.object[16].setWorldX(33 * gamePanel.getTileSize());
+            gamePanel.object[16].setWorldY(18 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 60) {
+            gamePanel.object[16] = null;
+        }
+        if (elapsedTime == 55) {
+            gamePanel.object[17].setWorldX(20 * gamePanel.getTileSize());
+            gamePanel.object[17].setWorldY(33 * gamePanel.getTileSize());
+        }
+        if (elapsedTime == 70) {
+            gamePanel.object[17] = null;
+        }
 
     }
 
