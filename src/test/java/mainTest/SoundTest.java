@@ -28,9 +28,6 @@ public class SoundTest {
 
     @Test
     public void testSetFileValidIndex() {
-        //int validIndex = 0; // Example: testing the first sound file
-        //assertDoesNotThrow(() -> sound.setFile(validIndex),
-        //        "setFile should not throw an exception for a valid index");
         sound.setFile(0); // Example: testing the first sound file
         assertNotNull(sound.clip, "Clip should be initialized");
         assertTrue(sound.clip.isOpen(), "Clip should be open after setting a valid file");
@@ -38,21 +35,10 @@ public class SoundTest {
 
     @Test
     public void testPlay() {
-       /* sound.setFile(1); // Load a valid sound file
-       // assertDoesNotThrow(() -> sound.play(),
-       //         "play should not throw an exception after setting a valid file");
-       // assertTrue(sound.clip.isRunning(), "The clip should start running after play() is called");
-        sound.play();
-        //Thread.sleep(500); // Wait for the clip to start
-        assertTrue(sound.clip.isRunning(), "The clip should start running after play() is called");
-        */
         sound.setFile(1); // Load a valid sound file
         sound.play();
         assertNotNull(sound.clip, "Clip should be initialized");
         assertTrue(sound.clip.isOpen(), "Clip should be open after setFile() is called");
-
-
-        //assertTrue(sound.clip.isRunning(), "The clip should start running after play() is called");
     }
 
     @Test
@@ -60,8 +46,6 @@ public class SoundTest {
         sound.setFile(1); // Load a valid sound file
         assertDoesNotThrow(() -> sound.loop(),
                 "loop should not throw an exception after setting a valid file");
-        //assertEquals(Clip.LOOP_CONTINUOUSLY, sound.clip.getLoopPoints()[0],
-        //        "The clip should loop continuously after loop() is called");
     }
 
     @Test
