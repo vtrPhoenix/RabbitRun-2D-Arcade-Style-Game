@@ -46,39 +46,129 @@ public class SuperObject {
         }
     }
 
+    /**
+     * Retrieves the name of the object.
+     *
+     * @return the name of the object
+     */
     public String getName() { return name; }
 
+    /**
+     * Sets the name of the object.
+     *
+     * @param name the name to set
+     */
     public void setName(String name) { this.name = name; }
 
+    /**
+     * Checks whether the object has collision properties.
+     *
+     * @return {@code true} if the object has collision properties, {@code false} otherwise
+     */
     public boolean isCollision() { return collision; }
 
+    /**
+     * Sets whether the object has collision properties.
+     *
+     * @param collision {@code true} to enable collision, {@code false} to disable it
+     */
     public void setCollision(boolean collision) { this.collision = collision; }
 
+    /**
+     * Retrieves the X-coordinate of the object in the game world.
+     *
+     * @return the X-coordinate of the object
+     */
     public int getWorldX() { return worldX; }
 
+    /**
+     * Sets the X-coordinate of the object in the game world.
+     *
+     * @param worldX the X-coordinate to set
+     */
     public void setWorldX(int worldX) { this.worldX = worldX; }
 
+    /**
+     * Retrieves the Y-coordinate of the object in the game world.
+     *
+     * @return the Y-coordinate of the object
+     */
     public int getWorldY() { return worldY; }
 
+    /**
+     * Sets the Y-coordinate of the object in the game world.
+     *
+     * @param worldY the Y-coordinate to set
+     */
     public void setWorldY(int worldY) { this.worldY = worldY; }
 
+    /**
+     * Retrieves the solid area rectangle of the object.
+     *
+     * @return the solid area of the object
+     */
     public Rectangle getSolidArea() { return solidArea; }
 
+    /**
+     * Sets the solid area rectangle of the object.
+     *
+     * @param solidArea the solid area to set
+     */
     public void setSolidArea(Rectangle solidArea) { this.solidArea = solidArea; }
 
+    /**
+     * Retrieves the X-coordinate of the solid area.
+     *
+     * @return the X-coordinate of the solid area
+     */
     public int getSolidAreaX() { return solidArea.x; }
 
+    /**
+     * Sets the X-coordinate of the solid area.
+     *
+     * @param x the X-coordinate to set
+     */
     public void setSolidAreaX(int x) { this.solidArea.x = x; }
 
+    /**
+     * Retrieves the Y-coordinate of the solid area.
+     *
+     * @return the Y-coordinate of the solid area
+     */
     public int getSolidAreaY() { return solidArea.y; }
 
+    /**
+     * Sets the Y-coordinate of the solid area.
+     *
+     * @param y the Y-coordinate to set
+     */
     public void setSolidAreaY(int y) { this.solidArea.y = y; }
 
+    /**
+     * Retrieves the default X-coordinate of the solid area relative to the object.
+     *
+     * @return the default X-coordinate of the solid area
+     */
     public int getSolidAreaDefaultX() { return solidAreaDefaultX; }
 
+    /**
+     * Sets the default X-coordinate of the solid area relative to the object.
+     *
+     * @param solidAreaDefaultX the default X-coordinate to set
+     */
     public void setSolidAreaDefaultX(int solidAreaDefaultX) { this.solidAreaDefaultX = solidAreaDefaultX; }
 
+    /**
+     * Retrieves the default Y-coordinate of the solid area relative to the object.
+     *
+     * @return the default Y-coordinate of the solid area
+     */
     public int getSolidAreaDefaultY() { return solidAreaDefaultY; }
 
+    /**
+     * Sets the default Y-coordinate of the solid area relative to the object.
+     *
+     * @param solidAreaDefaultY the default Y-coordinate to set
+     */
     public void setSolidAreaDefaultY(int solidAreaDefaultY) { this.solidAreaDefaultY = solidAreaDefaultY; }
 }
