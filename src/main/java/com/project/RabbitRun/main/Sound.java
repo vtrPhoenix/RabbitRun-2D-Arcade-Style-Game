@@ -21,14 +21,14 @@ public class Sound {
      * Initializes sound resources by loading audio files into an array.
      */
     public Sound() {
-        soundURL[0] = getClass().getResource("/sound/Game_Sound.wav");
-        soundURL[1] = getClass().getResource("/sound/Reward_Sound.wav");
-        soundURL[2] = getClass().getResource("/sound/BonusReward_Sound.wav");
-        soundURL[3] = getClass().getResource("/sound/Punishment_Sound.wav");
-        soundURL[4] = getClass().getResource("/sound/Door_sound.wav");
-        soundURL[5] = getClass().getResource("/sound/Button_Click.wav");
-        soundURL[6] = getClass().getResource("/sound/Win_Sound.wav");
-        soundURL[7] = getClass().getResource("/sound/GameOver_Sound.wav");
+        soundURL[0] = getClass().getResource("/Sound/Game_Sound.wav");
+        soundURL[1] = getClass().getResource("/Sound/Reward_Sound.wav");
+        soundURL[2] = getClass().getResource("/Sound/BonusReward_Sound.wav");
+        soundURL[3] = getClass().getResource("/Sound/Punishment_Sound.wav");
+        soundURL[4] = getClass().getResource("/Sound/Door_sound.wav");
+        soundURL[5] = getClass().getResource("/Sound/Button_Click.wav");
+        soundURL[6] = getClass().getResource("/Sound/Win_Sound.wav");
+        soundURL[7] = getClass().getResource("/Sound/GameOver_Sound.wav");
     }
 
     /**
