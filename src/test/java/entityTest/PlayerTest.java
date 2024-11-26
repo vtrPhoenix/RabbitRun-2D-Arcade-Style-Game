@@ -115,7 +115,7 @@ public class PlayerTest {
      * Verifies that loading player images does not throw any exceptions.
      */
     @Test
-    public void testPlayerImageLoading() {
+    void testPlayerImageLoading() {
         assertDoesNotThrow(() -> player.getPlayerImage(), "Loading player images should not throw an exception");
     }
 
