@@ -3,7 +3,7 @@ package mainTest;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.project.RabbitRun.main.CollisionCheckerObject;
+import com.project.RabbitRun.collision.CollisionCheckerObject;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.entity.Entity;
 import com.project.RabbitRun.object.SuperObject;

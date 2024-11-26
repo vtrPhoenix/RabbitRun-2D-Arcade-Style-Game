@@ -1,6 +1,7 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.collision;
 
 import com.project.RabbitRun.entity.Entity;
+import com.project.RabbitRun.main.GamePanel;
 
 /**
  * Handles collision detection in the "Rabbit Run" game, checking if entities

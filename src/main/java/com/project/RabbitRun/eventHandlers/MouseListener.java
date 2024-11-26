@@ -1,4 +1,6 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.eventHandlers;
+
+import com.project.RabbitRun.main.GamePanel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

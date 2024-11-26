@@ -3,7 +3,7 @@ package entityTest;
 import com.project.RabbitRun.entity.Player;
 import com.project.RabbitRun.object.*;
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.main.KeyHandler;
+import com.project.RabbitRun.eventHandlers.KeyHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

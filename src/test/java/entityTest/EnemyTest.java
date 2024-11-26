@@ -2,10 +2,10 @@ package entityTest;
 
 import com.project.RabbitRun.entity.Entity;
 import com.project.RabbitRun.entity.Player;
-import com.project.RabbitRun.main.CollisionChecker;
+import com.project.RabbitRun.collision.CollisionChecker;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.entity.Enemy;
-import com.project.RabbitRun.main.KeyHandler;
+import com.project.RabbitRun.eventHandlers.KeyHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -2,7 +2,7 @@ package com.project.RabbitRun.entity;
 
 import com.project.RabbitRun.object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.main.KeyHandler;
+import com.project.RabbitRun.eventHandlers.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

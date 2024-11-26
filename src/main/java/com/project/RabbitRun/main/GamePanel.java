@@ -1,9 +1,15 @@
 package com.project.RabbitRun.main;
 
+import com.project.RabbitRun.collision.CollisionChecker;
+import com.project.RabbitRun.collision.CollisionCheckerObject;
 import com.project.RabbitRun.entity.Player;
 import com.project.RabbitRun.entity.Enemy;
+import com.project.RabbitRun.eventHandlers.KeyHandler;
+import com.project.RabbitRun.eventHandlers.MouseListener;
 import com.project.RabbitRun.object.SuperObject;
 import com.project.RabbitRun.tile.TileManager;
+import com.project.RabbitRun.ui.Sound;
+import com.project.RabbitRun.ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Manages game tiles for rendering and collision.
      */
-    TileManager tileM = new TileManager(this);
+    public TileManager tileM = new TileManager(this);
     /**
      * Sets and manages asset objects.
      */

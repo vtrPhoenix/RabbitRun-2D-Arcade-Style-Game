@@ -1,4 +1,6 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.ui;
+
+import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -3,7 +3,7 @@ package mainTest;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.project.RabbitRun.main.Sound;
+import com.project.RabbitRun.ui.Sound;
 
 /**
  * Unit tests for the {@link Sound} class.

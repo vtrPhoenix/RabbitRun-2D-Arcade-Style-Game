@@ -1,7 +1,7 @@
 package mainTest;
 
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.main.UI;
+import com.project.RabbitRun.ui.UI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.awt.*;

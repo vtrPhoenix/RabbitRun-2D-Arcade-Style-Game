@@ -1,4 +1,4 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.ui;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;

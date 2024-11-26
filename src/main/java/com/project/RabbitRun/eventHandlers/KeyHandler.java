@@ -1,4 +1,6 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.eventHandlers;
+
+import com.project.RabbitRun.main.GamePanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

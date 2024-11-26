@@ -1,7 +1,7 @@
 package mainTest;
 
 import com.project.RabbitRun.main.GamePanel;
-import com.project.RabbitRun.main.MouseListener;
+import com.project.RabbitRun.eventHandlers.MouseListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
