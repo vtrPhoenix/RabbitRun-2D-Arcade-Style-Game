@@ -51,7 +51,7 @@ public class UI {
 
     private void loadImages() {
         try {
-            points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/onScreenIcons/XP.png")));
+            points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/OnScreenIcons/XP.png")));
             clover = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Reward/clover.png")));
             menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
             guidePage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/Guide.png")));
