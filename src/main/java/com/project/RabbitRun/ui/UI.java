@@ -1,5 +1,6 @@
 package com.project.RabbitRun.ui;
 
+import com.project.RabbitRun.exceptions.ImageLoadingException;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -47,20 +48,38 @@ public class UI {
         this.gamePanel = gamePanel;
         openSans = new Font("Open Sans", Font.BOLD, 20);
         ariel = new Font("Ariel", Font.BOLD, 15);
-        loadImages();
+        loadUIImages();
         setupStateDrawActions();
     }
 
-    private void loadImages() {
+    private void loadUIImages() {
         try {
-            points = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/OnScreenIcons/XP.png")));
-            clover = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Reward/clover.png")));
-            menuPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/MenuPage.png")));
-            guidePage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/Guide.png")));
-            youLostPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOULOST.png")));
-            youWonPage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/States/YOUWON.png")));
+            points = loadImage("/OnScreenIcons/XP.png");
+            clover = loadImage("/Reward/clover.png");
+            menuPage = loadImage("/States/MenuPage.png");
+            guidePage = loadImage("/States/Guide.png");
+            youLostPage = loadImage("/States/YOULOST.png");
+            youWonPage = loadImage("/States/YOUWON.png");
+        }catch (ImageLoadingException e) {
+            System.err.println("Exception caught while trying to load Images in UI");
+            throw e;
+        }
+    }
+
+    /**
+     * Helper method to load an image and include the path in exceptions.
+     *
+     * @param path The path of the image to load.
+     * @return The loaded image.
+     * @throws ImageLoadingException If the image cannot be loaded.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 
