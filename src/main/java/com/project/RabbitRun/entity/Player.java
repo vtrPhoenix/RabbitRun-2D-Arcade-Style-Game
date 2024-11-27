@@ -1,5 +1,6 @@
 package com.project.RabbitRun.entity;
 
+import com.project.RabbitRun.exceptions.ImageLoadingException;
 import com.project.RabbitRun.object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.eventHandlers.KeyHandler;
@@ -104,16 +105,34 @@ public class Player extends Entity {
      */
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up1.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left1.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down1.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/up2.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/left2.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/down2.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/right2.png")));
+            up1 = loadImage("/player/up1.png");
+            left1 = loadImage("/player/left1.png");
+            down1 = loadImage("/player/down1.png");
+            right1 = loadImage("/player/right1.png");
+            up2 = loadImage("/player/up2.png");
+            left2 = loadImage("/player/left2.png");
+            down2 = loadImage("/player/down2.png");
+            right2 = loadImage("/player/right2.png");
+        } catch (ImageLoadingException e) {
+            System.err.println("Exception caught while trying to load Player Images");
+            throw e;
+        }
+    }
+
+    /**
+     * Helper method to load an image and include the path in exceptions.
+     *
+     * @param path The path of the image to load.
+     * @return The loaded image.
+     * @throws ImageLoadingException If the image cannot be loaded.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 
