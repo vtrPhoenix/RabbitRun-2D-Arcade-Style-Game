@@ -1,5 +1,7 @@
 package com.project.RabbitRun.object;
 
+import com.project.RabbitRun.exceptions.ImageLoadingException;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -27,15 +29,33 @@ public class ObjExitDoor extends SuperObject{
         this.open = open;
         name = "ExitDoor";
         try {
-            closedImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Exit/doorclosed.png")));
-            openImage = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Exit/dooropened.png")));
+            closedImage = loadImage("/Exit/doorclosed.png");
+            openImage = loadImage("/Exit/dooropened.png");
             if(open) {
                 image = openImage;
             }else {
                 image = closedImage;
             }
+        } catch (ImageLoadingException e) {
+            System.err.println("Exception caught while trying to load Images in ObjExitDoor");
+            throw e;
+        }
+    }
+
+    /**
+     * Helper method to load an image and include the path in exceptions.
+     *
+     * @param path The path of the image to load.
+     * @return The loaded image.
+     * @throws ImageLoadingException If the image cannot be loaded.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 }

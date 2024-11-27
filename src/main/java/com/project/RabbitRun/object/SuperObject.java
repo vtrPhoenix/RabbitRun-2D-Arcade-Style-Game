@@ -15,6 +15,8 @@ public class SuperObject {
     protected BufferedImage image;
     /** Name of the object, typically used for identification. */
     protected String name;
+    /** Path of the object Image */
+    protected String path;
     /** Determines if the object has collision properties. */
     private boolean collision = false;
     /** X & Y -coordinates of the object in the game world. */
