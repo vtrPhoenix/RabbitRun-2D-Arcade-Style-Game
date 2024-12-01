@@ -1,6 +1,7 @@
 package com.project.RabbitRun.entity;
 
 import com.project.RabbitRun.main.GamePanel;
+import com.project.RabbitRun.exceptions.ImageLoadingException;
 
 import javax.imageio.ImageIO;
 import java.util.List;
@@ -118,21 +119,40 @@ public class Enemy extends Entity {
     }
 
     /**
-     * Loads the images for the enemy's movement in different directions.
+     * Loads all enemy images required for different movement directions.
+     * The images are loaded from the "/Enemy" directory.
+     * If an image fails to load, an ImageLoadingException is thrown.
      */
     public void getEnemyImage() {
         try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down2.png")));
+            up1 = loadImage("/Enemy/up1.png");
+            up2 = loadImage("/Enemy/up2.png");
+            left1 = loadImage("/Enemy/left1.png");
+            left2 = loadImage("/Enemy/left2.png");
+            right1 = loadImage("/Enemy/right1.png");
+            right2 = loadImage("/Enemy/right2.png");
+            down1 = loadImage("/Enemy/down1.png");
+            down2 = loadImage("/Enemy/down2.png");
+        } catch (ImageLoadingException e) {
+            System.err.println("Exception caught while trying to load enemy images");
+            throw e;
         }
-        catch (IOException e) {
-            e.printStackTrace();
+    }
+
+    /**
+     * Loads an image from a given path.
+     *
+     * @param path The path to the image resource.
+     * @return A BufferedImage representing the loaded image.
+     * @throws ImageLoadingException if the image cannot be found or fails to load.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
+        } catch (IOException e) {
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 
