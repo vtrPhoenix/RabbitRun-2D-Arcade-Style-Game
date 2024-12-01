@@ -2,7 +2,7 @@ package com.project.RabbitRun.exceptions;
 
 public class MapLoadingException extends RuntimeException{
 
-    private final String imagePath;
+    private final String mapPath;
 
     /**
      * Constructor with message and cause.
@@ -12,19 +12,19 @@ public class MapLoadingException extends RuntimeException{
      */
     public MapLoadingException(String message, Throwable cause) {
         super(message, cause);
-        this.imagePath = null; // No specific image path provided
+        this.mapPath = null; // No specific image path provided
     }
 
     /**
-     * Constructor with message, cause, and the image path.
+     * Constructor with message, cause, and the map path.
      *
      * @param message   Detailed error message.
      * @param cause     Underlying exception cause.
-     * @param imagePath Path of the image causing the exception.
+     * @param mapPath Path of the image causing the exception.
      */
-    public MapLoadingException(String message, Throwable cause, String imagePath) {
+    public MapLoadingException(String message, Throwable cause, String mapPath) {
         super(message, cause);
-        this.imagePath = imagePath;
+        this.mapPath = mapPath;
     }
 
     /**
@@ -34,21 +34,21 @@ public class MapLoadingException extends RuntimeException{
      */
     public MapLoadingException(String message) {
         super(message);
-        this.imagePath = null; // No specific image path provided
+        this.mapPath = null; // No specific map path provided
     }
 
     /**
-     * Gets the path of the image that caused the exception.
+     * Gets the path of the map that caused the exception.
      *
-     * @return The image path, or null if not specified.
+     * @return The map path, or null if not specified.
      */
-    public String getImagePath() {
-        return imagePath;
+    public String getMapPath() {
+        return mapPath;
     }
 
     @Override
     public String toString() {
-        return super.toString() + (imagePath != null ? " [Image Path: " + imagePath + "]" : "");
+        return super.toString() + (mapPath != null ? " [Map Path: " + mapPath + "]" : "");
     }
 
 }
