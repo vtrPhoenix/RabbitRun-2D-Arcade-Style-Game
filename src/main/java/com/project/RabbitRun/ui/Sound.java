@@ -1,8 +1,9 @@
 package com.project.RabbitRun.ui;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import com.project.RabbitRun.exceptions.SoundLoadingException;
+
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -41,9 +42,8 @@ public class Sound {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundURL[index]);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
-        } catch (Exception e) {
-            //throw new RuntimeException(e);
-            // Exception handling for audio file loading errors
+        } catch (LineUnavailableException | UnsupportedAudioFileException | IOException  | NullPointerException e) {
+            throw new SoundLoadingException("Failed to load sound: " + soundURL[index],e);
         }
     }
 
