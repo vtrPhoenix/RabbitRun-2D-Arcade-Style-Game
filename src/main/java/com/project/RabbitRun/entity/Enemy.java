@@ -196,50 +196,101 @@ public class Enemy extends Entity {
      * @param player The player to track and interact with.
      */
     public void updateEnemy(Player player) {
+        handleCooldown();
+        updateDirectionIfReady(player);
+        checkCollisions(player);
+        handleMovement();
+        handleStuckState();
+        updateSpriteAnimation();
+    }
+
+    /**
+     * Handles the cooldown timer for changing directions.
+     */
+    private void handleCooldown() {
         if (directionCooldown > 0) {
             directionCooldown--;
         }
+    }
 
-        // Determine direction only if the cooldown is zero
+    /**
+     * Updates the enemy's direction if the cooldown period has ended.
+     *
+     * @param player The player whose position is being tracked.
+     */
+    private void updateDirectionIfReady(Player player) {
         if (directionCooldown == 0) {
             determineDirection(player);
         }
+    }
 
-        // Check for collisions
+
+    /**
+     * Checks for collisions with the environment, player, or other enemies.
+     *
+     * @param player The player to check for collisions.
+     */
+    private void checkCollisions(Player player) {
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
 
         if (collisionWithPlayer(player)) {
-            gamePanel.stopMusic();
-            gamePanel.playSoundEffect(7);
-            gamePanel.setGameState(gamePanel.youLostState);
+            handlePlayerCollision();
         }
 
         if (collisionOn || collisionWithEnemy()) {
-            alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
-            directionCooldown = DIRECTION_COOLDOWN_MAX;
-            stuckCounter++;
+            handleObstacleCollision(player);
         } else {
             stuckCounter = 0;
         }
+    }
 
+    /**
+     * Handles the logic when the enemy collides with the player.
+     */
+    private void handlePlayerCollision() {
+        gamePanel.stopMusic();
+        gamePanel.playSoundEffect(7);
+        gamePanel.setGameState(gamePanel.youLostState);
+    }
+
+    /**
+     * Handles the logic when the enemy encounters an obstacle or another enemy.
+     *
+     * @param player The player to determine alternate direction.
+     */
+    private void handleObstacleCollision(Player player) {
+        alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
+        directionCooldown = DIRECTION_COOLDOWN_MAX;
+        stuckCounter++;
+    }
+
+    /**
+     * Handles the logic for moving the enemy in the current direction.
+     */
+    private void handleMovement() {
         if (!collisionOn && !collisionWithEnemy()) {
             currentDirection();
         }
+    }
 
+    /**
+     * Handles the state of the enemy when it is stuck.
+     */
+    private void handleStuckState() {
         if (stuckCounter > MAX_STUCK_COUNT) {
             applyOffset();
             stuckCounter = 0;
         }
+    }
 
-        // Handle sprite animation
+    /**
+     * Updates the sprite animation for the enemy.
+     */
+    private void updateSpriteAnimation() {
         sprintCounter++;
         if (sprintCounter > SPRITE_ANIMATION_SPEED) {
-            if (spriteNumber == 1) {
-                spriteNumber = 2;
-            } else {
-                spriteNumber = 1;
-            }
+            spriteNumber = (spriteNumber == 1) ? 2 : 1;
             sprintCounter = 0;
         }
     }
