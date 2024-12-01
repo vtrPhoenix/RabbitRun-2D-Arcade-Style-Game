@@ -38,6 +38,11 @@ public class Enemy extends Entity {
     /** The initial Y-coordinate of the enemy. */
     private final int initialY;
 
+    private static final int DIRECTION_COOLDOWN_MAX = 60;
+    private static final int SPRITE_ANIMATION_SPEED = 13;
+    private static final int MAX_STUCK_COUNT = 5;
+    private static final int ENEMY_SPEED = 2;
+
     /**
      * Constructor to initialize the enemy with its starting position.
      *
@@ -114,7 +119,7 @@ public class Enemy extends Entity {
      * Sets the default values for the enemy's speed and direction.
      */
     public void setDefaultValues() {
-        speed = 2;
+        speed = ENEMY_SPEED;
         direction = "left";
     }
 
@@ -212,7 +217,7 @@ public class Enemy extends Entity {
 
         if (collisionOn || collisionWithEnemy()) {
             alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
-            directionCooldown = 60;
+            directionCooldown = DIRECTION_COOLDOWN_MAX;
             stuckCounter++;
         } else {
             stuckCounter = 0;
@@ -222,14 +227,14 @@ public class Enemy extends Entity {
             currentDirection();
         }
 
-        if (stuckCounter > 5) {
+        if (stuckCounter > MAX_STUCK_COUNT) {
             applyOffset();
             stuckCounter = 0;
         }
 
         // Handle sprite animation
         sprintCounter++;
-        if (sprintCounter > 13) {
+        if (sprintCounter > SPRITE_ANIMATION_SPEED) {
             if (spriteNumber == 1) {
                 spriteNumber = 2;
             } else {
