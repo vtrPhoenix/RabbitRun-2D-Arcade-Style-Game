@@ -379,21 +379,16 @@ public class Enemy extends Entity {
      */
     public void alternateDirection(int deltaX, int deltaY) {
         if (direction.equals("left") || direction.equals("right")) {
-            if (deltaY > 0) {
-                direction = "down";
-            } else {
-                direction = "up";
-            }
-        } else if (direction.equals("up") || direction.equals("down")) {
-            if (deltaX > 0) {
-                direction = "right";
-            } else {
-                direction = "left";
-            }
+            direction = (deltaY > 0) ? "down" : "up";
+        } else {
+            direction = (deltaX > 0) ? "right" : "left";
         }
 
+        // Reset collisionOn and check tile again after changing direction
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
+
+        // If still colliding, change to opposite direction
         if (collisionOn) {
             changeDirection();
         }
