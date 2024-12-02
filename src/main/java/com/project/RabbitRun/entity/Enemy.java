@@ -445,48 +445,30 @@ public class Enemy extends Entity {
      * @param g The graphics object used to draw the enemy.
      */
     public void draw(Graphics g) {
-        BufferedImage image = null;
-
-        switch(direction) {
-            case "up":
-                if (spriteNumber == 1) {
-                    image = up1;
-                }
-                else {
-                    image = up2;
-                }
-                break;
-            case "down":
-                if (spriteNumber == 1) {
-                    image = down1;
-                }
-                else {
-                    image = down2;
-                }
-                break;
-            case "left":
-                if (spriteNumber == 1) {
-                    image = left1;
-                }
-                else {
-                    image = left2;
-                }
-                break;
-            case "right":
-                if (spriteNumber == 1) {
-                    image = right1;
-                }
-                else {
-                    image = right2;
-                }
-                break;
-            default:
-                break;
-        }
+        BufferedImage image = getSpriteImage();
 
         int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.getScreenX();
         int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.getScreenY();
 
-        g.drawImage(image, screenX, screenY ,gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
+
+    /**
+     * Returns the appropriate sprite image based on direction and animation frame.
+     *
+     * @return The BufferedImage representing the current sprite.
+     */
+    private BufferedImage getSpriteImage() {
+        if (direction.equals("left")) {
+            return (spriteNumber == 1) ? left1 : left2;
+        } else if (direction.equals("right")) {
+            return (spriteNumber == 1) ? right1 : right2;
+        } else if (direction.equals("up")) {
+            return (spriteNumber == 1) ? up1 : up2;
+        } else if (direction.equals("down")) {
+            return (spriteNumber == 1) ? down1 : down2;
+        }
+        return null;
+    }
+
 }
