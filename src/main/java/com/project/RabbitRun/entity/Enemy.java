@@ -322,33 +322,48 @@ public class Enemy extends Entity {
     /**
      * Checks if this enemy is colliding with another enemy.
      *
-     * @return True if there is a collision, false otherwise.
+     * Iterates through all enemies in the game panel and checks if this enemy's
+     * bounds intersect with the bounds of any other enemy. Ignores itself during
+     * the check.
+     *
+     * @return True if there is a collision with another enemy, false otherwise.
      */
     public boolean collisionWithEnemy() {
-        for (int i = 0; i < gamePanel.enemies.size(); i++) {
-            Enemy otherEnemy = gamePanel.enemies.get(i);
+        Rectangle thisBounds = getBounds();
 
+        for (Enemy otherEnemy : gamePanel.enemies) {
             if (otherEnemy != this) {
-                Rectangle otherBounds = new Rectangle(
-                        otherEnemy.worldX + otherEnemy.solidArea.x,
-                        otherEnemy.worldY + otherEnemy.solidArea.y,
-                        otherEnemy.solidArea.width,
-                        otherEnemy.solidArea.height
-                );
-
-                Rectangle thisBounds = new Rectangle(
-                        this.worldX + this.solidArea.x,
-                        this.worldY + this.solidArea.y,
-                        this.solidArea.width,
-                        this.solidArea.height
-                );
-
-                if (thisBounds.intersects(otherBounds)) {
+                Rectangle otherBounds = otherEnemy.getBounds();
+                if (isColliding(thisBounds, otherBounds)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if this enemy is colliding with the player.
+     *
+     * Uses the bounding rectangles of both the enemy and the player to determine
+     * if there is an intersection, indicating a collision.
+     *
+     * @param player The player to check for collision with.
+     * @return True if there is a collision with the player, false otherwise.
+     */
+    public boolean collisionWithPlayer(Player player) {
+        return isColliding(getBounds(), player.getBounds());
+    }
+
+    /**
+     * Checks if two rectangular areas are colliding.
+     *
+     * @param rect1 The first rectangle.
+     * @param rect2 The second rectangle.
+     * @return True if the rectangles intersect, false otherwise.
+     */
+    private boolean isColliding(Rectangle rect1, Rectangle rect2) {
+        return rect1.intersects(rect2);
     }
 
     /**
@@ -426,18 +441,6 @@ public class Enemy extends Entity {
         worldY += offsetY;
     }
 
-    /**
-     * Checks if this enemy is colliding with the player.
-     *
-     * @param player The player to check collision against.
-     * @return True if there is a collision, false otherwise.
-     */
-    public boolean collisionWithPlayer(Player player) {
-        Rectangle enemyBounds = new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
-        Rectangle playerBounds = new Rectangle(player.worldX + player.solidArea.x, player.worldY + player.solidArea.y, player.solidArea.width, player.solidArea.height);
-
-        return enemyBounds.intersects(playerBounds);
-    }
 
     /**
      * Draws the enemy on the screen.
