@@ -29,8 +29,8 @@ public class ObjExitDoor extends SuperObject{
         this.open = open;
         name = "ExitDoor";
         try {
-            closedImage = loadImage("/Exit/doorclosed.png");
-            openImage = loadImage("/Exit/dooropened.png");
+            closedImage = loadImageExitDoor("/Exit/doorclosed.png");
+            openImage = loadImageExitDoor("/Exit/dooropened.png");
             if(open) {
                 image = openImage;
             }else {
@@ -49,7 +49,7 @@ public class ObjExitDoor extends SuperObject{
      * @return The loaded image.
      * @throws ImageLoadingException If the image cannot be loaded.
      */
-    private BufferedImage loadImage(String path) {
+    public BufferedImage loadImageExitDoor(String path) {
         try {
             return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         } catch (NullPointerException e) {
