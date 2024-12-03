@@ -430,19 +430,44 @@ public class UI {
         return youLostPage;
     }
 
+    /**
+     * Retrieves the start time.
+     *
+     * @return the start time as a long value, typically representing a timestamp
+     *         in milliseconds since the epoch.
+     */
     public long getStartTime() {
         return startTime;
     }
 
+    /**
+     * Sets the start time.
+     *
+     * @param startTime the start time to set, typically as a timestamp in
+     *                  milliseconds since the epoch.
+     */
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Retrieves the end time.
+     *
+     * @return the end time as a long value, typically representing a timestamp
+     *         in milliseconds since the epoch.
+     */
     public long getEndTime() {
         return endTime;
     }
 
+    /**
+     * Sets the end time.
+     *
+     * @param endTime the end time to set, typically as a timestamp in
+     *                milliseconds since the epoch.
+     */
     public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
+
 }
