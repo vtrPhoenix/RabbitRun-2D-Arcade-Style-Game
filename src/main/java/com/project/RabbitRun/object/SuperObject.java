@@ -1,9 +1,13 @@
 package com.project.RabbitRun.object;
 
+import com.project.RabbitRun.exceptions.ImageLoadingException;
 import com.project.RabbitRun.main.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Represents a generic game object in the "Rabbit Run" game.
@@ -28,6 +32,14 @@ public class SuperObject {
     /** Default Y-coordinate of the solid area relative to the object. */
     private int solidAreaDefaultY = 0;
 
+    public SuperObject() {}
+
+    public SuperObject(String name, String path) {
+        this.name = name;
+        this.path = path;
+        loadImage(path);
+    }
+
     /**
      * Draws the object on the game screen if it is within the visible screen area.
      *
@@ -45,6 +57,22 @@ public class SuperObject {
             worldY - gamePanel.getTileSize() < gamePanel.player.getWorldY() + gamePanel.player.getScreenY()) {
 
             g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        }
+    }
+
+    /**
+     * Helper method to load an image and include the path in exceptions.
+     *
+     * @param path The path of the image to load.
+     * @throws ImageLoadingException If the image cannot be loaded.
+     */
+    public void loadImage(String path) {
+        try {
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        }  catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
+        } catch (IOException e) {
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 
