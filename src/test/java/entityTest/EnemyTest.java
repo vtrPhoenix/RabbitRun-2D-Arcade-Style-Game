@@ -183,39 +183,27 @@ public class EnemyTest {
      * Tests determining the direction towards the player.
      */
     @Test
-    public void testDetermineDirectionRight() {
-        player.setWorldX(200);
-        player.setWorldY(150);
-        enemy.determineDirection(player);
-
-        assertEquals("right", enemy.getDirection(), "Enemy should set direction to 'right' towards the player.");
+    public void testDetermineDirection() {
+        assertDetermineDirection(200, 150, "right", "Enemy should set direction to 'right' towards the player.");
+        assertDetermineDirection(100, 250, "down", "Enemy should set direction to 'down' towards the player.");
+        assertDetermineDirection(50, 150, "left", "Enemy should set direction to 'left' towards the player.");
+        assertDetermineDirection(100, 50, "up", "Enemy should set direction to 'up' towards the player.");
     }
 
-    @Test
-    public void testDetermineDirectionDown() {
-        player.setWorldX(100);
-        player.setWorldY(250);
+    /**
+     * Helper method to determine the direction towards the player.
+     *
+     * @param playerX The X-coordinate of the player.
+     * @param playerY The Y-coordinate of the player.
+     * @param expectedDirection The expected direction the enemy should face.
+     * @param message The message for the assertion in case of failure.
+     */
+    private void assertDetermineDirection(int playerX, int playerY, String expectedDirection, String message) {
+        player.setWorldX(playerX);
+        player.setWorldY(playerY);
         enemy.determineDirection(player);
 
-        assertEquals("down", enemy.getDirection(), "Enemy should set direction to 'down' towards the player.");
-    }
-
-    @Test
-    public void testDetermineDirectionLeft() {
-        player.setWorldX(50);
-        player.setWorldY(150);
-        enemy.determineDirection(player);
-
-        assertEquals("left", enemy.getDirection(), "Enemy should set direction to 'left' towards the player.");
-    }
-
-    @Test
-    public void testDetermineDirectionUp() {
-        player.setWorldX(100);
-        player.setWorldY(50);
-        enemy.determineDirection(player);
-
-        assertEquals("up", enemy.getDirection(), "Enemy should set direction to 'up' towards the player.");
+        assertEquals(expectedDirection, enemy.getDirection(), message);
     }
 
     /**

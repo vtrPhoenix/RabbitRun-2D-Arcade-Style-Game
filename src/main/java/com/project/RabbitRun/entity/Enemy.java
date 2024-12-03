@@ -1,6 +1,7 @@
 package com.project.RabbitRun.entity;
 
 import com.project.RabbitRun.main.GamePanel;
+import com.project.RabbitRun.exceptions.ImageLoadingException;
 
 import javax.imageio.ImageIO;
 import java.util.List;
@@ -36,6 +37,11 @@ public class Enemy extends Entity {
 
     /** The initial Y-coordinate of the enemy. */
     private final int initialY;
+
+    private static final int DIRECTION_COOLDOWN_MAX = 60;
+    private static final int SPRITE_ANIMATION_SPEED = 13;
+    private static final int MAX_STUCK_COUNT = 5;
+    private static final int ENEMY_SPEED = 2;
 
     /**
      * Constructor to initialize the enemy with its starting position.
@@ -113,26 +119,45 @@ public class Enemy extends Entity {
      * Sets the default values for the enemy's speed and direction.
      */
     public void setDefaultValues() {
-        speed = 2;
+        speed = ENEMY_SPEED;
         direction = "left";
     }
 
     /**
-     * Loads the images for the enemy's movement in different directions.
+     * Loads all enemy images required for different movement directions.
+     * The images are loaded from the "/Enemy" directory.
+     * If an image fails to load, an ImageLoadingException is thrown.
      */
     public void getEnemyImage() {
         try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Up2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Left2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Right2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Enemy/Down2.png")));
+            up1 = loadImage("/Enemy/up1.png");
+            up2 = loadImage("/Enemy/up2.png");
+            left1 = loadImage("/Enemy/left1.png");
+            left2 = loadImage("/Enemy/left2.png");
+            right1 = loadImage("/Enemy/right1.png");
+            right2 = loadImage("/Enemy/right2.png");
+            down1 = loadImage("/Enemy/down1.png");
+            down2 = loadImage("/Enemy/down2.png");
+        } catch (ImageLoadingException e) {
+            System.err.println("Exception caught while trying to load enemy images");
+            throw e;
         }
-        catch (IOException e) {
-            e.printStackTrace();
+    }
+
+    /**
+     * Loads an image from a given path.
+     *
+     * @param path The path to the image resource.
+     * @return A BufferedImage representing the loaded image.
+     * @throws ImageLoadingException if the image cannot be found or fails to load.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
+        } catch (IOException e) {
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
         }
     }
 
@@ -171,50 +196,101 @@ public class Enemy extends Entity {
      * @param player The player to track and interact with.
      */
     public void updateEnemy(Player player) {
+        handleCooldown();
+        updateDirectionIfReady(player);
+        checkCollisions(player);
+        handleMovement();
+        handleStuckState();
+        updateSpriteAnimation();
+    }
+
+    /**
+     * Handles the cooldown timer for changing directions.
+     */
+    private void handleCooldown() {
         if (directionCooldown > 0) {
             directionCooldown--;
         }
+    }
 
-        // Determine direction only if the cooldown is zero
+    /**
+     * Updates the enemy's direction if the cooldown period has ended.
+     *
+     * @param player The player whose position is being tracked.
+     */
+    private void updateDirectionIfReady(Player player) {
         if (directionCooldown == 0) {
             determineDirection(player);
         }
+    }
 
-        // Check for collisions
+
+    /**
+     * Checks for collisions with the environment, player, or other enemies.
+     *
+     * @param player The player to check for collisions.
+     */
+    private void checkCollisions(Player player) {
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
 
         if (collisionWithPlayer(player)) {
-            gamePanel.stopMusic();
-            gamePanel.playSoundEffect(7);
-            gamePanel.setGameState(gamePanel.youLostState);
+            handlePlayerCollision();
         }
 
         if (collisionOn || collisionWithEnemy()) {
-            alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
-            directionCooldown = 60;
-            stuckCounter++;
+            handleObstacleCollision(player);
         } else {
             stuckCounter = 0;
         }
+    }
 
+    /**
+     * Handles the logic when the enemy collides with the player.
+     */
+    private void handlePlayerCollision() {
+        gamePanel.stopMusic();
+        gamePanel.playSoundEffect(7);
+        gamePanel.setGameState(gamePanel.youLostState);
+    }
+
+    /**
+     * Handles the logic when the enemy encounters an obstacle or another enemy.
+     *
+     * @param player The player to determine alternate direction.
+     */
+    private void handleObstacleCollision(Player player) {
+        alternateDirection(player.worldX - this.worldX, player.worldY - this.worldY);
+        directionCooldown = DIRECTION_COOLDOWN_MAX;
+        stuckCounter++;
+    }
+
+    /**
+     * Handles the logic for moving the enemy in the current direction.
+     */
+    private void handleMovement() {
         if (!collisionOn && !collisionWithEnemy()) {
             currentDirection();
         }
+    }
 
-        if (stuckCounter > 5) {
+    /**
+     * Handles the state of the enemy when it is stuck.
+     */
+    private void handleStuckState() {
+        if (stuckCounter > MAX_STUCK_COUNT) {
             applyOffset();
             stuckCounter = 0;
         }
+    }
 
-        // Handle sprite animation
+    /**
+     * Updates the sprite animation for the enemy.
+     */
+    private void updateSpriteAnimation() {
         sprintCounter++;
-        if (sprintCounter > 13) {
-            if (spriteNumber == 1) {
-                spriteNumber = 2;
-            } else {
-                spriteNumber = 1;
-            }
+        if (sprintCounter > SPRITE_ANIMATION_SPEED) {
+            spriteNumber = (spriteNumber == 1) ? 2 : 1;
             sprintCounter = 0;
         }
     }
@@ -246,33 +322,48 @@ public class Enemy extends Entity {
     /**
      * Checks if this enemy is colliding with another enemy.
      *
-     * @return True if there is a collision, false otherwise.
+     * Iterates through all enemies in the game panel and checks if this enemy's
+     * bounds intersect with the bounds of any other enemy. Ignores itself during
+     * the check.
+     *
+     * @return True if there is a collision with another enemy, false otherwise.
      */
     public boolean collisionWithEnemy() {
-        for (int i = 0; i < gamePanel.enemies.size(); i++) {
-            Enemy otherEnemy = gamePanel.enemies.get(i);
+        Rectangle thisBounds = getBounds();
 
+        for (Enemy otherEnemy : gamePanel.enemies) {
             if (otherEnemy != this) {
-                Rectangle otherBounds = new Rectangle(
-                        otherEnemy.worldX + otherEnemy.solidArea.x,
-                        otherEnemy.worldY + otherEnemy.solidArea.y,
-                        otherEnemy.solidArea.width,
-                        otherEnemy.solidArea.height
-                );
-
-                Rectangle thisBounds = new Rectangle(
-                        this.worldX + this.solidArea.x,
-                        this.worldY + this.solidArea.y,
-                        this.solidArea.width,
-                        this.solidArea.height
-                );
-
-                if (thisBounds.intersects(otherBounds)) {
+                Rectangle otherBounds = otherEnemy.getBounds();
+                if (isColliding(thisBounds, otherBounds)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if this enemy is colliding with the player.
+     *
+     * Uses the bounding rectangles of both the enemy and the player to determine
+     * if there is an intersection, indicating a collision.
+     *
+     * @param player The player to check for collision with.
+     * @return True if there is a collision with the player, false otherwise.
+     */
+    public boolean collisionWithPlayer(Player player) {
+        return isColliding(getBounds(), player.getBounds());
+    }
+
+    /**
+     * Checks if two rectangular areas are colliding.
+     *
+     * @param rect1 The first rectangle.
+     * @param rect2 The second rectangle.
+     * @return True if the rectangles intersect, false otherwise.
+     */
+    private boolean isColliding(Rectangle rect1, Rectangle rect2) {
+        return rect1.intersects(rect2);
     }
 
     /**
@@ -303,21 +394,16 @@ public class Enemy extends Entity {
      */
     public void alternateDirection(int deltaX, int deltaY) {
         if (direction.equals("left") || direction.equals("right")) {
-            if (deltaY > 0) {
-                direction = "down";
-            } else {
-                direction = "up";
-            }
-        } else if (direction.equals("up") || direction.equals("down")) {
-            if (deltaX > 0) {
-                direction = "right";
-            } else {
-                direction = "left";
-            }
+            direction = (deltaY > 0) ? "down" : "up";
+        } else {
+            direction = (deltaX > 0) ? "right" : "left";
         }
 
+        // Reset collisionOn and check tile again after changing direction
         collisionOn = false;
         gamePanel.collisionChecker.checkTile(this);
+
+        // If still colliding, change to opposite direction
         if (collisionOn) {
             changeDirection();
         }
@@ -355,18 +441,6 @@ public class Enemy extends Entity {
         worldY += offsetY;
     }
 
-    /**
-     * Checks if this enemy is colliding with the player.
-     *
-     * @param player The player to check collision against.
-     * @return True if there is a collision, false otherwise.
-     */
-    public boolean collisionWithPlayer(Player player) {
-        Rectangle enemyBounds = new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
-        Rectangle playerBounds = new Rectangle(player.worldX + player.solidArea.x, player.worldY + player.solidArea.y, player.solidArea.width, player.solidArea.height);
-
-        return enemyBounds.intersects(playerBounds);
-    }
 
     /**
      * Draws the enemy on the screen.
@@ -374,48 +448,30 @@ public class Enemy extends Entity {
      * @param g The graphics object used to draw the enemy.
      */
     public void draw(Graphics g) {
-        BufferedImage image = null;
-
-        switch(direction) {
-            case "up":
-                if (spriteNumber == 1) {
-                    image = up1;
-                }
-                else {
-                    image = up2;
-                }
-                break;
-            case "down":
-                if (spriteNumber == 1) {
-                    image = down1;
-                }
-                else {
-                    image = down2;
-                }
-                break;
-            case "left":
-                if (spriteNumber == 1) {
-                    image = left1;
-                }
-                else {
-                    image = left2;
-                }
-                break;
-            case "right":
-                if (spriteNumber == 1) {
-                    image = right1;
-                }
-                else {
-                    image = right2;
-                }
-                break;
-            default:
-                break;
-        }
+        BufferedImage image = getSpriteImage();
 
         int screenX = this.worldX - gamePanel.player.worldX + gamePanel.player.getScreenX();
         int screenY = this.worldY - gamePanel.player.worldY + gamePanel.player.getScreenY();
 
-        g.drawImage(image, screenX, screenY ,gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
     }
+
+    /**
+     * Returns the appropriate sprite image based on direction and animation frame.
+     *
+     * @return The BufferedImage representing the current sprite.
+     */
+    private BufferedImage getSpriteImage() {
+        if (direction.equals("left")) {
+            return (spriteNumber == 1) ? left1 : left2;
+        } else if (direction.equals("right")) {
+            return (spriteNumber == 1) ? right1 : right2;
+        } else if (direction.equals("up")) {
+            return (spriteNumber == 1) ? up1 : up2;
+        } else if (direction.equals("down")) {
+            return (spriteNumber == 1) ? down1 : down2;
+        }
+        return null;
+    }
+
 }

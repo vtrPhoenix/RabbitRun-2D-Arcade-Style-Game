@@ -207,4 +207,13 @@ public class Entity {
         this.collisionOn = collisionOn;
     }
 
+    /**
+     * Returns the bounding rectangle of the entity.
+     *
+     * @return The Rectangle representing the entity's bounds.
+     */
+    public Rectangle getBounds() {
+        return new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
+    }
+
 }

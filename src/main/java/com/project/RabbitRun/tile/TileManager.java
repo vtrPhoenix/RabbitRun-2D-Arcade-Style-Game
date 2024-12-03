@@ -1,9 +1,12 @@
 package com.project.RabbitRun.tile;
 
+import com.project.RabbitRun.exceptions.ImageLoadingException;
+import com.project.RabbitRun.exceptions.MapLoadingException;
 import com.project.RabbitRun.main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,18 +59,37 @@ public class TileManager {
     {
         try{
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResource(tile1_path)));
+            tile[0].image = loadImage(tile1_path);
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResource(tile2_path)));
+            tile[1].image = loadImage(tile2_path);
             tile[1].collision = true;
 
         }
-        catch(IOException e)
+        catch(ImageLoadingException e)
         {
-            e.printStackTrace();
+            System.err.println("Exception caught while trying to load Images in TileManager");
+            throw e;
         }
     }
+
+    /**
+     * Helper method to load an image and include the path in exceptions.
+     *
+     * @param path The path of the image to load.
+     * @return The loaded image.
+     * @throws ImageLoadingException If the image cannot be loaded.
+     */
+    private BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
+        } catch (NullPointerException e) {
+            throw new ImageLoadingException("Image not found: " + path, e, path);
+        } catch (IOException e) {
+            throw new ImageLoadingException("Failed to load image: " + path, e, path);
+        }
+    }
+
 
     /**
      * Reads a map file and populates the {@code mapTileNum} array with tile indices.
@@ -103,7 +125,7 @@ public class TileManager {
             br.close();
         }
         catch(Exception e) {
-            // Exception handling
+            throw new MapLoadingException("Failed to load map: " + path, e, path);
         }
     }
 
