@@ -1,5 +1,6 @@
-package com.project.RabbitRun.main;
+package com.project.RabbitRun.assetHandler;
 
+import com.project.RabbitRun.main.GamePanel;
 import com.project.RabbitRun.object.ObjBonusReward;
 import com.project.RabbitRun.object.ObjPunishment;
 import com.project.RabbitRun.object.ObjReward;
