@@ -143,7 +143,6 @@ public class PlayerTest {
      */
     @Test
     void testPickClover() {
-        //player.pickObject(0);
         pickObjectHandler.pickObject(0);
         assertEquals(1, player.getHasClover(), "Clover count should increment");
         assertEquals(50, player.getPoints(), "Points should increase by 50");
@@ -157,7 +156,6 @@ public class PlayerTest {
     @Test
     void testPickCarrot() {
         gamePanel.object[1] = new ObjBonusReward();
-        //player.pickObject(1);
         pickObjectHandler.pickObject(1);
 
         assertEquals(1, player.getHasCarrot(), "Carrot count should increment");
@@ -171,7 +169,6 @@ public class PlayerTest {
     @Test
     void testPickMushroom() {
         player.setPoints(200);
-        //player.pickObject(2);
         pickObjectHandler.pickObject(2);
 
         assertEquals(100, player.getPoints(), "Points should decrease by 100");
@@ -187,7 +184,6 @@ public class PlayerTest {
         player.setPoints(500);
         player.setHasClover(8);
         gamePanel.playMusic(0);
-        //player.pickObject(3);
         pickObjectHandler.pickObject(3);
         assertEquals(gamePanel.youWonState, gamePanel.getGameState(), "Game state should change to 'you won'");
     }
@@ -199,7 +195,6 @@ public class PlayerTest {
     void testExitDoorInsufficientPoints() {
         player.setPoints(300);
         player.setHasClover(8);
-        //player.pickObject(3);
         pickObjectHandler.pickObject(3);
 
          assertEquals("YOU NEED MORE POINTS TO WIN!", gamePanel.ui.getMessage());
@@ -212,8 +207,6 @@ public class PlayerTest {
     void testExitDoorInsufficientClovers() {
         player.setHasClover(5);
         player.setPoints(500);
-
-        //player.pickObject(3);
         pickObjectHandler.pickObject(3);
          assertEquals("YOU NEED 3 MORE CLOVERS TO EXIT!", gamePanel.ui.getMessage());
     }
@@ -223,7 +216,6 @@ public class PlayerTest {
      */
     @Test
     void testInvalidIndex() {
-        //player.pickObject(999);
         pickObjectHandler.pickObject(999);
 
         // Ensure nothing changes for invalid index.
