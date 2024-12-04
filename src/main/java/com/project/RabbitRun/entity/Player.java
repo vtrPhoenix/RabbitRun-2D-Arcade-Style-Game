@@ -1,5 +1,6 @@
 package com.project.RabbitRun.entity;
 
+import com.project.RabbitRun.assetHandler.PickObjectHandler;
 import com.project.RabbitRun.exceptions.ImageLoadingException;
 import com.project.RabbitRun.object.ObjExitDoor;
 import com.project.RabbitRun.main.GamePanel;
@@ -50,6 +51,8 @@ public class Player extends Entity {
     /** Represents the closed exit door object. */
     private final ObjExitDoor closeDoor;
 
+    private PickObjectHandler pickObjectHandler;
+
     /**
      * Constructs a Player object with the specified game panel and key handler.
      *
@@ -59,7 +62,7 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel , KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
-
+        this.pickObjectHandler = new PickObjectHandler(gamePanel, this);
         screenX = gamePanel.getScreenWidth() / 2 - (gamePanel.getTileSize() / 2);
         screenY = gamePanel.getScreenHeight() / 2 - (gamePanel.getTileSize() / 2);
         /**
@@ -97,8 +100,6 @@ public class Player extends Entity {
         solidArea.width = 25;
         solidArea.height = 25;
     }
-
-
 
     /**
      * Loads the images for the player’s movement animations.
@@ -156,7 +157,7 @@ public class Player extends Entity {
         gamePanel.collisionChecker.checkTile(this);
 
         int objIndex = gamePanel.collisionCheckerObject.checkObject(this, true);
-        pickObject(objIndex);
+        pickObjectHandler.pickObject(objIndex);
 
         if (!collisionOn) {
             switch (direction) {
@@ -218,95 +219,6 @@ public class Player extends Entity {
     }
 
     /**
-     * Handles picking up an object in the game, adjusting points and
-     * updating messages based on the type of object collected.
-     *
-     * @param index the index of the object to interact with
-     */
-    public void pickObject(int index) {
-        if (index != 999) {
-            String objName = gamePanel.object[index].getName();
-
-            switch (objName) {
-                case "Clover" -> handleClover(index);
-                case "Carrot" -> handleCarrot(index);
-                case "Mushroom" -> handleMushroom(index);
-                case "ExitDoor" -> handleExitDoor();
-            }
-        }
-    }
-
-    /**
-     * Handles the collection of a "Clover" object.
-     * Plays a sound effect, increments the clover count, adds points,
-     * and displays a reward message. If the player meets the winning
-     * conditions, a special sound effect is played.
-     *
-     * @param index the index of the Clover object in the gamePanel's object array
-     */
-    private void handleClover(int index) {
-        gamePanel.playSoundEffect(1);
-        hasClover++;
-        gamePanel.object[index] = null;
-        points += 50;
-        gamePanel.ui.showMessage("YOU GOT A REWARD!", Color.green);
-
-        if (hasClover == winningClovers && points >= winningPoints) {
-            gamePanel.playSoundEffect(4);
-        }
-    }
-
-    /**
-     * Handles the collection of a "Carrot" object.
-     * Plays a bonus sound effect, increments the carrot count, adds points,
-     * and displays a bonus reward message.
-     *
-     * @param index the index of the Carrot object in the gamePanel's object array
-     */
-    private void handleCarrot(int index) {
-        gamePanel.playSoundEffect(2);
-        hasCarrot++;
-        gamePanel.object[index] = null;
-        points += 100;
-        gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
-    }
-
-    /**
-     * Handles the collection of a "Mushroom" object.
-     * Plays a penalty sound effect, reduces points, removes the object,
-     * and displays a warning message indicating a poison mushroom was found.
-     *
-     * @param index the index of the Mushroom object in the gamePanel's object array
-     */
-    private void handleMushroom(int index) {
-        gamePanel.playSoundEffect(3);
-        gamePanel.object[index] = null;
-        points -= 100;
-        gamePanel.ui.showMessage("YOU FOUND A POISON MUSHROOM!", Color.red);
-    }
-
-    /**
-     * Handles interactions with the "ExitDoor" object.
-     * Determines if the player has enough points and clovers to win:
-     * - If conditions are met, stops the music, plays a winning sound,
-     *   and transitions the game to the "You Won" state.
-     * - If not enough points, displays a message indicating more points are needed.
-     * - If not enough clovers, displays the number of clovers still required.
-     */
-    private void handleExitDoor() {
-        if (points >= winningPoints && hasClover == winningClovers) {
-            gamePanel.stopMusic();
-            gamePanel.playSoundEffect(6);
-            gamePanel.setGameState(gamePanel.youWonState);
-        } else if (points < winningPoints) {
-            gamePanel.ui.showMessage("YOU NEED MORE POINTS TO WIN!", Color.red);
-        } else if (hasClover < winningClovers) {
-            int remainingClover = winningClovers - hasClover;
-            gamePanel.ui.showMessage("YOU NEED " + remainingClover + " MORE CLOVERS TO EXIT!", Color.red);
-        }
-    }
-
-    /**
      * Draws the player with the appropriate sprite image based on the
      * direction and animation frame.
      *
@@ -329,6 +241,7 @@ public class Player extends Entity {
             default -> null;
         };
     }
+
     /**
      * Returns the screen's X position.
      *
@@ -392,6 +305,18 @@ public class Player extends Entity {
         return points;
     }
 
+    public int getWinningPoints() {
+        return winningPoints;
+    }
+
+    public int getWinningClovers() {
+        return winningClovers;
+    }
+
+    public ObjExitDoor getCloseDoor() {
+        return closeDoor;
+    }
+
     /**
      * Sets the points the character has earned.
      *
@@ -410,4 +335,23 @@ public class Player extends Entity {
         return openDoor;
     }
 
+    public void incrementClover() {
+        hasClover++;
+    }
+
+    public void incrementCarrot() {
+        hasCarrot++;
+    }
+
+    public void addPoints(int pointsToAdd) {
+        points += pointsToAdd;
+    }
+
+    public void subtractPoints(int pointsToSubtract) {
+        points -= pointsToSubtract;
+    }
+
+    public boolean isWinningConditionMet() {
+        return points >= winningPoints && hasClover == winningClovers;
+    }
 }
