@@ -1,5 +1,6 @@
 package com.project.RabbitRun.main;
 
+import com.project.RabbitRun.assetHandler.AssetSetter;
 import com.project.RabbitRun.collision.CollisionChecker;
 import com.project.RabbitRun.collision.CollisionCheckerObject;
 import com.project.RabbitRun.entity.Player;

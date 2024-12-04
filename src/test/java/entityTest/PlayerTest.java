@@ -1,5 +1,6 @@
 package entityTest;
 
+import com.project.RabbitRun.assetHandler.PickObjectHandler;
 import com.project.RabbitRun.entity.Player;
 import com.project.RabbitRun.object.*;
 import com.project.RabbitRun.main.GamePanel;
@@ -18,6 +19,7 @@ public class PlayerTest {
     private GamePanel gamePanel;
     private KeyHandler keyHandler;
     private Player player;
+    private PickObjectHandler pickObjectHandler;
 
     /**
      * Sets up the test environment by initializing the {@code GamePanel},
@@ -31,6 +33,7 @@ public class PlayerTest {
 
         keyHandler = new KeyHandler(gamePanel);
         player = new Player(gamePanel, keyHandler);
+        this.pickObjectHandler = new PickObjectHandler(gamePanel, player);
 
         // Mock objects in the gamePanel
         gamePanel.object = new SuperObject[10];
@@ -140,7 +143,8 @@ public class PlayerTest {
      */
     @Test
     void testPickClover() {
-        player.pickObject(0);
+        //player.pickObject(0);
+        pickObjectHandler.pickObject(0);
         assertEquals(1, player.getHasClover(), "Clover count should increment");
         assertEquals(50, player.getPoints(), "Points should increase by 50");
         assertNull(gamePanel.object[0], "Clover should be removed from objects");
@@ -153,7 +157,8 @@ public class PlayerTest {
     @Test
     void testPickCarrot() {
         gamePanel.object[1] = new ObjBonusReward();
-        player.pickObject(1);
+        //player.pickObject(1);
+        pickObjectHandler.pickObject(1);
 
         assertEquals(1, player.getHasCarrot(), "Carrot count should increment");
         assertEquals(100, player.getPoints(), "Points should increase by 100");
@@ -166,7 +171,8 @@ public class PlayerTest {
     @Test
     void testPickMushroom() {
         player.setPoints(200);
-        player.pickObject(2);
+        //player.pickObject(2);
+        pickObjectHandler.pickObject(2);
 
         assertEquals(100, player.getPoints(), "Points should decrease by 100");
         assertNull(gamePanel.object[2], "Mushroom should be removed from objects");
@@ -181,7 +187,8 @@ public class PlayerTest {
         player.setPoints(500);
         player.setHasClover(8);
         gamePanel.playMusic(0);
-        player.pickObject(3);
+        //player.pickObject(3);
+        pickObjectHandler.pickObject(3);
         assertEquals(gamePanel.youWonState, gamePanel.getGameState(), "Game state should change to 'you won'");
     }
 
@@ -192,7 +199,8 @@ public class PlayerTest {
     void testExitDoorInsufficientPoints() {
         player.setPoints(300);
         player.setHasClover(8);
-        player.pickObject(3);
+        //player.pickObject(3);
+        pickObjectHandler.pickObject(3);
 
          assertEquals("YOU NEED MORE POINTS TO WIN!", gamePanel.ui.getMessage());
     }
@@ -205,7 +213,8 @@ public class PlayerTest {
         player.setHasClover(5);
         player.setPoints(500);
 
-        player.pickObject(3);
+        //player.pickObject(3);
+        pickObjectHandler.pickObject(3);
          assertEquals("YOU NEED 3 MORE CLOVERS TO EXIT!", gamePanel.ui.getMessage());
     }
 
@@ -214,7 +223,8 @@ public class PlayerTest {
      */
     @Test
     void testInvalidIndex() {
-        player.pickObject(999);
+        //player.pickObject(999);
+        pickObjectHandler.pickObject(999);
 
         // Ensure nothing changes for invalid index.
         assertEquals(0, player.getPoints(), "Points should remain unchanged");
