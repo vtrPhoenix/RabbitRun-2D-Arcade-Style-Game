@@ -34,6 +34,10 @@ To create the jar executable, use this command:\
 \
 <br />
 **Run Jar File:**\
-The jar file is located inside the Artifacts folder ,use the following command to execute it:\
+The jar file is located inside the Artifacts folder, use the following command to execute it:\
 `java -jar Artifacts/RabbitRun-1.0.jar`
-
+\
+<br />
+**Generate Javadoc Files:**\
+The Javadoc files are located inside Artifacts\javadoc\apidocs, use the following command to execute it:\
+`mvn javadoc:javadoc`
