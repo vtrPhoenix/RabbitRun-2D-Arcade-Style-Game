@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class Entity {
 
     /**
-     * default constructor for tile class
+     * default constructor for entity class
      */
     public Entity() {}
 
