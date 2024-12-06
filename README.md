@@ -41,3 +41,11 @@ The jar file is located inside the Artifacts folder, use the following command t
 **Generate Javadoc Files:**\
 The Javadoc files are located inside Artifacts\javadoc\apidocs, use the following command to generate them:\
 `mvn javadoc:javadoc`
+
+## Project Demonstration
+
+Check out our project demonstration video to see **Rabbit Run** in action! The video provides an overview of the gameplay, features, and mechanics.
+
+[![Watch the video](https://img.youtube.com/vi/_ElJut3ddKc/0.jpg)](https://youtu.be/_ElJut3ddKc)
+
+Click [here](https://youtu.be/_ElJut3ddKc) to watch the video on YouTube.
