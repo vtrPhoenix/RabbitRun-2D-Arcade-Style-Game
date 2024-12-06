@@ -130,14 +130,14 @@ public class Enemy extends Entity {
      */
     public void getEnemyImage() {
         try {
-            up1 = loadImage("/Enemy/up1.png");
-            up2 = loadImage("/Enemy/up2.png");
-            left1 = loadImage("/Enemy/left1.png");
-            left2 = loadImage("/Enemy/left2.png");
-            right1 = loadImage("/Enemy/right1.png");
-            right2 = loadImage("/Enemy/right2.png");
-            down1 = loadImage("/Enemy/down1.png");
-            down2 = loadImage("/Enemy/down2.png");
+            up1 = loadImage("/Enemy/Up1.png");
+            up2 = loadImage("/Enemy/Up2.png");
+            left1 = loadImage("/Enemy/Left1.png");
+            left2 = loadImage("/Enemy/Left2.png");
+            right1 = loadImage("/Enemy/Right1.png");
+            right2 = loadImage("/Enemy/Right2.png");
+            down1 = loadImage("/Enemy/Down1.png");
+            down2 = loadImage("/Enemy/Down2.png");
         } catch (ImageLoadingException e) {
             System.err.println("Exception caught while trying to load enemy images");
             throw e;
