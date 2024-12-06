@@ -29,6 +29,6 @@ mvn test
 <br />
 
 **Run Jar File:**\
-The jar file is located inside the Artifacts folder within the main directory,use the following command to execute it:\
+The jar file is located inside the Artifacts folder within the root directory,use the following command to execute it:\
 java -jar Artifacts/RabbitRun-1.0.jar
 
