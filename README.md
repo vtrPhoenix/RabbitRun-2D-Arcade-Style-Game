@@ -32,3 +32,7 @@ mvn test
 The jar file is located inside the Artifacts folder ,use the following command to execute it:\
 java -jar Artifacts/RabbitRun-1.0.jar
 
+**Generate Javadocs:**\
+To generate the Javadoc files using Maven ,use the following command:\
+mvn javadoc:javadoc
+
