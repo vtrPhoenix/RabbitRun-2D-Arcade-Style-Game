@@ -19,4 +19,9 @@ public class Tile {
      * {@code false} otherwise. Default is {@code false}.
      */
     public boolean collision = false;
+
+    /**
+     * default constructor for tile class
+     */
+    public Tile() {}
 }
