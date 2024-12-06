@@ -50,15 +50,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.10.1</version>
+                <configuration>
+                    <outputDirectory>${project.basedir}/Artifacts/javadoc</outputDirectory>
+                    <sourcepath>${project.basedir}/src/main/java</sourcepath>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>default</id>
                         <phase>package</phase>
                         <goals>
                             <goal>javadoc</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.basedir}/Artifacts/javadoc</outputDirectory>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
