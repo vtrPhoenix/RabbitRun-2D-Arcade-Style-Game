@@ -60,7 +60,7 @@ public class TileManager {
 
     /**
      * simple function to choose the map
-     * @param path
+     * @param path the path for the map file
      */
     public void choose_map(String path)
     {
