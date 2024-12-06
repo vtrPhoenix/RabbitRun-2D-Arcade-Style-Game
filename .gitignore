@@ -78,7 +78,7 @@ hs_err_pid*
 replay_pid*
 
 /target
-/Artifacts
+#/Artifacts
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
