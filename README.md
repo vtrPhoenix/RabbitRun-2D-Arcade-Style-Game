@@ -16,7 +16,7 @@ Our primary goal for this semester is to build a fun and engaging game called *R
 Follow the steps below to build, run, and test the game. Ensure you are in the same directory as your `pom.xml` file.
 
 **Build the Game:**\
-To build the project, run the following command:\
+To build the project and make the Jar file, run the following command:\
 mvn clean install -DskipTests\
 <br />
 **Run the Game:**\
@@ -26,3 +26,9 @@ mvn exec:java\
 **Run Tests:**\
 To execute the test suite, use this command:\
 mvn test
+<br />
+
+**Run Jar File:**\
+The jar file is located inside the Artifacts folder within the main directory,use the following command to execute it:\
+java -jar Artifacts/RabbitRun-1.0.jar
+
