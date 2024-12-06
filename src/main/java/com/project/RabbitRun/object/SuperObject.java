@@ -32,8 +32,25 @@ public class SuperObject {
     /** Default Y-coordinate of the solid area relative to the object. */
     private int solidAreaDefaultY = 0;
 
+    /**
+     * Default constructor for creating a generic game object.
+     *
+     * This constructor initializes an instance of {@code SuperObject} without setting
+     * any specific properties such as name or image path. It is typically used when
+     * properties will be set later through setter methods.
+     */
     public SuperObject() {}
 
+    /**
+     * Constructs a {@code SuperObject} with the specified name and image path.
+     *
+     * This constructor initializes the game object with a name for identification
+     * and an image path to load its associated visual representation.
+     *
+     * @param name The name of the game object, typically used for identification.
+     * @param path The path to the image resource representing the object.
+     * @throws ImageLoadingException if the image cannot be loaded.
+     */
     public SuperObject(String name, String path) {
         this.name = name;
         this.path = path;

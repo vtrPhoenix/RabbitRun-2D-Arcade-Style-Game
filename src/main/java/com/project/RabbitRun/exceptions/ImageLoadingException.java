@@ -1,11 +1,14 @@
 package com.project.RabbitRun.exceptions;
 
 /**
- * Custom exception for errors occurring while loading images in the game.
+ * Custom exception class for errors encountered during image loading.
+ *
+ * This exception provides detailed error information related to image loading issues,
+ * including an optional image file path for context.
  */
 public class ImageLoadingException extends RuntimeException {
 
-    // Optional field to store the name or path of the image causing the issue
+    /** Optional field to store the name or path of the sound causing the issue */
     private final String imagePath;
 
     /**
@@ -50,6 +53,11 @@ public class ImageLoadingException extends RuntimeException {
         return imagePath;
     }
 
+    /**
+     * Returns a string representation of the exception, including the image path if available.
+     *
+     * @return A string describing the exception, with the image path appended if specified.
+     */
     @Override
     public String toString() {
         return super.toString() + (imagePath != null ? " [Image Path: " + imagePath + "]" : "");

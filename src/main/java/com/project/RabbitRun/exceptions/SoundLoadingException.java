@@ -1,8 +1,14 @@
 package com.project.RabbitRun.exceptions;
 
+/**
+ * Custom exception class for errors encountered during sound loading.
+ *
+ * This exception provides detailed error information related to sound loading issues,
+ * including an optional sound file path for context.
+ */
 public class SoundLoadingException extends RuntimeException{
 
-    // Optional field to store the name or path of the sound causing the issue
+    /** Optional field to store the name or path of the sound causing the issue */
     private final String soundPath;
 
     /**
@@ -47,6 +53,11 @@ public class SoundLoadingException extends RuntimeException{
         return soundPath;
     }
 
+    /**
+     * Returns a string representation of the exception, including the sound path if available.
+     *
+     * @return A string describing the exception, with the sound path appended if specified.
+     */
     @Override
     public String toString() {
         return super.toString() + (soundPath != null ? " [Sound Path: " + soundPath + "]" : "");

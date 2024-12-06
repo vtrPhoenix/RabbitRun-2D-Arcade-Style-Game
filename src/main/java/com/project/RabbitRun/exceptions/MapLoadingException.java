@@ -1,7 +1,14 @@
 package com.project.RabbitRun.exceptions;
 
+/**
+ * Custom exception class for errors encountered during map loading.
+ *
+ * This exception provides detailed error information related to map loading issues,
+ * including an optional map file path for context.
+ */
 public class MapLoadingException extends RuntimeException{
 
+    /** Optional field to store the name or path of the sound causing the issue */
     private final String mapPath;
 
     /**
@@ -46,6 +53,11 @@ public class MapLoadingException extends RuntimeException{
         return mapPath;
     }
 
+    /**
+     * Returns a string representation of the exception, including the map path if available.
+     *
+     * @return A string describing the exception, with the map path appended if specified.
+     */
     @Override
     public String toString() {
         return super.toString() + (mapPath != null ? " [Map Path: " + mapPath + "]" : "");
