@@ -3,6 +3,11 @@ package com.project.RabbitRun.collision;
 import com.project.RabbitRun.entity.Entity;
 import com.project.RabbitRun.main.GamePanel;
 
+
+/**
+ * Handles collision detection between entities and objects in the game.
+ * Provides the index of a collided object or 999 if no collision occurs.
+ */
 public class CollisionCheckerObject {
 
     /** Reference to the main game panel, which contains game state and settings. */

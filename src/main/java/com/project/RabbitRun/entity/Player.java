@@ -305,17 +305,34 @@ public class Player extends Entity {
         return points;
     }
 
+    /**
+     * Gets the number of points required to win the game.
+     *
+     * @return the required winning points
+     */
     public int getWinningPoints() {
         return winningPoints;
     }
 
+    /**
+     * Gets the number of clovers required to win the game.
+     *
+     * @return the required winning clovers
+     */
     public int getWinningClovers() {
         return winningClovers;
     }
 
+    /**
+     * Gets the close door object, which represents the door that remains closed
+     * until the winning conditions are met.
+     *
+     * @return the close door object
+     */
     public ObjExitDoor getCloseDoor() {
         return closeDoor;
     }
+
 
     /**
      * Sets the points the character has earned.
@@ -335,23 +352,47 @@ public class Player extends Entity {
         return openDoor;
     }
 
+    /**
+     * Increments the number of clovers collected by the player.
+     */
     public void incrementClover() {
         hasClover++;
     }
 
+    /**
+     * Increments the number of carrots collected by the player.
+     */
     public void incrementCarrot() {
         hasCarrot++;
     }
 
+    /**
+     * Adds the specified number of points to the player's total score.
+     *
+     * @param pointsToAdd the number of points to add
+     */
     public void addPoints(int pointsToAdd) {
         points += pointsToAdd;
     }
 
+    /**
+     * Subtracts the specified number of points from the player's total score.
+     *
+     * @param pointsToSubtract the number of points to subtract
+     */
     public void subtractPoints(int pointsToSubtract) {
         points -= pointsToSubtract;
     }
 
+    /**
+     * Checks if the player has met the winning condition.
+     *
+     * @return true if the player's points are greater than or equal to the required
+     *         winning points and the required number of clovers has been collected;
+     *         false otherwise
+     */
     public boolean isWinningConditionMet() {
         return points >= winningPoints && hasClover == winningClovers;
     }
+
 }
