@@ -26,9 +26,21 @@ public class TileManager {
     /** 2D array representing the tile map, where each element refers to a tile index. */
     public int[][] mapTileNum;
 
+    /**
+     * map03 txt file
+     */
     public String map_path = "/maps/map03.txt";
+    /**
+     * map02 text file
+     */
     public String map_path2 = "/maps/map02.txt";
+    /**
+     * grass tile path
+     */
     public String tile1_path = "/Tiles/grass.png";
+    /**
+     * tree tile path
+     */
     public String tile2_path = "/Tiles/tree2.png";
 
     /**
@@ -46,6 +58,10 @@ public class TileManager {
         choose_map(map_path);
     }
 
+    /**
+     * simple function to choose the map
+     * @param path
+     */
     public void choose_map(String path)
     {
         loadMap(path);
