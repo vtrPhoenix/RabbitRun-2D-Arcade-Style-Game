@@ -8,7 +8,7 @@ package com.project.RabbitRun.exceptions;
  */
 public class ImageLoadingException extends RuntimeException {
 
-    // Optional field to store the name or path of the image causing the issue
+    /** Optional field to store the name or path of the sound causing the issue */
     private final String imagePath;
 
     /**

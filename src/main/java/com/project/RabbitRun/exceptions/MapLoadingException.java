@@ -8,6 +8,7 @@ package com.project.RabbitRun.exceptions;
  */
 public class MapLoadingException extends RuntimeException{
 
+    /** Optional field to store the name or path of the sound causing the issue */
     private final String mapPath;
 
     /**
