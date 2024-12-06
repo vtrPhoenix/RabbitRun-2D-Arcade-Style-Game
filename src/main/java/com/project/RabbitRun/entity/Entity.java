@@ -9,6 +9,11 @@ import java.awt.image.BufferedImage;
  */
 public class Entity {
 
+    /**
+     * default constructor for tile class
+     */
+    public Entity() {}
+
     /** X-coordinate of the entity's position in the game world. */
     protected int worldX;
 

@@ -10,6 +10,11 @@ import javax.swing.*;
 public class Main {
 
     /**
+     * default constructor for tile class
+     */
+    public Main() {}
+
+    /**
      * The main entry point for the RabbitRun game application.
      * It creates the game window, configures its settings, and starts the game.
      *
