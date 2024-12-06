@@ -39,5 +39,5 @@ The jar file is located inside the Artifacts folder, use the following command t
 \
 <br />
 **Generate Javadoc Files:**\
-The Javadoc files are located inside Artifacts\javadoc\apidocs, use the following command to execute it:\
+The Javadoc files are located inside Artifacts\javadoc\apidocs, use the following command to generate them:\
 `mvn javadoc:javadoc`
