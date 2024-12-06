@@ -5,11 +5,25 @@ import com.project.RabbitRun.main.GamePanel;
 
 import java.awt.*;
 
+/**
+ * Handles interactions with in-game objects during gameplay.
+ *
+ * This class is responsible for managing the logic when the player interacts
+ * with various objects such as Clover, Carrot, Mushroom, or ExitDoor.
+ * It defines behaviors like collecting rewards, handling penalties, and determining
+ * game progression based on the player's actions.
+ */
 public class PickObjectHandler {
 
     private final GamePanel gamePanel;
     private final Player player;
 
+    /**
+     * Constructs a PickObjectHandler with the specified GamePanel and Player.
+     *
+     * @param gamePanel the main game panel containing game state and UI elements
+     * @param player    the player object interacting with the game objects
+     */
     public PickObjectHandler(GamePanel gamePanel, Player player) {
         this.gamePanel = gamePanel;
         this.player = player;
@@ -55,11 +69,11 @@ public class PickObjectHandler {
     }
 
     /**
-     * Handles the collection of a "Mushroom" object.
-     * Plays a penalty sound effect, reduces points, removes the object,
-     * and displays a warning message indicating a poison mushroom was found.
+     * Handles the collection of a "Carrot" object.
+     * Plays a reward sound effect, increments the carrot count,
+     * adds bonus points, removes the object, and displays a bonus message.
      *
-     * @param index the index of the Mushroom object in the gamePanel's object array
+     * @param index the index of the Carrot object in the gamePanel's object array
      */
     private void handleCarrot(int index) {
         gamePanel.playSoundEffect(2);
@@ -69,6 +83,13 @@ public class PickObjectHandler {
         gamePanel.ui.showMessage("YOU GOT A BONUS REWARD!", Color.green);
     }
 
+    /**
+     * Handles the collection of a "Mushroom" object.
+     * Plays a penalty sound effect, reduces points, removes the object,
+     * and displays a warning message indicating a poison mushroom was found.
+     *
+     * @param index the index of the Mushroom object in the gamePanel's object array
+     */
     private void handleMushroom(int index) {
         gamePanel.playSoundEffect(3);
         gamePanel.object[index] = null;
