@@ -10,7 +10,7 @@ import javax.swing.*;
 public class Main {
 
     /**
-     * default constructor for tile class
+     * default constructor for main class
      */
     public Main() {}
 
