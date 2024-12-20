@@ -1,7 +1,7 @@
-# CMPT 276 - Group 7
+# Rabbit Run 2D Arcade Game
 
 ## Project Overview
-Welcome to the CMPT 276 Group 7 project! This semester, we aim to design and develop an exciting game, **"Rabbit Run"**.
+We aim to design and develop an exciting game, **"Rabbit Run"**.
 
 ## Team Members
 - **Vansh Bansal**
@@ -10,7 +10,7 @@ Welcome to the CMPT 276 Group 7 project! This semester, we aim to design and dev
 - **Lovejeet Nanua**
 
 ## Project Goals
-Our primary goal for this semester is to build a fun and engaging game called *Rabbit Run*. In this game, players will navigate each map and reach the exit, while collecting all the regular rewards on the map and reaching the level's score goal. The game ends once the enemy catches up with the player or the player collects enough punishments to obtain a score of zero or less.
+Our primary goal for is to build a fun and engaging game called *Rabbit Run*. In this game, players will navigate each map and reach the exit, while collecting all the regular rewards on the map and reaching the level's score goal. The game ends once the enemy catches up with the player or the player collects enough punishments to obtain a score of zero or less.
 
 ## How To Run The Game
 Follow the steps below to build, run, and test the game. Ensure you are in the same directory as your `pom.xml` file.
